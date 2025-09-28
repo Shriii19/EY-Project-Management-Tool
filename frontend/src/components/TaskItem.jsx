@@ -74,64 +74,97 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox, onLogout = true }) =>
 
   return (
     <>
-      <div className={`${TI_CLASSES.wrapper} ${borderColor}`}>
-        <div className={TI_CLASSES.leftContainer}>
+      <div className={`group glass-dark p-6 rounded-2xl border-l-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl animate-slideUp ${borderColor} border border-blue-500/20 hover:border-blue-400/40`}>
+        <div className="flex items-start gap-4">
           {showCompleteCheckbox && (
             <button
               onClick={handleComplete}
-              className={`${TI_CLASSES.completeBtn} ${isCompleted ? 'text-green-500' : 'text-gray-300'}`}
+              className={`p-2 rounded-xl transition-all duration-300 hover:scale-110 ${
+                isCompleted 
+                  ? 'text-green-400 bg-green-500/10 border border-green-500/30' 
+                  : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10 border border-gray-600'
+              }`}
             >
               <CheckCircle2
-                className={`${TI_CLASSES.checkboxIconBase} ${isCompleted ? 'fill-green-500' : ''}`}
-                size={18}
+                className={`w-6 h-6 transition-all duration-300 ${isCompleted ? 'fill-green-500 text-green-500' : ''}`}
               />
             </button>
           )}
 
           <div className='flex-1 min-w-0'>
-            <div className='flex items-baseline gap-2 mb-1 flex-wrap'>
-              <h3 className={`${TI_CLASSES.titleBase} ${isCompleted ? 'text-gray-400 line-through' : 'text-[#2B2B2B]'}`}>
-                {task.title}
-              </h3>
-              <span className={`${TI_CLASSES.priorityBadge} ${getPriorityBadgeColor(task.priority)}`}>
-                {task.priority}
-              </span>
-            </div>
-            {task.description && <p className={TI_CLASSES.description}>{task.description}</p>}
-          </div>
-        </div>
-
-        <div className={TI_CLASSES.rightContainer}>
-          <div className='relative'>
-            <button onClick={() => setShowMenu(!showMenu)} className={TI_CLASSES.menuButton}>
-              <MoreVertical className='w-4 h-4 sm:w-5 sm:h-5' size={18} />
-            </button>
-
-            {showMenu && (
-              <div className={TI_CLASSES.menuDropdown}>
-                {MENU_OPTIONS.map(opt => (
-                  <button
-                    key={opt.action}
-                    onClick={() => handleAction(opt.action)}
-                    className='w-full px-3 sm:px-4 py-2 text-left text-xs sm:text-sm hover:bg-[#E0F7FF] flex items-center gap-2 transition-all duration-200'
-                  >
-                    {opt.icon}
-                    {opt.label}
-                  </button>
-                ))}
+            <div className='flex items-center justify-between mb-3'>
+              <div className='flex items-center gap-3 flex-1 min-w-0'>
+                <h3 className={`text-lg font-bold transition-all duration-300 ${
+                  isCompleted 
+                    ? 'text-gray-400 line-through' 
+                    : 'text-white group-hover:text-blue-300'
+                }`}>
+                  {task.title}
+                </h3>
+                <span className={`px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+                  task.priority?.toLowerCase() === 'high' 
+                    ? 'bg-red-500/20 text-red-300 border border-red-500/30'
+                    : task.priority?.toLowerCase() === 'medium'
+                    ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
+                    : 'bg-green-500/20 text-green-300 border border-green-500/30'
+                }`}>
+                  {task.priority}
+                </span>
               </div>
-            )}
-          </div>
+              
+              <div className='relative'>
+                <button onClick={() => setShowMenu(!showMenu)} className='p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl transition-all duration-300'>
+                  <MoreVertical className='w-5 h-5' />
+                </button>
 
-          <div>
-            <div className={`${TI_CLASSES.dateRow} ${task.dueDate && isToday(new Date(task.dueDate)) ? 'text-[#1FA2FF]' : 'text-gray-500'}`}>
-              <Calendar className='w-3.5 h-3.5' />
-              {task.dueDate ? (isToday(new Date(task.dueDate)) ? 'Today' : format(new Date(task.dueDate), 'MM dd')) : '-'}
+                {showMenu && (
+                  <div className='absolute right-0 top-12 w-48 glass-dark border border-blue-500/30 rounded-xl shadow-2xl z-10 overflow-hidden animate-fadeIn'>
+                    {MENU_OPTIONS.map(opt => (
+                      <button
+                        key={opt.action}
+                        onClick={() => handleAction(opt.action)}
+                        className='w-full px-4 py-3 text-left text-sm hover:bg-blue-500/10 flex items-center gap-3 transition-all duration-300 text-gray-300 hover:text-white'
+                      >
+                        <div className={`p-1.5 rounded-lg ${
+                          opt.action === 'delete' 
+                            ? 'bg-red-500/20 text-red-400' 
+                            : 'bg-blue-500/20 text-blue-400'
+                        }`}>
+                          {opt.icon}
+                        </div>
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
+            
+            {task.description && (
+              <p className='text-gray-300 mb-4 leading-relaxed'>{task.description}</p>
+            )}
+            
+            <div className='flex items-center justify-between text-sm'>
+              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-300 ${
+                task.dueDate && isToday(new Date(task.dueDate)) 
+                  ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' 
+                  : 'bg-gray-700/30 text-gray-400 border border-gray-600/30'
+              }`}>
+                <Calendar className='w-4 h-4' />
+                <span className='font-medium'>
+                  {task.dueDate 
+                    ? (isToday(new Date(task.dueDate)) ? 'Due Today' : `Due ${format(new Date(task.dueDate), 'MMM dd')}`)
+                    : 'No due date'
+                  }
+                </span>
+              </div>
 
-            <div className={TI_CLASSES.createdRow}>
-              <Clock className='w-3 h-3 sm:w-3.5 sm:h-3.5' />
-              {task.createdAt ? `Created ${format(new Date(task.createdAt), 'MMM dd')}` : 'No Date'}
+              <div className='flex items-center gap-2 text-gray-500'>
+                <Clock className='w-4 h-4' />
+                <span>
+                  {task.createdAt ? format(new Date(task.createdAt), 'MMM dd') : 'Recently'}
+                </span>
+              </div>
             </div>
           </div>
         </div>

@@ -6,12 +6,12 @@ import mongoose from "mongoose";
 const dbUri = process.env.MONGO_URI;
 
 export const connectDB = async () => {
-    // Pass the environment variable to mongoose.connect
-    await mongoose.connect(dbUri)
-    .then(() => {
+    try {
+        // Pass the environment variable to mongoose.connect
+        await mongoose.connect(dbUri);
         console.log("DB Connected");
-    })
-    .catch((error) => {
-        console.error("DB Connection Error:", error);
-    });
+    } catch (error) {
+        console.warn("DB Connection Failed - App will use dummy data:", error.message);
+        // Don't throw the error, let the app continue with dummy data
+    }
 }

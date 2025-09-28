@@ -89,82 +89,154 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => {
     if (!isOpen) return null;
 
     return (
-        <div className='fixed inset-0 backdrop-blur-sm bg-black/20 z-50 flex items-center justify-center p-4'>
-            <div className='bg-white border border-[#1FA2FF]/20 rounded-xl max-w-md w-full shadow-lg relative p-6 animate-fadeIn'>
-                <div className='flex justify-between items-center mb-6'>
-                    <h2 className='text-2xl font-bold text-[#2B2B2B] flex items-center gap-2'>
-                        <Save className='text-[#1FA2FF] w-5 h-5' />
-                        Edit Task
-                    </h2>
+        <div className='fixed inset-0 backdrop-blur-lg bg-black/40 z-50 flex items-center justify-center p-6 animate-fadeIn'>
+            <div className='glass-dark border border-blue-500/30 rounded-3xl max-w-2xl w-full shadow-2xl relative p-8 animate-slideUp'>
+                <div className='flex justify-between items-center mb-8'>
+                    <div className='flex items-center gap-4'>
+                        <div className='p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30'>
+                            <Save className='text-blue-400 w-6 h-6' />
+                        </div>
+                        <div>
+                            <h2 className='text-3xl font-black text-white'>
+                                Edit Task
+                            </h2>
+                            <p className='text-gray-400 text-sm'>Update your task details</p>
+                        </div>
+                    </div>
 
-                    <button onClick={onClose} className='p-2 hover:bg-[#E0F7FF] rounded-lg transition-colors text-gray-500 hover:text-[#1FA2FF]'>
-                        <X className='w-5 h-5' />
+                    <button onClick={onClose} className='btn-hover p-3 hover:bg-red-500/10 rounded-2xl transition-all duration-300 text-gray-400 hover:text-red-400 border border-transparent hover:border-red-500/30'>
+                        <X className='w-6 h-6' />
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className='space-y-4'>
-                    {error && <div className='text-red-500 text-sm bg-red-50 rounded-lg border border-red-100'>{error}</div>}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700 mb-1'>Task Title</label>
-                        <div className='flex items-center border border-[#1FA2FF]/20 rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-[#1FA2FF] focus-within:border-[#1FA2FF] transition-all duration-200'>
-                            <input type="text" name="title" required value={taskData.title} onChange={handleChange} className='w-full focus:outline-none text-sm' placeholder='Enter Task Title' />
+                <form onSubmit={handleSubmit} className='space-y-6'>
+                    {error && (
+                        <div className='glass p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300 text-sm animate-fadeIn'>
+                            {error}
                         </div>
-                    </div>
-
-                    <div>
-                        <label className='flex items-center gap-1 text-sm font-medium text-gray-700 mb-1'>
-                            <AlignLeft className='w-4 h-4 text-[#1FA2FF]' />
-                            Description
-                        </label>
-                        <textarea name="description" rows="3"
-                            onChange={handleChange} value={taskData.description}
-                            className={baseControlClasses} placeholder='Add Details About Your Tasks'
-                        ></textarea>
-                    </div>
-
-                    <div className='grid grid-cols-2 gap-4'>
+                    )}
+                    
+                    <div className="grid grid-cols-1 gap-6">
                         <div>
-                            <label className='flex items-center gap-1 text-sm font-medium text-gray-700 mb-1'>
-                                <Flag className='w-4 h-4 text-[#1FA2FF]' />
-                                Priority
-                            </label>
-                            <select name="priority" value={taskData.priority} onChange={handleChange} className={`${baseControlClasses} ${priorityStyles[taskData.priority]}`}>
-                                <option>Low</option>
-                                <option>Medium</option>
-                                <option>High</option>
-                            </select>
+                            <label className='block text-sm font-semibold text-gray-300 mb-3'>Task Title</label>
+                            <div className='glass p-4 rounded-xl border border-blue-500/30 focus-within:border-blue-400/60 transition-all duration-300'>
+                                <input 
+                                    type="text" 
+                                    name="title" 
+                                    required 
+                                    value={taskData.title} 
+                                    onChange={handleChange} 
+                                    className='w-full bg-transparent text-white text-lg font-medium focus:outline-none placeholder:text-gray-500' 
+                                    placeholder='Enter your task title...' 
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <label className='flex items-center gap-1 text-sm font-medium text-gray-700 mb-1'>
-                                <Calendar className='w-4 h-4 text-[#1FA2FF]' />
-                                Due Date
-                            </label>
-                            <input type="date" name="dueDate" required min={today} value={taskData.dueDate} onChange={handleChange} className={baseControlClasses} />
-                        </div>
-                    </div>
 
-                    <div>
-                        <label className='flex items-center gap-1 text-sm font-medium text-gray-700 mb-2'>
-                            <CheckCircle className='w-4 h-4 text-[#1FA2FF]' />
-                            Status
-                        </label>
-                        <div className='flex gap-4'>
-                            {[{ val: 'Yes', label: 'Completed' },
-                            { val: 'No', label: 'In Progress' }
-                            ].map(({ val, label }) => (
-                                <label key={val} className='flex items-center '>
-                                    <input type='radio' name='completed' value={val} checked={taskData.completed === val} onChange={handleChange} className='h-4 w-4 text-[#1FA2FF] focus:ring-[#1FA2FF] border-gray-300 rounded' />
-                                    <span className='ml-2 text-sm text-gray-700'>{label}</span>
+                        <div>
+                            <label className='flex items-center gap-2 text-sm font-semibold text-gray-300 mb-3'>
+                                <AlignLeft className='w-4 h-4 text-blue-400' />
+                                Description
+                            </label>
+                            <div className='glass p-4 rounded-xl border border-blue-500/30 focus-within:border-blue-400/60 transition-all duration-300'>
+                                <textarea 
+                                    name="description" 
+                                    rows="4"
+                                    onChange={handleChange} 
+                                    value={taskData.description}
+                                    className='w-full bg-transparent text-white resize-none focus:outline-none placeholder:text-gray-500'
+                                    placeholder='Add details about your task...'
+                                />
+                            </div>
+                        </div>
+
+                        <div className='grid grid-cols-2 gap-6'>
+                            <div>
+                                <label className='flex items-center gap-2 text-sm font-semibold text-gray-300 mb-3'>
+                                    <Flag className='w-4 h-4 text-blue-400' />
+                                    Priority
                                 </label>
-                            ))}
+                                <div className='glass p-4 rounded-xl border border-blue-500/30'>
+                                    <select 
+                                        name="priority" 
+                                        value={taskData.priority} 
+                                        onChange={handleChange} 
+                                        className='w-full bg-transparent text-white focus:outline-none'
+                                    >
+                                        <option value="Low" className='bg-slate-800'>Low Priority</option>
+                                        <option value="Medium" className='bg-slate-800'>Medium Priority</option>
+                                        <option value="High" className='bg-slate-800'>High Priority</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label className='flex items-center gap-2 text-sm font-semibold text-gray-300 mb-3'>
+                                    <Calendar className='w-4 h-4 text-blue-400' />
+                                    Due Date
+                                </label>
+                                <div className='glass p-4 rounded-xl border border-blue-500/30'>
+                                    <input 
+                                        type="date" 
+                                        name="dueDate" 
+                                        required 
+                                        min={today} 
+                                        value={taskData.dueDate} 
+                                        onChange={handleChange} 
+                                        className='w-full bg-transparent text-white focus:outline-none' 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className='flex items-center gap-2 text-sm font-semibold text-gray-300 mb-4'>
+                                <CheckCircle className='w-4 h-4 text-blue-400' />
+                                Task Status
+                            </label>
+                            <div className='flex gap-6'>
+                                {[
+                                    { val: 'Yes', label: 'Completed', color: 'green' },
+                                    { val: 'No', label: 'In Progress', color: 'orange' }
+                                ].map(({ val, label, color }) => (
+                                    <label key={val} className={`flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 cursor-pointer ${
+                                        taskData.completed === val 
+                                            ? `border-${color}-500/50 bg-${color}-500/10` 
+                                            : 'border-gray-600/50 hover:border-gray-500/70'
+                                    }`}>
+                                        <input 
+                                            type='radio' 
+                                            name='completed' 
+                                            value={val} 
+                                            checked={taskData.completed === val} 
+                                            onChange={handleChange} 
+                                            className={`h-4 w-4 border-2 rounded-full text-${color}-500 focus:ring-${color}-500`}
+                                        />
+                                        <div>
+                                            <span className='text-white font-medium'>{label}</span>
+                                            <p className='text-xs text-gray-400 mt-1'>
+                                                {val === 'Yes' ? 'Mark as completed' : 'Still working on it'}
+                                            </p>
+                                        </div>
+                                    </label>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    <button type='submit' disabled={loading || !taskData.id}
-                        className='w-full bg-gradient-to-r from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 hover:shadow-md transition-all duration-200'>
-                        {loading ? 'Saving ...' : (
+                    <button 
+                        type='submit' 
+                        disabled={loading || !taskData.id}
+                        className='btn-hover w-full bg-gradient-to-r from-blue-600 via-cyan-600 to-green-600 text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl transition-all duration-300 border border-blue-500/30'
+                    >
+                        {loading ? (
                             <>
-                                <Save className='w-4 h-4' /> Update task
+                                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white" />
+                                Updating...
+                            </>
+                        ) : (
+                            <>
+                                <Save className='w-5 h-5' /> 
+                                Update Task
                             </>
                         )}
                     </button>

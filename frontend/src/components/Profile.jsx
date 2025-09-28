@@ -40,90 +40,120 @@ const Profile = ({ setCurrentUser, onLogout }) => {
   }
 
   return (
-    <div className='min-h-screen bg-gray-900 text-white'>
+    <div className='min-h-screen bg-gradient-to-br from-slate-900 via-blue-900/20 to-slate-900 text-white'>
       <ToastContainer position='top-center' autoClose={3000} theme="dark" />
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="max-w-6xl mx-auto p-8">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors mb-6"
+          className="btn-hover inline-flex items-center text-sm font-medium text-blue-400 hover:text-blue-300 transition-all duration-300 mb-8 p-3 rounded-xl hover:bg-blue-500/10 border border-transparent hover:border-blue-500/30"
         >
-          <ChevronLeft className='w-5 h-5 mr-1' />
+          <ChevronLeft className='w-5 h-5 mr-2' />
           Back To Dashboard
         </button>
 
-        <div className="flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+        <div className="flex items-center gap-6 mb-12 animate-fadeIn">
+          <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 via-cyan-500 to-green-500 flex items-center justify-center text-white text-3xl font-black shadow-2xl border-4 border-blue-400/30 animate-float">
             {profile.name ? profile.name[0].toUpperCase() : 'U'}
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-white">Account Settings</h2>
-            <p className='text-gray-400 text-sm'>Manage Your Profile And Security Settings</p>
+            <h2 className="text-4xl font-black text-white mb-2">Account Settings</h2>
+            <p className='text-gray-300 text-lg'>Manage your profile and security preferences</p>
           </div>
         </div>
 
-        <div className='grid md:grid-cols-2 gap-8'>
+        <div className='grid lg:grid-cols-2 gap-8'>
           {/* Personal Information */}
-          <section className="bg-gray-800 rounded-xl p-6 shadow-md border border-gray-700">
-            <div className="flex items-center gap-2 mb-6">
-              <UserCircle className='w-5 h-5 text-blue-400' />
-              <h2 className='text-xl font-semibold'>Personal Information</h2>
+          <section className="glass-dark rounded-3xl p-8 shadow-2xl border border-blue-500/20 animate-slideUp">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30">
+                <UserCircle className='w-6 h-6 text-blue-400' />
+              </div>
+              <div>
+                <h2 className='text-2xl font-bold text-white'>Personal Information</h2>
+                <p className='text-gray-400 text-sm'>Update your personal details</p>
+              </div>
             </div>
 
-            <form onSubmit={saveProfile} className='space-y-4'>
+            <form onSubmit={saveProfile} className='space-y-6'>
               {personalFields.map(({ name, type, placeholder, icon: Icon }) => (
-                <div key={name} className="flex items-center bg-gray-700 border border-gray-600 rounded-lg p-3">
-                  <Icon className='text-blue-400 w-5 mr-2' />
-                  <input
-                    type={type}
-                    placeholder={placeholder}
-                    value={profile[name]}
-                    onChange={(e) => setProfile({ ...profile, [name]: e.target.value })}
-                    className='w-full bg-transparent text-white placeholder-gray-400 focus:outline-none text-sm'
-                    required
-                  />
+                <div key={name}>
+                  <label className='block text-sm font-semibold text-gray-300 mb-3'>
+                    {placeholder}
+                  </label>
+                  <div className="glass p-4 rounded-xl border border-blue-500/30 focus-within:border-blue-400/60 transition-all duration-300">
+                    <div className="flex items-center gap-3">
+                      <Icon className='text-blue-400 w-5 h-5' />
+                      <input
+                        type={type}
+                        placeholder={placeholder}
+                        value={profile[name]}
+                        onChange={(e) => setProfile({ ...profile, [name]: e.target.value })}
+                        className='w-full bg-transparent text-white placeholder-gray-500 focus:outline-none'
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
               ))}
-              <button className="w-full py-2.5 px-4 bg-gradient-to-br from-blue-500 to-green-500 text-white rounded-lg flex items-center justify-center gap-2 text-sm font-semibold hover:from-blue-600 hover:to-green-600 transition-all duration-300 shadow-lg hover:shadow-xl">
-                <Save className='w-4 h-4' /> Save Changes
+              <button className="btn-hover w-full py-4 px-6 bg-gradient-to-r from-blue-600 via-cyan-600 to-green-600 text-white rounded-2xl flex items-center justify-center gap-3 font-bold shadow-xl transition-all duration-300 border border-blue-500/30">
+                <Save className='w-5 h-5' /> Save Changes
               </button>
             </form>
           </section>
 
           {/* Security Section */}
-          <section className="bg-gray-800 rounded-xl p-6 shadow-md border border-gray-700">
-            <div className="flex items-center gap-2 mb-6">
-              <Shield className='w-5 h-5 text-blue-400' />
-              <h2 className='text-xl font-semibold'>Security</h2>
+          <section className="glass-dark rounded-3xl p-8 shadow-2xl border border-blue-500/20 animate-slideUp">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-400/30">
+                <Shield className='w-6 h-6 text-red-400' />
+              </div>
+              <div>
+                <h2 className='text-2xl font-bold text-white'>Security Settings</h2>
+                <p className='text-gray-400 text-sm'>Protect your account</p>
+              </div>
             </div>
 
-            <form onSubmit={changePassword} className='space-y-4'>
+            <form onSubmit={changePassword} className='space-y-6'>
               {securityFields.map(({ name, placeholder }) => (
-                <div key={name} className="flex items-center bg-gray-700 border border-gray-600 rounded-lg p-3">
-                  <Lock className='text-blue-400 w-5 mr-2' />
-                  <input
-                    type="password"
-                    placeholder={placeholder}
-                    value={passwords[name]}
-                    onChange={(e) => setPasswords({ ...passwords, [name]: e.target.value })}
-                    className='w-full bg-transparent text-white placeholder-gray-400 focus:outline-none text-sm'
-                    required
-                  />
+                <div key={name}>
+                  <label className='block text-sm font-semibold text-gray-300 mb-3'>
+                    {placeholder}
+                  </label>
+                  <div className="glass p-4 rounded-xl border border-blue-500/30 focus-within:border-blue-400/60 transition-all duration-300">
+                    <div className="flex items-center gap-3">
+                      <Lock className='text-blue-400 w-5 h-5' />
+                      <input
+                        type="password"
+                        placeholder={placeholder}
+                        value={passwords[name]}
+                        onChange={(e) => setPasswords({ ...passwords, [name]: e.target.value })}
+                        className='w-full bg-transparent text-white placeholder-gray-500 focus:outline-none'
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
               ))}
-              <button className="w-full py-2.5 px-4 bg-gradient-to-br from-blue-500 to-green-500 text-white rounded-lg flex items-center justify-center gap-2 text-sm font-semibold hover:from-blue-600 hover:to-green-600 transition-all duration-300 shadow-lg hover:shadow-xl">
-                <Shield className='w-4 h-4' /> Change Password
+              <button className="btn-hover w-full py-4 px-6 bg-gradient-to-r from-blue-600 via-cyan-600 to-green-600 text-white rounded-2xl flex items-center justify-center gap-3 font-bold shadow-xl transition-all duration-300 border border-blue-500/30">
+                <Shield className='w-5 h-5' /> Change Password
               </button>
 
-              <div className="mt-8 pt-6 border-t border-red-700">
-                <h3 className='text-red-500 font-semibold mb-4 flex items-center gap-2'>
-                  <LogOut className='w-4 h-4' /> Danger Zone
-                </h3>
-                <button
-                  className="py-2 px-4 bg-red-800 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
-                  onClick={onLogout}
-                >
-                  Logout
-                </button>
+              <div className="mt-10 pt-8 border-t border-red-500/30">
+                <div className="glass p-6 rounded-2xl border border-red-500/30 bg-red-500/5">
+                  <h3 className='text-red-400 font-bold mb-4 flex items-center gap-3 text-lg'>
+                    <div className="p-2 rounded-xl bg-red-500/20 border border-red-500/30">
+                      <LogOut className='w-5 h-5' />
+                    </div>
+                    Danger Zone
+                  </h3>
+                  <p className='text-gray-300 text-sm mb-6'>This action will sign you out of your account.</p>
+                  <button
+                    className="btn-hover py-3 px-6 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-semibold hover:from-red-500 hover:to-red-600 transition-all duration-300 shadow-lg border border-red-500/30"
+                    onClick={onLogout}
+                  >
+                    Sign Out
+                  </button>
+                </div>
               </div>
             </form>
           </section>

@@ -24,26 +24,32 @@ const Navbar = ({user={},onLogout}) => {
         onLogout();
     }
   return (
-    <header className='sticky top-0 z-50 bg-gray-900 backdrop-blur-md shadow-sm border-b border-gray-200 font-sans'>
+    <header className='sticky top-0 z-50 glass-dark backdrop-blur-xl shadow-lg border-b border-blue-500/20'>
 
-        <div className='flex item-center justify-between px-4 py-3 md:px-6 w-full mx-auto'>
+        <div className='flex items-center justify-between px-6 py-4 w-full mx-auto'>
             {/*Logo*/}
-            <div className='flex items-center gap-2 cursor-pointer group'
+            <div className='flex items-center gap-3 cursor-pointer group'
             onClick={()=>navigate('/')}>
                 {/* LOGO */}
-                <div className='relative w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 via-green-500 to-teal-500 shadow-lg group-hover:shadow-green-300/50 group-hover:scale-105 transaction-all duration-300'>
-                    <Compass className='w-6 h-6 text-white'/>
-                    <div className='absolute -bottom-1 -middle-1 w-3 h-3 bg-white rounded-full shadow-me animate-ping'/>
+                <div className='relative w-12 h-12 flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-green-500 shadow-xl group-hover:shadow-cyan-400/50 group-hover:scale-110 transition-all duration-300 animate-float'>
+                    <Compass className='w-7 h-7 text-white drop-shadow-lg'/>
+                    <div className='absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-lg animate-pulse'/>
                 </div>
 
                 {/* Brand Name */}
-                <span className='text-2xl font-extrabold bg-gradient-to-r from-blue-500 via-green-500 to-teal-500 bg-clip-text text-transparent tracking-wide'>FocusFlow
-                </span>
+                <div className="flex flex-col">
+                    <span className='text-2xl font-black bg-gradient-to-r from-blue-400 via-cyan-400 to-green-400 bg-clip-text text-transparent tracking-tight'>
+                        TaskVault
+                    </span>
+                    <span className='text-xs text-gray-400 font-medium tracking-wide'>
+                        Project Management
+                    </span>
+                </div>
             </div>
 
             {/* Right Side */}
             <div className='flex items-center gap-4'>
-            <button className='p-2 text-white hover:text-blue-300 transition-colors duration-300 hover:bg-gray-700 rounded-xl' onClick={()=>navigate('/profile')}>
+            <button className='btn-hover p-3 text-gray-300 hover:text-blue-400 transition-all duration-300 hover:bg-blue-500/10 rounded-xl border border-transparent hover:border-blue-500/30' onClick={()=>navigate('/profile')}>
                 <Settings className='w-5 h-5'/>
             </button>
             

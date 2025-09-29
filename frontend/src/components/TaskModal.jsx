@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { baseControlClasses, DEFAULT_TASK, priorityStyles } from '../assets/dummy'
+import { DEFAULT_TASK } from '../assets/dummy'
 import { AlignLeft, Calendar, CheckCircle, Flag, Save, X } from 'lucide-react' // Plus, PlusCircle removed - creation disabled
 
 const API_BASE = 'http://localhost:4000/api/tasks'
 
-const TaskModal = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => {
+const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
     const [taskData, setTaskData] = useState(DEFAULT_TASK)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -84,7 +84,7 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => {
         } finally {
             setLoading(false);
         }
-    }, [taskData, today, getHeaders, onSave, onClose, onLogout]);
+    }, [taskData, today, getHeaders, onSave, onClose]);
 
     if (!isOpen) return null;
 

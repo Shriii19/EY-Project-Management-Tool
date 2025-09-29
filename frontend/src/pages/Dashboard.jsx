@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import { EMPTY_STATE, FILTER_LABELS, FILTER_OPTIONS, FILTER_WRAPPER, HEADER, ICON_WRAPPER, LABEL_CLASS, SELECT_CLASSES, STAT_CARD, STATS, STATS_GRID, TAB_ACTIVE, TAB_BASE, TAB_INACTIVE, TABS_WRAPPER, VALUE_CLASS, WRAPPER } from '../assets/dummy'
-import { HomeIcon, Filter, Calendar } from 'lucide-react' // Plus removed - creation disabled
+import { HomeIcon, Filter, Calendar, Flame } from 'lucide-react' // Plus removed - creation disabled
 import { useOutletContext } from 'react-router-dom'
 import TaskItem from '../components/TaskItem'
 import axios from 'axios'
@@ -81,21 +81,21 @@ const Dashboard = () => {
 
       {/* STATS */}
       <div className={`${STATS_GRID} mb-8`}>
-        {STATS.map(({ key, label, icon: Icon, iconColor, borderColor = "border-red-600", valueKey, textColor, gradient }) => (
-          <div key={key} className={`group glass-dark p-6 rounded-2xl border transition-all duration-300 hover:scale-105 hover:border-opacity-60 animate-slideUp ${borderColor} hover:shadow-xl`}>
+        {STATS.map((stat) => (
+          <div key={stat.key} className={`group glass-dark p-6 rounded-2xl border transition-all duration-300 hover:scale-105 hover:border-opacity-60 animate-slideUp ${stat.borderColor} hover:shadow-xl`}>
             <div className='flex items-center gap-4'>
-              <div className={`p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 ${iconColor}`}>
-                <Icon className='w-6 h-6' />
+              <div className={`p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 ${stat.iconColor}`}>
+                <stat.icon className='w-6 h-6' />
               </div>
 
               <div className="min-w-0">
                 <p className={`text-3xl font-black mb-1 ${
-                  gradient ?
-                    "bg-gradient-to-r from-blue-400 via-cyan-400 to-green-400 bg-clip-text text-transparent" : textColor
+                  stat.gradient ?
+                    "bg-gradient-to-r from-blue-400 via-cyan-400 to-green-400 bg-clip-text text-transparent" : stat.textColor
                 }`}>
-                  {stats[valueKey]}
+                  {stats[stat.valueKey]}
                 </p>
-                <p className="text-gray-300 text-sm font-medium">{label}</p>
+                <p className="text-gray-300 text-sm font-medium">{stat.label}</p>
               </div>
             </div>
           </div>

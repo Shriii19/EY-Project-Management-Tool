@@ -12,7 +12,6 @@ const PendingPage = () => {
   const [sortBy, setSortBy] = useState('newest')
 
   const [selectedTask,setSelectedTask] = useState(null)
-  const [showModal,setShowModal] = useState(false)
 
 
 
@@ -84,19 +83,14 @@ const PendingPage = () => {
               ):(
                 sortedPendingTasks.map(task=>(
                   <TaskItem key={task._id || task.id} task={task}
-                  showCompleteCheckbox onDelete={()=>handleDelete(task._id || task.id)}
-                  onToggleComplete = {()=>handleToggleComplete(
-                    task._id || task.id,
-                    t.completed
-                  )}
-                  onEdit={()=>{setSelectedTask(task); setShowModal(true); } }
+                  showCompleteCheckbox                   onEdit={()=>{setSelectedTask(task); } }
                   onRefresh={refreshTasks}
                   />
                  ) )
               )}
       </div>
               <TaskModal isOpen={!!selectedTask}
-              onClose={()=>{setShowModal(false);setSelectedTask(null);refreshTasks();}}
+              onClose={()=>{setSelectedTask(null);refreshTasks();}}
               taskToEdit={selectedTask}/>
     </div>
   )

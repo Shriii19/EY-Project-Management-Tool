@@ -11,37 +11,7 @@ import {
 } from "lucide-react"
 
 // BACKEND TEST 
-// DUMMY DATA
-const backendDummy = [
-    {
-        title: "Buy groceries",
-        description: "Milk, bread, eggs, and spinach",
-        priority: "Low",
-        dueDate: "2025-05-02T18:00:00.000Z",
-        completed: "No"
-    },
-    {
-        "title": "Book dentist appointment",
-        "description": "Routine check-up and cleaning",
-        "priority": "Medium",
-        "dueDate": "2025-05-10T10:00:00.000Z",
-        "completed": true
-    },
-    {
-        "title": "Book dentist appointment",
-        "description": "Routine check-up and cleaning",
-        "priority": "Medium",
-        "dueDate": "2025-05-10T10:00:00.000Z",
-        "completed": true
-    },
-    {
-        "title": "Pay utility bills",
-        "description": "Electricity and water bills for April",
-        "priority": "High",
-        "dueDate": "2025-04-28T12:00:00.000Z",
-        "completed": "Yes"
-    }
-];
+// DUMMY DATA - removed unused backendDummy
 
 // FRONTEND DUMMY DATA
 
@@ -280,9 +250,5 @@ export const TI_CLASSES = {
     dateRow: "flex items-center gap-1.5 text-xs font-medium whitespace-nowrap",
     createdRow: "flex items-center gap-1.5 text-xs text-gray-400 whitespace-nowrap",
 }
-// APP.JSX
-const data = { name: 'John Doe' };
-const user = {
-      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(data.name || 'User')}&background=random`
-    };
+// APP.JSX - removed unused user object
 

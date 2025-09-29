@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MENU_OPTIONS, TI_CLASSES, getPriorityBadgeColor, getPriorityColor } from '../assets/dummy'
+import { MENU_OPTIONS, TI_CLASSES, getPriorityColor } from '../assets/dummy'
 import { Calendar, CheckCircle2, Clock, MoreVertical } from 'lucide-react'
 import axios from 'axios'
 import { format, isToday } from 'date-fns'
@@ -7,7 +7,7 @@ import TaskModal from './TaskModal'
 
 const API_BASE = 'http://localhost:4000/api/tasks'
 
-const TaskItem = ({ task, onRefresh, showCompleteCheckbox, onLogout = true }) => {
+const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
   const [showMenu, setShowMenu] = useState(false)
   const [isCompleted, setIsCompleted] = useState(
     [true, 1, 'yes'].includes(
@@ -16,7 +16,6 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox, onLogout = true }) =>
   )
 
   const [showEditModal, setShowEditModal] = useState(false)
-  const [subtasks, setSubtasks] = useState(task.subtasks || [])
 
   useEffect(() => {
     setIsCompleted(
@@ -32,8 +31,6 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox, onLogout = true }) =>
   }
 
   const borderColor = isCompleted ? "border-green-500" : getPriorityColor(task.priority).split(" ")[0]
-
-  const progress = subtasks.length ? (subtasks.filter(st => st.completed).length / subtasks.length) * 100 : 0
 
   const handleAction = (action) => {
     setShowMenu(false)

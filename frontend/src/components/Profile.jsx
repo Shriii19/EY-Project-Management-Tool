@@ -13,11 +13,10 @@ import {
   Lock
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 
 const API_URL = 'http://localhost:4000'
 
-const Profile = ({ setCurrentUser, onLogout }) => {
+const Profile = ({ onLogout }) => {
   const [profile, setProfile] = useState({ name: '', email: '' })
   const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' })
   const navigate = useNavigate()
@@ -75,19 +74,19 @@ const Profile = ({ setCurrentUser, onLogout }) => {
             </div>
 
             <form onSubmit={saveProfile} className='space-y-6'>
-              {personalFields.map(({ name, type, placeholder, icon: Icon }) => (
-                <div key={name}>
+              {personalFields.map((field) => (
+                <div key={field.name}>
                   <label className='block text-sm font-semibold text-gray-300 mb-3'>
-                    {placeholder}
+                    {field.placeholder}
                   </label>
                   <div className="glass p-4 rounded-xl border border-blue-500/30 focus-within:border-blue-400/60 transition-all duration-300">
                     <div className="flex items-center gap-3">
-                      <Icon className='text-blue-400 w-5 h-5' />
+                      <field.icon className='text-blue-400 w-5 h-5' />
                       <input
-                        type={type}
-                        placeholder={placeholder}
-                        value={profile[name]}
-                        onChange={(e) => setProfile({ ...profile, [name]: e.target.value })}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        value={profile[field.name]}
+                        onChange={(e) => setProfile({ ...profile, [field.name]: e.target.value })}
                         className='w-full bg-transparent text-white placeholder-gray-500 focus:outline-none'
                         required
                       />

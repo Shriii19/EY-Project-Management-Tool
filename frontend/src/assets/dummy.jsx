@@ -35,13 +35,7 @@ export const DEFAULT_TASK = {
     id: null,
 };
 
-// LOGIN CSS
-export const INPUTWRAPPER =
-    "flex items-center border border-green-100 rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-green-500 focus-within:border-green-500 transition-all duration-200"
-export const BUTTON_CLASSES =
-    "w-full bg-gradient-to-r from-fuchsia-500 to-green-600 text-white text-sm font-semibold py-2.5 rounded-lg hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2"
-
-// PROFILE CSS
+// LOGIN CSS - removed as login functionality disabled
 export const INPUT_WRAPPER =
     "flex items-center border border-green-100 rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-green-500 focus-within:border-green-500 transition-all duration-200"
 export const FULL_BUTTON =
@@ -101,17 +95,7 @@ export const TIP_CARD = {
     text: "text-xs text-white mt-1",
 }
 
-// SIGNUP 
-
-
-export const Inputwrapper =
-    "flex items-center border border-green-100 rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-green-500 focus-within:border-green-500 transition-all duration-200"
-export const BUTTONCLASSES =
-    "w-full bg-gradient-to-r from-fuchsia-500 to-green-600 text-white text-sm font-semibold py-2.5 rounded-lg hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2"
-export const MESSAGE_SUCCESS = "bg-green-50 text-green-600 p-3 rounded-lg text-sm mb-4 border border-green-100"
-export const MESSAGE_ERROR = "bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4 border border-red-100"
-
-// TASK ITEM
+// SIGNUP - removed as signup functionality disabled
 export const getPriorityColor = (priority) => {
     const colors = {
         low: "border-green-500 bg-green-50/50 text-green-700",

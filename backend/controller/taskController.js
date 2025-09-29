@@ -36,11 +36,11 @@ const dummyTasks = [
 
 // Task creation functionality has been removed
 
-//Get All Tasks For Logged In User
+//Get All Tasks For Logged In User - authentication removed
 export const getTasks = async (req,res)=>{
     try {
         // Try to get tasks from database first
-        const tasks = await Task.find({owner: req.user.id}).sort({createdAt:-1});
+        const tasks = await Task.find({owner: 'dummy_user_id'}).sort({createdAt:-1});
         res.json({success:true,tasks});
     } catch (err) {
         // If database is not connected, return dummy tasks
@@ -49,10 +49,10 @@ export const getTasks = async (req,res)=>{
     }
 }
 
-// Get Single Tasks By ID (must belong to that particular user)
+// Get Single Tasks By ID (must belong to that particular user) - authentication removed
 export const getTaskById = async (req,res) => {
     try{
-        const task = await Task.findOne({_id:req.params.id, owner:req.user.id});
+        const task = await Task.findOne({_id:req.params.id, owner:'dummy_user_id'});
         if(!task) return res.status(404).json({success:false,message:'Task Not Found'})
         res.json({success:true,task});
     }catch(err){
@@ -64,7 +64,7 @@ export const getTaskById = async (req,res) => {
     }
 }
 
-//Update A Task
+//Update A Task - authentication removed
 export const updateTask = async (req,res) =>{
     try{
         const data = {...req.body}
@@ -72,7 +72,7 @@ export const updateTask = async (req,res) =>{
             data.completed = data.completed ==='Yes' || data.completed === true;
         }
         const updated = await Task.findOneAndUpdate(
-            {_id:req.params.id, owner:req.user.id},
+            {_id:req.params.id, owner:'dummy_user_id'},
             data,
             {new:true, runValidators:true}
         );
@@ -97,10 +97,10 @@ export const updateTask = async (req,res) =>{
     }
 }
 
-//DELETE A TASK 
+//DELETE A TASK - authentication removed
 export const deleteTask = async(req,res)=>{
     try{
-        const deleted = await Task.findOneAndDelete({_id:req.params.id,owner: req.user.id});
+        const deleted = await Task.findOneAndDelete({_id:req.params.id,owner: 'dummy_user_id'});
         if(!deleted) return res.status(404).json({success:false,message:"tasks not found or not yours"})
         res.json({success:true,message:"task Deleted"});
     }catch(err){

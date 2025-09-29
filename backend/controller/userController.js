@@ -14,10 +14,10 @@ const TOKEN_EXPIRES='24h';
 
 // Login functionality has been removed
 
-// GET CURRENT USER
+// GET CURRENT USER - authentication removed
 export async function getCurrentUser(req,res){
     try{
-        const user=await User.findById(req.user.id).select("name email")
+        const user=await User.findById('dummy_user_id').select("name email")
         if(!user){
             return res.status(400).json({success:false,message:"User Not Found"})
         }
@@ -28,7 +28,7 @@ export async function getCurrentUser(req,res){
     }
 }
 
-//UPDATE USER PROFILE
+//UPDATE USER PROFILE - authentication removed
 
 export async function updateProfile(req,res){
     const {name,email} =req.body;
@@ -38,12 +38,12 @@ export async function updateProfile(req,res){
     }
 
     try{
-        const exists= await User.findOne({email, _id:{$ne:req.user.id}});
+        const exists= await User.findOne({email, _id:{$ne:'dummy_user_id'}});
         if(exists){
             return res.status(409).json({success:false,message:"email already used by another account"})
         }
         const user = await User.findByIdAndUpdate(
-            req.user.id,
+            'dummy_user_id',
             {name,email},
             {new:true,runValidators:true, select:"name email"}
         )
@@ -54,7 +54,7 @@ export async function updateProfile(req,res){
     }
 }
 
-//Change Password Function
+//Change Password Function - authentication removed
 
 export async function updatePassword(req,res){
     const {currentPassword,newPassword} = req.body;
@@ -62,7 +62,7 @@ export async function updatePassword(req,res){
         return res.json(400).json({success:false,message:"Password invalid or too Short"})
     }
     try{
-        const user = await User.findById(req.user.id).select("password")
+        const user = await User.findById('dummy_user_id').select("password")
         if(!user){
             return res.status(404).json({success:false,message:"User Not Found"})
         }

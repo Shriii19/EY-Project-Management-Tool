@@ -1,6 +1,5 @@
 import express from 'express';
 import { updatePassword, updateProfile, getCurrentUser } from '../controller/userController.js';
-import authMiddleware from '../middleware/auth.js'
 
 const userRouter = express.Router();
 
@@ -9,8 +8,8 @@ const userRouter = express.Router();
 
 //Private Routes
 
-userRouter.get('/me', authMiddleware, getCurrentUser);
-userRouter.put('/profile', authMiddleware, updateProfile);
-userRouter.put('/password', authMiddleware, updatePassword);
+userRouter.get('/me', getCurrentUser);
+userRouter.put('/profile', updateProfile);
+userRouter.put('/password', updatePassword);
 
 export default userRouter;

@@ -25,11 +25,6 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
     )
   }, [task.completed])
 
-  const getAuthHeaders = () => {
-    // Authentication removed - no token needed
-    return {}
-  }
-
   const borderColor = isCompleted ? "border-green-500" : getPriorityColor(task.priority).split(" ")[0]
 
   const handleAction = (action) => {
@@ -40,7 +35,7 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${API_BASE}/${task._id}/gp`, { headers: getAuthHeaders() })
+      await axios.delete(`${API_BASE}/${task._id}/gp`)
       onRefresh?.()
     } catch (err) {
       console.error('Delete failed:', err)
@@ -50,7 +45,7 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
   const handleSave = async (updatedTask) => {
     try {
       const payload = (({ title, description, priority, dueDate, completed }) => ({ title, description, priority, dueDate, completed }))(updatedTask)
-      await axios.put(`${API_BASE}/${task._id}/gp`, payload, { headers: getAuthHeaders() })
+      await axios.put(`${API_BASE}/${task._id}/gp`, payload)
       setShowEditModal(false)
       onRefresh?.()
     } catch (err) {
@@ -61,7 +56,7 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
   const handleComplete = async () => {
     const newStatus = isCompleted ? 'No' : 'Yes'
     try {
-      await axios.put(`${API_BASE}/${task._id}/gp`, { completed: newStatus }, { headers: getAuthHeaders() })
+      await axios.put(`${API_BASE}/${task._id}/gp`, { completed: newStatus })
       setIsCompleted(!isCompleted)
       onRefresh?.()
     } catch (err) {

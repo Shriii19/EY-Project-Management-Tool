@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import { Clock, TrendingUp, Zap, Circle, X } from 'lucide-react'
 import { Outlet } from 'react-router-dom';
-import Axios from 'axios'
+import axios from 'axios'
 
 const Layout = ({ onLogout, user }) => {
 
@@ -16,7 +16,7 @@ const Layout = ({ onLogout, user }) => {
     setError(null);
     try {
       // Authentication removed - make request without token
-      const { data } = await Axios.get("http://localhost:4000/api/tasks/gp");
+      const { data } = await axios.get("http://localhost:4000/api/tasks/gp");
 
       const arr = Array.isArray(data) ? data :
         Array.isArray(data?.tasks) ? data.tasks :

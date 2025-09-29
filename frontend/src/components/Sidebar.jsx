@@ -93,7 +93,7 @@ const Sidebar = ({ user, tasks }) => {
                   <p className="text-xs text-gray-300 leading-relaxed mb-3">
                     Break large tasks into smaller, manageable chunks for better productivity!
                   </p>
-                  <a href="https://omgunturkar.me/" target='_blank' className='inline-flex items-center gap-2 text-xs text-blue-400 hover:text-blue-300 transition-colors font-medium'>
+                  <a href="https://shrinivasmudabe.me/" target='_blank' className='inline-flex items-center gap-2 text-xs text-blue-400 hover:text-blue-300 transition-colors font-medium'>
                     Learn More →
                   </a>
                 </div>

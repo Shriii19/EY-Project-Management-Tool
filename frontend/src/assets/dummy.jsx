@@ -35,27 +35,12 @@ export const DEFAULT_TASK = {
     id: null,
 };
 
-// LOGIN CSS - removed as login functionality disabled
-export const INPUT_WRAPPER =
-    "flex items-center border border-green-100 rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-green-500 focus-within:border-green-500 transition-all duration-200"
-export const FULL_BUTTON =
-    "w-full bg-gradient-to-r from-fuchsia-500 to-green-600 text-white py-2.5 rounded-lg hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2"
 export const SECTION_WRAPPER = "bg-white rounded-xl shadow-sm border border-green-100 p-6"
-export const BACK_BUTTON =
-    "flex items-center text-gray-600 hover:text-green-600 mb-8 transition-colors duration-200"
-export const DANGER_BTN =
-    "w-full text-red-600 border border-red-200 py-2.5 rounded-lg hover:bg-red-50 transition-colors duration-200"
 
 export const personalFields = [
     { name: "name", type: "text", placeholder: "Full Name", icon: User },
     { name: "email", type: "email", placeholder: "Email", icon: Mail },
 ]
-
-export const securityFields = [
-    { name: "current", placeholder: "Current Password" },
-    { name: "new", placeholder: "New Password" },
-    { name: "confirm", placeholder: "Confirm Password" },
-];
 
 // SIDEBAR 
 export const menuItems = [

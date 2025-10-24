@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { CT_CLASSES, layoutClasses, SORT_OPTIONS } from '../assets/dummy';
+import { motion, AnimatePresence } from 'framer-motion';
+import { SORT_OPTIONS } from '../assets/dummy';
 import { CheckCircle2, Filter } from 'lucide-react';
 import { useOutletContext } from 'react-router-dom';
 import TaskItem from '../components/TaskItem';
@@ -37,85 +38,103 @@ const CompletePage = () => {
   }, [tasks, sortBy]);
 
   return (
-    <div className={CT_CLASSES.page}>
+    <div className="p-6 pt-0 min-h-screen overflow-hidden">
       {/* Header */}
-      <div className={CT_CLASSES.header}>
-        <div className={CT_CLASSES.titleWrapper}>
-          <h1 className={CT_CLASSES.title}>
-            <CheckCircle2 className='text-green-500 w-5 h-5 md:w-6 md:h-6' />
-            <span className='truncate bg-gradient-to-r from-blue-500 to-green-400 bg-clip-text text-transparent'>
-              Completed Tasks
-            </span>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+      >
+        <div className="flex-1 min-w-0">
+          <h1 className='text-2xl md:text-3xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent flex items-center gap-2'>
+            <CheckCircle2 className='text-green-400 w-5 h-5 md:w-6 md:h-6' />
+            <span className='truncate'>Completed Tasks</span>
           </h1>
-          <p className='text-sm text-gray-500'>
-            {sortedCompletedTasks.length} task
-            {sortedCompletedTasks.length !== 1 && 's'} marked as completed
+          <p className='text-sm text-gray-400 mt-1 ml-7'>
+            {sortedCompletedTasks.length} task{sortedCompletedTasks.length !== 1 && 's'} marked as completed
           </p>
         </div>
 
         {/* Sort Controls */}
-        <div className={CT_CLASSES.sortContainer}>
-          <div className={layoutClasses.sortBox}>
-            {/* Label */}
-            <div className='flex items-center gap-2 text-gray-700 font-medium'>
-              <Filter className='w-4 h-4 text-blue-500' />
-              <span className='text-sm'>Sort By :</span>
-            </div>
-
-            {/* Mobile Dropdown */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className={`block md:hidden ${layoutClasses.select}`}
-            >
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-              <option value="priority">By Priority</option>
-            </select>
-
-            {/* Desktop Buttons */}
-            <div className={`hidden md:flex ${layoutClasses.tabWrapper}`}>
-              {SORT_OPTIONS.map((opt) => (
-                <button
-                  key={opt.id}
-                  onClick={() => setSortBy(opt.id)}
-                  className={layoutClasses.tabButton(sortBy === opt.id)}
-                >
-                  {opt.icon}
-                  {opt.label}
-                </button>
-              ))}
-            </div>
+        <div className="flex items-center justify-between glass p-3 rounded-xl shadow-sm border border-purple-100/20 w-full md:w-auto">
+          {/* Label */}
+          <div className='flex items-center gap-2 text-gray-300 font-medium'>
+            <Filter className='w-4 h-4 text-purple-400' />
+            <span className='text-sm'>Sort By:</span>
           </div>
 
+          {/* Mobile Dropdown */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-3 py-2 border border-purple-500/30 rounded-lg focus:ring-2 focus:ring-purple-500 md:hidden text-sm bg-transparent text-white"
+          >
+            <option value="newest" className='bg-slate-800'>Newest First</option>
+            <option value="oldest" className='bg-slate-800'>Oldest First</option>
+            <option value="priority" className='bg-slate-800'>By Priority</option>
+          </select>
+
+          {/* Desktop Buttons */}
+          <div className="hidden md:flex p-3 space-x-1 glass rounded-lg ml-3">
+            {SORT_OPTIONS.map((opt) => (
+              <motion.button
+                key={opt.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setSortBy(opt.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                  sortBy === opt.id
+                    ? 'bg-purple-600/30 text-purple-300 shadow-sm border border-purple-500/30'
+                    : 'text-gray-400 hover:text-purple-300 hover:bg-purple-500/10'
+                }`}
+              >
+                {opt.icon}{opt.label}
+              </motion.button>
+            ))}
+          </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Task List */}
-      <div className={CT_CLASSES.list}>
-        {sortedCompletedTasks.length === 0 ? (
-          <div className={CT_CLASSES.emptyState}>
-            <div className={CT_CLASSES.emptyIconWrapper}>
-              <CheckCircle2 className='w-6 h-6 md:w-8 text-blue-500' />
-            </div>
-            <h3 className='text-lg font-semibold text-gray-500'>
-              No Completed Tasks Yet!
-            </h3>
-            <p className='text-gray-300 text-sm'>
-              Complete some tasks and they will appear here.
-            </p>
-          </div>
-        ) : (
-          sortedCompletedTasks.map(task => (
-            <TaskItem
-              key={task._id || task.id}
-              task={task}
-              onRefresh={refreshTasks}
-              showCompleteCheckbox={false}
-              className='opacity-90 hover:opacity-100 transition-opacity text-sm md:text-base'
-            />
-          ))
-        )}
+      <div className='space-y-4'>
+        <AnimatePresence>
+          {sortedCompletedTasks.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="p-8 glass-dark rounded-xl shadow-sm border border-purple-400/20 text-center"
+            >
+              <div className='min-w-xs mx-auto py-6'>
+                <div className='w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4'>
+                  <CheckCircle2 className='w-8 h-8 text-green-400' />
+                </div>
+                <h3 className='text-lg font-semibold text-gray-300 mb-2'>
+                  No Completed Tasks Yet!
+                </h3>
+                <p className='text-sm text-gray-400'>
+                  Complete some tasks and they will appear here.
+                </p>
+              </div>
+            </motion.div>
+          ) : (
+            sortedCompletedTasks.map((task, index) => (
+              <motion.div
+                key={task._id || task.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className='opacity-90 hover:opacity-100 transition-opacity'
+              >
+                <TaskItem
+                  task={task}
+                  onRefresh={refreshTasks}
+                  showCompleteCheckbox={false}
+                />
+              </motion.div>
+            ))
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

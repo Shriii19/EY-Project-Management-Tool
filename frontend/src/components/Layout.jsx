@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
+import Footer from './Footer'
 import { Clock, TrendingUp, Zap, Circle, X, Target, Activity, CheckCircle2 } from 'lucide-react'
 import { Outlet } from 'react-router-dom';
 import axios from 'axios'
@@ -300,6 +301,7 @@ const Layout = ({ user }) => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -71,25 +71,40 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
     }
   }
 
+  const borderGlow = () => {
+    const pri = task.priority?.toLowerCase()
+    if (isCompleted) return '0 0 20px rgba(34, 197, 94, 0.2)'
+    if (pri === 'high') return '0 0 20px rgba(239, 68, 68, 0.2)'
+    if (pri === 'medium') return '0 0 20px rgba(245, 158, 11, 0.2)'
+    return '0 0 20px rgba(34, 197, 94, 0.2)'
+  }
+
   return (
     <>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
-        className={`group bg-slate-900/50 border-l-4 ${isCompleted ? 'border-green-500/50' : getPriorityBorder(task.priority)} border-r border-t border-b border-slate-800 rounded-lg p-5 hover:border-r-slate-700 hover:border-t-slate-700 hover:border-b-slate-700 transition-all duration-200`}
+        whileHover={{ y: -2 }}
+        className={`group glass rounded-2xl p-6 border-l-4 ${isCompleted ? 'border-green-500/60' : getPriorityBorder(task.priority)} border-r border-t border-b border-purple-500/20 hover:border-purple-400/40 transition-all duration-300`}
+        style={{
+          boxShadow: borderGlow()
+        }}
       >
         <div className="flex items-start gap-4">
           {showCompleteCheckbox && (
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileTap={{ scale: 0.9 }}
               onClick={handleComplete}
-              className={`p-2 rounded-lg transition-all ${
+              className={`p-2.5 rounded-xl transition-all ${
                 isCompleted
-                  ? 'text-green-400 bg-green-500/10 border border-green-500/30'
-                  : 'text-slate-400 hover:text-green-400 hover:bg-green-500/10 border border-slate-700 hover:border-green-500/30'
+                  ? 'text-green-400 bg-green-500/20 border border-green-500/40'
+                  : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10 border border-purple-500/20 hover:border-green-500/40'
               }`}
+              style={isCompleted ? {
+                boxShadow: '0 0 16px rgba(34, 197, 94, 0.3)'
+              } : {}}
             >
               <CheckCircle2
                 className={`w-5 h-5 transition-all ${isCompleted ? 'fill-green-400' : ''}`}
@@ -98,19 +113,19 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
           )}
 
           <div className='flex-1 min-w-0'>
-            <div className='flex items-center justify-between mb-2.5'>
+            <div className='flex items-center justify-between mb-3'>
               <div className='flex items-center gap-3 flex-1 min-w-0'>
                 <h3
-                  className={`text-base font-semibold transition-all ${
+                  className={`text-base font-bold transition-all ${
                     isCompleted
-                      ? 'text-slate-500 line-through'
+                      ? 'text-gray-500 line-through'
                       : 'text-white'
                   }`}
                 >
                   {task.title}
                 </h3>
                 <span
-                  className={`px-2.5 py-1 text-xs font-medium rounded-md border ${getPriorityBadge(task.priority)}`}
+                  className={`px-3 py-1.5 text-xs font-bold rounded-lg border ${getPriorityBadge(task.priority)}`}
                 >
                   {task.priority}
                 </span>
@@ -118,10 +133,10 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
 
               <div className='relative'>
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setShowMenu(!showMenu)}
-                  className='p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition-all'
+                  className='p-2.5 text-gray-400 hover:text-purple-300 hover:bg-purple-500/10 rounded-xl transition-all border border-transparent hover:border-purple-500/30'
                 >
                   <MoreVertical className='w-5 h-5' />
                 </motion.button>
@@ -132,33 +147,40 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
                       initial={{ opacity: 0, scale: 0.95, y: -10 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                      className='absolute right-0 top-10 w-44 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-20 overflow-hidden'
+                      className='absolute right-0 top-12 w-48 glass-dark border border-purple-500/30 rounded-2xl shadow-2xl z-20 overflow-hidden'
+                      style={{
+                        boxShadow: '0 0 32px rgba(168, 85, 247, 0.2)'
+                      }}
                     >
                       <motion.button
-                        whileHover={{ x: 3, backgroundColor: 'rgba(71, 85, 105, 0.5)' }}
+                        whileHover={{ x: 4, backgroundColor: 'rgba(168, 85, 247, 0.1)' }}
                         onClick={() => {
                           setShowMenu(false)
                           setShowEditModal(true)
                         }}
-                        className='w-full px-3.5 py-2.5 text-left text-sm flex items-center gap-3 transition-all text-slate-300 hover:text-white'
+                        className='w-full px-4 py-3 text-left text-sm flex items-center gap-3 transition-all text-gray-300 hover:text-white'
                       >
-                        <div className='p-1 rounded bg-cyan-500/20'>
-                          <Edit2 className='w-4 h-4 text-cyan-400' />
+                        <div className='p-2 rounded-lg bg-purple-500/20 border border-purple-400/30' style={{
+                          boxShadow: '0 0 12px rgba(168, 85, 247, 0.3)'
+                        }}>
+                          <Edit2 className='w-4 h-4 text-purple-400' />
                         </div>
-                        <span className='font-medium'>Edit Task</span>
+                        <span className='font-bold'>Edit Task</span>
                       </motion.button>
                       <motion.button
-                        whileHover={{ x: 3, backgroundColor: 'rgba(71, 85, 105, 0.5)' }}
+                        whileHover={{ x: 4, backgroundColor: 'rgba(239, 68, 68, 0.1)' }}
                         onClick={() => {
                           setShowMenu(false)
                           handleDelete()
                         }}
-                        className='w-full px-3.5 py-2.5 text-left text-sm flex items-center gap-3 transition-all text-slate-300 hover:text-red-400 border-t border-slate-700'
+                        className='w-full px-4 py-3 text-left text-sm flex items-center gap-3 transition-all text-gray-300 hover:text-red-400 border-t border-purple-500/20'
                       >
-                        <div className='p-1 rounded bg-red-500/20'>
+                        <div className='p-2 rounded-lg bg-red-500/20 border border-red-400/30' style={{
+                          boxShadow: '0 0 12px rgba(239, 68, 68, 0.3)'
+                        }}>
                           <Trash2 className='w-4 h-4 text-red-400' />
                         </div>
-                        <span className='font-medium'>Delete Task</span>
+                        <span className='font-bold'>Delete Task</span>
                       </motion.button>
                     </motion.div>
                   )}
@@ -167,21 +189,24 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
             </div>
 
             {task.description && (
-              <p className='text-slate-400 mb-3 leading-relaxed text-sm'>
+              <p className='text-gray-400 mb-4 leading-relaxed text-sm font-medium'>
                 {task.description}
               </p>
             )}
 
             <div className='flex items-center justify-between text-sm'>
               <div
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl ${
                   task.dueDate && isToday(new Date(task.dueDate))
-                    ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
-                    : 'bg-slate-800 text-slate-400 border border-slate-700'
+                    ? 'bg-purple-500/20 text-purple-300 border border-purple-400/40'
+                    : 'glass text-gray-400 border border-purple-500/20'
                 }`}
+                style={task.dueDate && isToday(new Date(task.dueDate)) ? {
+                  boxShadow: '0 0 16px rgba(168, 85, 247, 0.3)'
+                } : {}}
               >
                 <Calendar className='w-4 h-4' />
-                <span className='font-medium'>
+                <span className='font-bold'>
                   {task.dueDate
                     ? (isToday(new Date(task.dueDate)) ? 'Due Today' : `Due ${format(new Date(task.dueDate), 'MMM dd')}`)
                     : 'No due date'
@@ -189,9 +214,9 @@ const TaskItem = ({ task, onRefresh, showCompleteCheckbox }) => {
                 </span>
               </div>
 
-              <div className='flex items-center gap-2 text-slate-500'>
+              <div className='flex items-center gap-2 text-gray-500'>
                 <Clock className='w-4 h-4' />
-                <span className='text-xs font-medium'>
+                <span className='text-xs font-bold'>
                   {task.createdAt ? format(new Date(task.createdAt), 'MMM dd') : 'Recently'}
                 </span>
               </div>

@@ -98,28 +98,41 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.95, opacity: 0, y: 20 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className='bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full shadow-2xl relative p-6 overflow-hidden'
+                        className='glass-dark border border-purple-500/30 rounded-3xl max-w-2xl w-full shadow-2xl relative p-8 overflow-hidden'
+                        style={{
+                            boxShadow: '0 0 60px rgba(168, 85, 247, 0.3)'
+                        }}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className='relative z-10'>
-                            <div className='flex justify-between items-center mb-6'>
-                                <div className='flex items-center gap-3'>
-                                    <div className='p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30'>
-                                        <Save className='text-cyan-400 w-6 h-6' />
-                                    </div>
+                            <div className='flex justify-between items-center mb-8'>
+                                <div className='flex items-center gap-4'>
+                                    <motion.div
+                                        animate={{
+                                            boxShadow: [
+                                                '0 0 20px rgba(168, 85, 247, 0.5)',
+                                                '0 0 30px rgba(236, 72, 153, 0.5)',
+                                                '0 0 20px rgba(168, 85, 247, 0.5)'
+                                            ]
+                                        }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                        className='p-3 rounded-xl bg-purple-500/20 border border-purple-400/40'
+                                    >
+                                        <Save className='text-purple-400 w-6 h-6' />
+                                    </motion.div>
                                     <div>
-                                        <h2 className='text-2xl font-bold text-white'>
+                                        <h2 className='text-3xl font-black text-white'>
                                             Edit Task
                                         </h2>
-                                        <p className='text-slate-400 text-sm'>Update your task details</p>
+                                        <p className='text-gray-400 text-sm font-medium'>Update your task details</p>
                                     </div>
                                 </div>
 
                                 <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                                    whileHover={{ scale: 1.1, rotate: 90, backgroundColor: 'rgba(168, 85, 247, 0.1)' }}
+                                    whileTap={{ scale: 0.9 }}
                                     onClick={onClose}
-                                    className='p-2 hover:bg-slate-800 rounded-lg transition-all text-slate-400 hover:text-slate-200'
+                                    className='p-2.5 rounded-xl transition-all text-gray-400 hover:text-purple-300 border border-transparent hover:border-purple-500/30'
                                 >
                                     <X className='w-6 h-6' />
                                 </motion.button>
@@ -132,30 +145,33 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
                                             initial={{ opacity: 0, y: -10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -10 }}
-                                            className='bg-red-500/10 border border-red-500/30 p-3.5 rounded-lg text-red-400 text-sm'
+                                            className='glass border border-red-500/40 p-4 rounded-2xl text-red-400 text-sm font-bold'
+                                            style={{
+                                                boxShadow: '0 0 24px rgba(239, 68, 68, 0.2)'
+                                            }}
                                         >
                                             {error}
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
 
-                                <div className="space-y-5">
+                                <div className="space-y-6">
                                     <div>
-                                        <label className='block text-sm font-semibold text-slate-300 mb-2'>Task Title</label>
+                                        <label className='block text-sm font-bold text-white mb-3'>Task Title</label>
                                         <input
                                             type="text"
                                             name="title"
                                             required
                                             value={taskData.title}
                                             onChange={handleChange}
-                                            className='w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors placeholder:text-slate-500'
+                                            className='w-full glass border border-purple-500/30 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 transition-all placeholder:text-gray-500 font-medium'
                                             placeholder='Enter your task title...'
                                         />
                                     </div>
 
                                     <div>
-                                        <label className='flex items-center gap-2 text-sm font-semibold text-slate-300 mb-2'>
-                                            <AlignLeft className='w-4 h-4 text-cyan-400' />
+                                        <label className='flex items-center gap-2 text-sm font-bold text-white mb-3'>
+                                            <AlignLeft className='w-4 h-4 text-purple-400' />
                                             Description
                                         </label>
                                         <textarea
@@ -163,32 +179,32 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
                                             rows="4"
                                             onChange={handleChange}
                                             value={taskData.description}
-                                            className='w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white resize-none focus:outline-none focus:border-cyan-500 transition-colors placeholder:text-slate-500'
+                                            className='w-full glass border border-purple-500/30 rounded-xl px-5 py-3.5 text-white resize-none focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 transition-all placeholder:text-gray-500 font-medium'
                                             placeholder='Add details about your task...'
                                         />
                                     </div>
 
                                     <div className='grid grid-cols-2 gap-4'>
                                         <div>
-                                            <label className='flex items-center gap-2 text-sm font-semibold text-slate-300 mb-2'>
-                                                <Flag className='w-4 h-4 text-cyan-400' />
+                                            <label className='flex items-center gap-2 text-sm font-bold text-white mb-3'>
+                                                <Flag className='w-4 h-4 text-purple-400' />
                                                 Priority
                                             </label>
                                             <select
                                                 name="priority"
                                                 value={taskData.priority}
                                                 onChange={handleChange}
-                                                className='w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors'
+                                                className='w-full glass border border-purple-500/30 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 transition-all font-medium'
                                             >
-                                                <option value="Low" className='bg-slate-800'>Low Priority</option>
-                                                <option value="Medium" className='bg-slate-800'>Medium Priority</option>
-                                                <option value="High" className='bg-slate-800'>High Priority</option>
+                                                <option value="Low" className='bg-gray-900'>Low Priority</option>
+                                                <option value="Medium" className='bg-gray-900'>Medium Priority</option>
+                                                <option value="High" className='bg-gray-900'>High Priority</option>
                                             </select>
                                         </div>
 
                                         <div>
-                                            <label className='flex items-center gap-2 text-sm font-semibold text-slate-300 mb-2'>
-                                                <Calendar className='w-4 h-4 text-cyan-400' />
+                                            <label className='flex items-center gap-2 text-sm font-bold text-white mb-3'>
+                                                <Calendar className='w-4 h-4 text-purple-400' />
                                                 Due Date
                                             </label>
                                             <input
@@ -198,14 +214,14 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
                                                 min={today}
                                                 value={taskData.dueDate}
                                                 onChange={handleChange}
-                                                className='w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors'
+                                                className='w-full glass border border-purple-500/30 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 transition-all font-medium'
                                             />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className='flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3'>
-                                            <CheckCircle className='w-4 h-4 text-cyan-400' />
+                                        <label className='flex items-center gap-2 text-sm font-bold text-white mb-3'>
+                                            <CheckCircle className='w-4 h-4 text-purple-400' />
                                             Task Status
                                         </label>
                                         <div className='flex gap-3'>
@@ -215,10 +231,13 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
                                             ].map(({ val, label, color, icon }) => (
                                                 <label
                                                     key={val}
-                                                    className={`flex-1 flex items-center gap-2.5 p-3.5 rounded-lg border-2 transition-all cursor-pointer ${taskData.completed === val
-                                                            ? color === 'green' ? 'border-green-500/50 bg-green-500/10' : 'border-amber-500/50 bg-amber-500/10'
-                                                            : 'border-slate-700 hover:border-slate-600 bg-slate-800/50'
+                                                    className={`flex-1 flex items-center gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer ${taskData.completed === val
+                                                            ? color === 'green' ? 'border-green-500/50 glass' : 'border-amber-500/50 glass'
+                                                            : 'border-purple-500/20 glass hover:border-purple-400/40'
                                                         }`}
+                                                    style={taskData.completed === val ? {
+                                                        boxShadow: color === 'green' ? '0 0 20px rgba(34, 197, 94, 0.2)' : '0 0 20px rgba(245, 158, 11, 0.2)'
+                                                    } : {}}
                                                 >
                                                     <input
                                                         type='radio'
@@ -226,10 +245,10 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
                                                         value={val}
                                                         checked={taskData.completed === val}
                                                         onChange={handleChange}
-                                                        className={`h-5 w-5 border-2 rounded-full`}
+                                                        className={`h-5 w-5 border-2 rounded-full accent-purple-500`}
                                                     />
                                                     <div>
-                                                        <span className='text-white font-bold flex items-center gap-2'>
+                                                        <span className='text-white font-black flex items-center gap-2'>
                                                             <span>{icon}</span>
                                                             {label}
                                                         </span>
@@ -240,10 +259,15 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
                                     </div>
                                 </div>
 
-                                <button
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
                                     type='submit'
                                     disabled={loading || !taskData.id}
-                                    className='w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:from-cyan-600 hover:to-blue-700 transition-all'
+                                    className='w-full bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 text-white font-black py-4 px-6 rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all'
+                                    style={{
+                                        boxShadow: '0 0 30px rgba(168, 85, 247, 0.5)'
+                                    }}
                                 >
                                     {loading ? (
                                         <>

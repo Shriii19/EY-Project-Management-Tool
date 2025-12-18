@@ -1,19 +1,18 @@
-/* Tailwind CSS directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom base styles */
 @layer base {
   * {
-    @apply border-border;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
   body {
     @apply bg-slate-950 text-slate-50 antialiased;
   }
 }
 
-/* Custom scrollbar for dark theme */
 @layer utilities {
   .scrollbar-thin::-webkit-scrollbar {
     width: 6px;

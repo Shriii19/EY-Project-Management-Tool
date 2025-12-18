@@ -284,7 +284,7 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave }) => {
                                             Update Task
                                         </>
                                     )}
-                                </button>
+                                </motion.button>
                             </form>
                         </div>
                     </motion.div>

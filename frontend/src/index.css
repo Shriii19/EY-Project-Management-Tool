@@ -1,132 +1,30 @@
-@import "tailwindcss";
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Dark Glassmorphism Dashboard - Purple/Pink/Blue Theme */
+/* Custom base styles */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-slate-950 text-slate-50 antialiased;
+  }
+}
+
+/* Custom scrollbar for dark theme */
 @layer utilities {
-  .animate-fadeIn {
-    animation: fadeIn 0.5s ease-in-out;
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
   }
-  
-  .animate-slideUp {
-    animation: slideUp 0.6s ease-out;
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-slate-800/50;
   }
-  
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-slate-600 rounded-full;
   }
-  
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-500;
   }
-  
-  .glass {
-    background: rgba(17, 24, 39, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.1);
-  }
-  
-  .glass-dark {
-    background: rgba(17, 24, 39, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.15);
-  }
-  
-  .gradient-border {
-    position: relative;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    padding: 2px;
-    border-radius: 16px;
-  }
-  
-  .gradient-border::before {
-    content: '';
-    position: absolute;
-    inset: 2px;
-    background: #1a1f36;
-    border-radius: 14px;
-    z-index: -1;
-  }
-  
-  .neon-glow {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.2), 0 4px 20px rgba(236, 72, 153, 0.3);
-  }
-  
-  .purple-glow {
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5), 0 0 60px rgba(168, 85, 247, 0.3), 0 0 90px rgba(236, 72, 153, 0.2);
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes glow {
-  from { box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(236, 72, 153, 0.2); }
-  to { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 0 60px rgba(236, 72, 153, 0.4), 0 0 80px rgba(168, 85, 247, 0.3); }
-}
-
-/* Glassmorphism scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(17, 24, 39, 0.5);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #8b5cf6, #ec4899);
-  border-radius: 10px;
-  border: 2px solid rgba(17, 24, 39, 0.8);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #a78bfa, #f472b6);
-}
-
-/* Glassmorphism focus styles */
-.focus-visible:focus {
-  outline: 2px solid #8b5cf6;
-  outline-offset: 2px;
-  outline-offset: 2px;
-}
-
-/* Button hover effects */
-.btn-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.btn-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-}
-
-/* New gradient text classes */
-.gradient-text {
-  background: linear-gradient(135deg, #8b5cf6, #f97316, #ec4899);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.gradient-text-alt {
-  background: linear-gradient(135deg, #a855f7, #fb923c, #f472b6);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }

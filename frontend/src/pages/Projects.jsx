@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Plus, Filter, ChevronDown } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
+import CreateProjectModal from '../components/CreateProjectModal';
 
 // Dummy Project Data
 const dummyProjects = [
@@ -177,8 +178,6 @@ const Projects = () => {
 
   const handleNewProject = () => {
     setShowNewProjectModal(true);
-    console.log('Open new project modal');
-    // TODO: Implement modal
   };
 
   return (
@@ -314,23 +313,11 @@ const Projects = () => {
           </div>
         )}
 
-        {/* New Project Modal Placeholder */}
-        {showNewProjectModal && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-800 border border-gray-700 rounded-xl p-8 max-w-md w-full">
-              <h2 className="text-2xl font-bold text-white mb-4">New Project</h2>
-              <p className="text-gray-400 mb-6">
-                Project creation form will be implemented with backend integration.
-              </p>
-              <button
-                onClick={() => setShowNewProjectModal(false)}
-                className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
+        {/* New Project Modal */}
+        <CreateProjectModal
+          isOpen={showNewProjectModal}
+          onClose={() => setShowNewProjectModal(false)}
+        />
       </div>
     </div>
   );

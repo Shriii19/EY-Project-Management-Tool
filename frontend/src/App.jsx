@@ -5,6 +5,10 @@ import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import ProjectDetails from './pages/ProjectDetails';
 import KanbanBoard from './pages/KanbanBoard';
+import Tasks from './pages/Tasks';
+import Analytics from './pages/Analytics';
+import Team from './pages/Team';
+import NotFound from './pages/NotFound';
 
 const App = () => {
   return (
@@ -19,6 +23,10 @@ const App = () => {
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<ProjectDetails />} />
           <Route path="/projects/:projectId/tasks" element={<KanbanBoard />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   FolderKanban,
@@ -19,7 +20,6 @@ import {
 const Navbar = () => {
   // State management
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [theme, setTheme] = useState('dark');
@@ -28,6 +28,9 @@ const Navbar = () => {
   // Refs for click outside detection
   const profileRef = useRef(null);
   const mobileMenuRef = useRef(null);
+
+  // Get current location for active link highlighting
+  const location = useLocation();
 
   // Navigation items configuration
   const navItems = [
@@ -83,18 +86,20 @@ const Navbar = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  // Handle navigation link click
-  const handleNavClick = (id) => {
-    setActiveLink(id);
-    setIsMobileMenuOpen(false);
-  };
-
   // Handle keyboard navigation
   const handleKeyDown = (e, action) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       action();
     }
+  };
+
+  // Check if current path matches the nav item path
+  const isActive = (path) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
   };
 
   return (
@@ -127,23 +132,22 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeLink === item.id;
+              const active = isActive(item.path);
               
               return (
-                <button
+                <Link
                   key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  onKeyDown={(e) => handleKeyDown(e, () => handleNavClick(item.id))}
+                  to={item.path}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
-                    isActive
+                    active
                       ? 'bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/20'
                       : 'text-slate-300 hover:bg-slate-800/50 hover:text-purple-300'
                   }`}
-                  aria-current={isActive ? 'page' : undefined}
+                  aria-current={active ? 'page' : undefined}
                 >
                   <Icon className="w-4 h-4" />
                   <span className="font-medium text-sm">{item.label}</span>
-                </button>
+                </Link>
               );
             })}
           </div>
@@ -256,24 +260,24 @@ const Navbar = () => {
           >
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeLink === item.id;
+              const active = isActive(item.path);
               
               return (
-                <button
+                <Link
                   key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  onKeyDown={(e) => handleKeyDown(e, () => handleNavClick(item.id))}
+                  to={item.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                    isActive
+                    active
                       ? 'bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/20'
                       : 'text-slate-300 hover:bg-slate-800/50'
                   }`}
                   role="menuitem"
-                  aria-current={isActive ? 'page' : undefined}
+                  aria-current={active ? 'page' : undefined}
                 >
                   <Icon className="w-5 h-5" />
                   <span className="font-medium">{item.label}</span>
-                </button>
+                </Link>
               );
             })}
           </div>

@@ -1,3 +1,8 @@
+/**
+ * Main Application Component
+ * Handles routing and layout structure for the EY Project Management Tool
+ */
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -14,10 +19,8 @@ const App = () => {
   return (
     <Router>
       <div className="min-h-screen bg-slate-950">
-        {/* Navbar Component */}
         <Navbar />
         
-        {/* Routes */}
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />

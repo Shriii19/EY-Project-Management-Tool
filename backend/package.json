@@ -1,14 +1,14 @@
 {
   "type": "module",
-  "name": "backend",
+  "name": "ey-project-management-backend",
   "version": "1.0.0",
   "main": "server.js",
+  "description": "Backend API for EY Project Management Tool",
   "scripts": {
     "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",

@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BarChart3, TrendingUp, Activity, PieChart } from 'lucide-react';
 
 const Analytics = () => {
+  // State for analytics data - ready for API integration
+  const [stats, setStats] = useState({
+    completionRate: 0,
+    activeProjects: 0,
+    tasksCompleted: 0
+  });
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="min-h-screen bg-slate-950 pt-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -19,27 +27,24 @@ const Analytics = () => {
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <TrendingUp className="w-8 h-8 text-green-400" />
-              <span className="text-green-400 text-sm font-semibold">+12%</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-1">87%</h3>
+            <h3 className="text-2xl font-bold text-white mb-1">{stats.completionRate}%</h3>
             <p className="text-slate-400 text-sm">Completion Rate</p>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <Activity className="w-8 h-8 text-blue-400" />
-              <span className="text-blue-400 text-sm font-semibold">+8%</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-1">24</h3>
+            <h3 className="text-2xl font-bold text-white mb-1">{stats.activeProjects}</h3>
             <p className="text-slate-400 text-sm">Active Projects</p>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <PieChart className="w-8 h-8 text-purple-400" />
-              <span className="text-purple-400 text-sm font-semibold">+15%</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-1">156</h3>
+            <h3 className="text-2xl font-bold text-white mb-1">{stats.tasksCompleted}</h3>
             <p className="text-slate-400 text-sm">Tasks Completed</p>
           </div>
         </div>

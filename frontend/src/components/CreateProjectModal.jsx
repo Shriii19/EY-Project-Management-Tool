@@ -23,15 +23,12 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  // Available team members (static for now)
-  const availableTeamMembers = [
-    { id: 1, name: 'John Doe', initials: 'JD', role: 'Developer' },
-    { id: 2, name: 'Jane Smith', initials: 'JS', role: 'Designer' },
-    { id: 3, name: 'Mike Johnson', initials: 'MJ', role: 'Project Manager' },
-    { id: 4, name: 'Sarah Williams', initials: 'SW', role: 'Developer' },
-    { id: 5, name: 'Tom Brown', initials: 'TB', role: 'QA Engineer' },
-    { id: 6, name: 'Alice Cooper', initials: 'AC', role: 'Business Analyst' },
-  ];
+  // Available team members - ready for API integration
+  const [availableTeamMembers, setAvailableTeamMembers] = useState([]);
+  // TODO: Fetch from API
+  // useEffect(() => {
+  //   fetchTeamMembers().then(setAvailableTeamMembers);
+  // }, []);
 
   const statusOptions = ['Active', 'On Hold', 'Completed'];
   const priorityOptions = ['Low', 'Medium', 'High'];
@@ -114,16 +111,16 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
     });
 
     if (validateForm()) {
-      console.log('Creating new project:', formData);
-      
       // Get team member details
       const selectedTeamMembers = availableTeamMembers.filter(
         member => formData.teamMembers.includes(member.id)
       );
       
-      console.log('Selected team members:', selectedTeamMembers);
-      
-      // TODO: Send data to backend
+      // TODO: Send data to backend API
+      // createProject({ ...formData, teamMembers: selectedTeamMembers })
+      //   .then(() => {
+      //     handleClose();
+      //   });
       
       // Reset form and close modal
       handleClose();
@@ -323,35 +320,45 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
             <Users className="w-4 h-4" />
             Assign Team Members
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-64 overflow-y-auto p-1">
-            {availableTeamMembers.map(member => (
-              <button
-                key={member.id}
-                type="button"
-                onClick={() => toggleTeamMember(member.id)}
-                className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${
-                  formData.teamMembers.includes(member.id)
-                    ? 'bg-purple-600/20 border-purple-500/50 shadow-lg shadow-purple-500/10'
-                    : 'bg-gray-700/30 border-gray-600 hover:bg-gray-700/50'
-                }`}
-              >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-sm font-semibold text-white flex-shrink-0">
-                  {member.initials}
-                </div>
-                <div className="flex-1 text-left">
-                  <p className="text-sm font-medium text-white">{member.name}</p>
-                  <p className="text-xs text-gray-400">{member.role}</p>
-                </div>
-                {formData.teamMembers.includes(member.id) && (
-                  <Check className="w-5 h-5 text-purple-400 flex-shrink-0" />
-                )}
-              </button>
-            ))}
-          </div>
-          {formData.teamMembers.length > 0 && (
-            <p className="mt-2 text-sm text-gray-400">
-              {formData.teamMembers.length} member{formData.teamMembers.length !== 1 ? 's' : ''} selected
-            </p>
+          {availableTeamMembers.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-64 overflow-y-auto p-1">
+                {availableTeamMembers.map(member => (
+                  <button
+                    key={member.id}
+                    type="button"
+                    onClick={() => toggleTeamMember(member.id)}
+                    className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${
+                      formData.teamMembers.includes(member.id)
+                        ? 'bg-purple-600/20 border-purple-500/50 shadow-lg shadow-purple-500/10'
+                        : 'bg-gray-700/30 border-gray-600 hover:bg-gray-700/50'
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-sm font-semibold text-white flex-shrink-0">
+                      {member.initials}
+                    </div>
+                    <div className="flex-1 text-left">
+                      <p className="text-sm font-medium text-white">{member.name}</p>
+                      <p className="text-xs text-gray-400">{member.role}</p>
+                    </div>
+                    {formData.teamMembers.includes(member.id) && (
+                      <Check className="w-5 h-5 text-purple-400 flex-shrink-0" />
+                    )}
+                  </button>
+                ))}
+              </div>
+              {formData.teamMembers.length > 0 && (
+                <p className="mt-2 text-sm text-gray-400">
+                  {formData.teamMembers.length} member{formData.teamMembers.length !== 1 ? 's' : ''} selected
+                </p>
+              )}
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8 text-gray-500 bg-gray-700/20 rounded-lg border border-gray-600">
+              <Users className="w-12 h-12 mb-2 opacity-50" />
+              <p className="text-sm">No team members available</p>
+              <p className="text-xs mt-1">Invite team members to assign them to projects</p>
+            </div>
           )}
         </div>
 

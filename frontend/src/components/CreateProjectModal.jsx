@@ -316,7 +316,7 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
 
         {/* Team Members */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-3">
             <Users className="w-4 h-4" />
             Assign Team Members
           </label>

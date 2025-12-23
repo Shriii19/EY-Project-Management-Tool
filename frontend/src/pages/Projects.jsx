@@ -4,133 +4,6 @@ import { Search, Plus, Filter, ChevronDown } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
 import CreateProjectModal from '../components/CreateProjectModal';
 
-// Dummy Project Data
-const dummyProjects = [
-  {
-    id: 1,
-    name: 'EY Digital Platform',
-    description: 'Building a comprehensive digital platform for client engagement and service delivery',
-    status: 'Active',
-    progress: 75,
-    tasksCompleted: 18,
-    totalTasks: 24,
-    teamMembers: [
-      { name: 'John Doe', initials: 'JD' },
-      { name: 'Jane Smith', initials: 'JS' },
-      { name: 'Mike Johnson', initials: 'MJ' },
-      { name: 'Sarah Williams', initials: 'SW' },
-      { name: 'Tom Brown', initials: 'TB' },
-    ],
-    lastUpdated: '2 hours ago',
-  },
-  {
-    id: 2,
-    name: 'Tax Automation System',
-    description: 'Automated tax calculation and reporting system for enterprise clients',
-    status: 'Active',
-    progress: 60,
-    tasksCompleted: 12,
-    totalTasks: 20,
-    teamMembers: [
-      { name: 'Alice Cooper', initials: 'AC' },
-      { name: 'Bob Martin', initials: 'BM' },
-      { name: 'Carol White', initials: 'CW' },
-    ],
-    lastUpdated: '5 hours ago',
-  },
-  {
-    id: 3,
-    name: 'Audit Management Tool',
-    description: 'Comprehensive audit management and tracking system with real-time reporting',
-    status: 'Completed',
-    progress: 100,
-    tasksCompleted: 32,
-    totalTasks: 32,
-    teamMembers: [
-      { name: 'David Lee', initials: 'DL' },
-      { name: 'Emma Davis', initials: 'ED' },
-      { name: 'Frank Miller', initials: 'FM' },
-      { name: 'Grace Taylor', initials: 'GT' },
-    ],
-    lastUpdated: '1 day ago',
-  },
-  {
-    id: 4,
-    name: 'Client Portal Redesign',
-    description: 'Modern redesign of client-facing portal with enhanced UX and accessibility',
-    status: 'On Hold',
-    progress: 40,
-    tasksCompleted: 8,
-    totalTasks: 20,
-    teamMembers: [
-      { name: 'Henry Wilson', initials: 'HW' },
-      { name: 'Ivy Anderson', initials: 'IA' },
-    ],
-    lastUpdated: '3 days ago',
-  },
-  {
-    id: 5,
-    name: 'Financial Analytics Dashboard',
-    description: 'Real-time financial analytics and reporting dashboard for executives',
-    status: 'Active',
-    progress: 85,
-    tasksCompleted: 25,
-    totalTasks: 28,
-    teamMembers: [
-      { name: 'Jack Thomas', initials: 'JT' },
-      { name: 'Kate Martinez', initials: 'KM' },
-      { name: 'Leo Garcia', initials: 'LG' },
-      { name: 'Mia Robinson', initials: 'MR' },
-    ],
-    lastUpdated: '1 hour ago',
-  },
-  {
-    id: 6,
-    name: 'Risk Assessment Platform',
-    description: 'AI-powered risk assessment and mitigation platform for enterprise clients',
-    status: 'Active',
-    progress: 55,
-    tasksCompleted: 11,
-    totalTasks: 20,
-    teamMembers: [
-      { name: 'Noah Clark', initials: 'NC' },
-      { name: 'Olivia Lewis', initials: 'OL' },
-      { name: 'Peter Walker', initials: 'PW' },
-    ],
-    lastUpdated: '4 hours ago',
-  },
-  {
-    id: 7,
-    name: 'Compliance Tracking System',
-    description: 'Automated compliance tracking and reporting system with regulatory updates',
-    status: 'Completed',
-    progress: 100,
-    tasksCompleted: 15,
-    totalTasks: 15,
-    teamMembers: [
-      { name: 'Quinn Hall', initials: 'QH' },
-      { name: 'Rachel Young', initials: 'RY' },
-    ],
-    lastUpdated: '5 days ago',
-  },
-  {
-    id: 8,
-    name: 'Mobile App Development',
-    description: 'Native mobile application for field auditors with offline capabilities',
-    status: 'Active',
-    progress: 30,
-    tasksCompleted: 6,
-    totalTasks: 20,
-    teamMembers: [
-      { name: 'Sam King', initials: 'SK' },
-      { name: 'Tina Wright', initials: 'TW' },
-      { name: 'Uma Scott', initials: 'US' },
-      { name: 'Victor Green', initials: 'VG' },
-    ],
-    lastUpdated: '6 hours ago',
-  },
-];
-
 const Projects = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
@@ -139,25 +12,28 @@ const Projects = () => {
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
+  
+  // Projects state - ready for API integration
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Filter and sort projects
-  const filteredProjects = dummyProjects
+  const filteredProjects = projects
     .filter((project) => {
-      const matchesSearch = project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          project.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = project.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          project.description?.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = statusFilter === 'All' || project.status === statusFilter;
       return matchesSearch && matchesStatus;
     })
     .sort((a, b) => {
       if (sortBy === 'lastUpdated') {
-        // Simple string comparison for demo purposes
-        return a.lastUpdated.localeCompare(b.lastUpdated);
+        return (a.lastUpdated || '').localeCompare(b.lastUpdated || '');
       }
       if (sortBy === 'progress') {
-        return b.progress - a.progress;
+        return (b.progress || 0) - (a.progress || 0);
       }
       if (sortBy === 'name') {
-        return a.name.localeCompare(b.name);
+        return (a.name || '').localeCompare(b.name || '');
       }
       return 0;
     });
@@ -167,12 +43,10 @@ const Projects = () => {
   };
 
   const handleEditProject = (projectId) => {
-    console.log('Edit project:', projectId);
     // TODO: Implement edit functionality
   };
 
   const handleArchiveProject = (projectId) => {
-    console.log('Archive project:', projectId);
     // TODO: Implement archive functionality
   };
 
@@ -308,8 +182,25 @@ const Projects = () => {
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-gray-400">
             <div className="text-6xl mb-4">📁</div>
-            <h3 className="text-xl font-semibold mb-2">No projects found</h3>
-            <p className="text-sm">Try adjusting your search or filters</p>
+            <h3 className="text-xl font-semibold mb-2">
+              {searchQuery || statusFilter !== 'All' 
+                ? 'No projects found' 
+                : 'No projects yet'}
+            </h3>
+            <p className="text-sm mb-4">
+              {searchQuery || statusFilter !== 'All'
+                ? 'Try adjusting your search or filters'
+                : 'Get started by creating your first project'}
+            </p>
+            {!searchQuery && statusFilter === 'All' && (
+              <button
+                onClick={handleNewProject}
+                className="mt-4 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-all flex items-center gap-2"
+              >
+                <Plus className="w-5 h-5" />
+                Create Your First Project
+              </button>
+            )}
           </div>
         )}
 

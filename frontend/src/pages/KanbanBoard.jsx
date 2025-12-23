@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Plus, MoreVertical } from 'lucide-react';
 import {
@@ -19,100 +19,6 @@ import {
 import TaskCard from '../components/TaskCard';
 import AddTaskModal from '../components/AddTaskModal';
 
-// Dummy tasks data
-const initialTasks = [
-  {
-    id: '1',
-    title: 'Design system architecture',
-    description: 'Create comprehensive system architecture diagram for the platform',
-    priority: 'High',
-    dueDate: '2024-02-15',
-    assignee: { name: 'Michael Chen', avatar: 'MC' },
-    status: 'backlog',
-  },
-  {
-    id: '2',
-    title: 'Setup development environment',
-    description: 'Configure dev environment with all necessary tools and dependencies',
-    priority: 'High',
-    dueDate: '2024-02-10',
-    assignee: { name: 'Sarah Johnson', avatar: 'SJ' },
-    status: 'done',
-  },
-  {
-    id: '3',
-    title: 'Create user authentication flow',
-    description: 'Implement JWT-based authentication with OAuth integration',
-    priority: 'High',
-    dueDate: '2024-02-20',
-    assignee: { name: 'Emily Davis', avatar: 'ED' },
-    status: 'inProgress',
-  },
-  {
-    id: '4',
-    title: 'Database schema design',
-    description: 'Design and document database schema for all entities',
-    priority: 'Medium',
-    dueDate: '2024-02-18',
-    assignee: { name: 'James Wilson', avatar: 'JW' },
-    status: 'todo',
-  },
-  {
-    id: '5',
-    title: 'API endpoint documentation',
-    description: 'Document all REST API endpoints with examples',
-    priority: 'Medium',
-    dueDate: '2024-02-25',
-    assignee: { name: 'Anna Martinez', avatar: 'AM' },
-    status: 'review',
-  },
-  {
-    id: '6',
-    title: 'Unit tests for auth module',
-    description: 'Write comprehensive unit tests for authentication module',
-    priority: 'High',
-    dueDate: '2024-02-22',
-    assignee: { name: 'Michael Chen', avatar: 'MC' },
-    status: 'inProgress',
-  },
-  {
-    id: '7',
-    title: 'Setup CI/CD pipeline',
-    description: 'Configure GitHub Actions for automated testing and deployment',
-    priority: 'Medium',
-    dueDate: '2024-03-01',
-    assignee: { name: 'Sarah Johnson', avatar: 'SJ' },
-    status: 'todo',
-  },
-  {
-    id: '8',
-    title: 'Performance optimization',
-    description: 'Optimize database queries and implement caching strategy',
-    priority: 'Low',
-    dueDate: '2024-03-10',
-    assignee: { name: 'Emily Davis', avatar: 'ED' },
-    status: 'backlog',
-  },
-  {
-    id: '9',
-    title: 'Security audit',
-    description: 'Conduct comprehensive security audit and fix vulnerabilities',
-    priority: 'High',
-    dueDate: '2024-02-28',
-    assignee: { name: 'James Wilson', avatar: 'JW' },
-    status: 'review',
-  },
-  {
-    id: '10',
-    title: 'User feedback analysis',
-    description: 'Analyze user feedback and create improvement roadmap',
-    priority: 'Low',
-    dueDate: '2024-03-05',
-    assignee: { name: 'Anna Martinez', avatar: 'AM' },
-    status: 'todo',
-  },
-];
-
 // Column definitions
 const columns = [
   { id: 'backlog', title: 'Backlog', color: 'from-gray-500 to-gray-600' },
@@ -125,12 +31,22 @@ const columns = [
 const KanbanBoard = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // Dummy project name (would come from API)
-  const projectName = 'EY Digital Transformation';
+  // Project name - ready for API integration
+  const [projectName, setProjectName] = useState('Project Tasks');
+
+  useEffect(() => {
+    // TODO: Fetch tasks from API
+    // setLoading(true);
+    // fetchProjectTasks(projectId).then(data => {
+    //   setTasks(data);
+    //   setLoading(false);
+    // });
+  }, [projectId]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -243,7 +159,6 @@ const KanbanBoard = () => {
   };
 
   const handleTaskClick = (task) => {
-    console.log('Task clicked:', task);
     // TODO: Open task details modal
   };
 

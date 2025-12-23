@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Users, UserPlus, Mail, MoreVertical } from 'lucide-react';
 
 const Team = () => {
-  const teamMembers = [
-    { id: 1, name: 'John Doe', role: 'Project Manager', email: 'john@example.com', avatar: 'JD', color: 'purple' },
-    { id: 2, name: 'Jane Smith', role: 'Developer', email: 'jane@example.com', avatar: 'JS', color: 'pink' },
-    { id: 3, name: 'Mike Johnson', role: 'Designer', email: 'mike@example.com', avatar: 'MJ', color: 'blue' },
-    { id: 4, name: 'Sarah Williams', role: 'QA Engineer', email: 'sarah@example.com', avatar: 'SW', color: 'green' },
-  ];
+  // State for team members - ready for API integration
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="min-h-screen bg-slate-950 pt-20 px-4 sm:px-6 lg:px-8">
@@ -28,26 +25,38 @@ const Team = () => {
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {teamMembers.map((member) => (
-            <div key={member.id} className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-purple-500/50 transition-colors">
-              <div className="flex items-start justify-between mb-4">
-                <div className={`w-12 h-12 bg-gradient-to-br from-${member.color}-500 to-${member.color}-600 rounded-full flex items-center justify-center text-white font-bold`}>
-                  {member.avatar}
+        {teamMembers.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {teamMembers.map((member) => (
+              <div key={member.id} className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-purple-500/50 transition-colors">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                    {member.avatar || member.name?.[0] || '?'}
+                  </div>
+                  <button className="text-slate-400 hover:text-white transition-colors">
+                    <MoreVertical className="w-5 h-5" />
+                  </button>
                 </div>
-                <button className="text-slate-400 hover:text-white transition-colors">
-                  <MoreVertical className="w-5 h-5" />
-                </button>
+                <h3 className="text-lg font-semibold text-white mb-1">{member.name}</h3>
+                <p className="text-purple-400 text-sm mb-3">{member.role}</p>
+                <div className="flex items-center gap-2 text-slate-400 text-sm">
+                  <Mail className="w-4 h-4" />
+                  <span className="truncate">{member.email}</span>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-white mb-1">{member.name}</h3>
-              <p className="text-purple-400 text-sm mb-3">{member.role}</p>
-              <div className="flex items-center gap-2 text-slate-400 text-sm">
-                <Mail className="w-4 h-4" />
-                <span className="truncate">{member.email}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 text-slate-400">
+            <Users className="w-16 h-16 mb-4 opacity-50" />
+            <h3 className="text-xl font-semibold mb-2">No team members yet</h3>
+            <p className="text-sm mb-6">Start building your team by inviting members</p>
+            <button className="flex items-center gap-2 px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors">
+              <UserPlus className="w-5 h-5" />
+              Invite Your First Team Member
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

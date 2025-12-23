@@ -18,6 +18,13 @@ const TaskCard = ({ task, onClick }) => {
     opacity: isDragging ? 0.5 : 1,
   };
 
+  // Safely handle optional data
+  const title = task.title ?? 'Untitled Task';
+  const description = task.description ?? '';
+  const priority = task.priority ?? 'Medium';
+  const dueDate = task.dueDate ?? '';
+  const assignee = task.assignee ?? null;
+
   const getPriorityColor = (priority) => {
     switch (priority) {
       case 'High':
@@ -60,43 +67,48 @@ const TaskCard = ({ task, onClick }) => {
         className="flex items-center gap-2 mb-3 cursor-grab active:cursor-grabbing"
       >
         <GripVertical className="w-4 h-4 text-gray-500 group-hover:text-gray-400" />
-        <div className={`w-1 h-1 rounded-full ${getPriorityDotColor(task.priority)}`}></div>
+        <div className={`w-1 h-1 rounded-full ${getPriorityDotColor(priority)}`}></div>
       </div>
 
       {/* Task Title */}
-      <h4 className="text-white font-semibold mb-2 line-clamp-2">{task.title}</h4>
+      <h4 className="text-white font-semibold mb-2 line-clamp-2">{title}</h4>
 
       {/* Task Description */}
-      {task.description && (
-        <p className="text-gray-400 text-sm mb-3 line-clamp-2">{task.description}</p>
+      {description && (
+        <p className="text-gray-400 text-sm mb-3 line-clamp-2">{description}</p>
       )}
 
       {/* Priority Badge */}
       <div className="flex items-center gap-2 mb-3">
         <span
-          className={`px-2 py-1 rounded text-xs font-medium border ${getPriorityColor(
-            task.priority
-          )}`}
+          className={`px-2 py-1 rounded text-xs font-medium border ${getPriorityColor(priority)}`}
         >
-          {task.priority}
+          {priority}
         </span>
       </div>
 
       {/* Footer */}
       <div className="flex items-center justify-between pt-3 border-t border-white/10">
         {/* Due Date */}
-        <div className="flex items-center gap-1.5 text-gray-400 text-xs">
-          <Calendar className="w-3.5 h-3.5" />
-          <span>{task.dueDate}</span>
-        </div>
+        {dueDate ? (
+          <div className="flex items-center gap-1.5 text-gray-400 text-xs">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>{dueDate}</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-1.5 text-gray-500 text-xs">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>No due date</span>
+          </div>
+        )}
 
         {/* Assignee Avatar */}
-        {task.assignee && (
+        {assignee && (
           <div
             className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-semibold text-white border border-white/20"
-            title={task.assignee.name}
+            title={assignee.name}
           >
-            {task.assignee.avatar}
+            {assignee.avatar || assignee.name?.[0] || '?'}
           </div>
         )}
       </div>

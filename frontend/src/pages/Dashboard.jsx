@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FolderKanban,
   ListTodo,
@@ -13,18 +13,17 @@ import {
 } from 'lucide-react';
 
 const Dashboard = () => {
-  // Dummy user data
-  const user = {
-    name: 'John Doe',
-    role: 'Project Manager'
-  };
+  // State for dashboard data - ready for API integration
+  const [user, setUser] = useState(null);
+  const [stats, setStats] = useState([]);
+  const [recentActivities, setRecentActivities] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Dashboard statistics
-  const stats = [
+  // Stats configuration (structure without hardcoded counts)
+  const statsConfig = [
     {
       id: 1,
       title: 'Total Projects',
-      count: 12,
       icon: FolderKanban,
       color: 'from-purple-500 to-purple-600',
       bgColor: 'bg-purple-500/10',
@@ -34,7 +33,6 @@ const Dashboard = () => {
     {
       id: 2,
       title: 'Active Tasks',
-      count: 48,
       icon: ListTodo,
       color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-500/10',
@@ -44,7 +42,6 @@ const Dashboard = () => {
     {
       id: 3,
       title: 'Completed Tasks',
-      count: 127,
       icon: CheckCircle2,
       color: 'from-green-500 to-green-600',
       bgColor: 'bg-green-500/10',
@@ -54,7 +51,6 @@ const Dashboard = () => {
     {
       id: 4,
       title: 'Team Members',
-      count: 8,
       icon: Users,
       color: 'from-pink-500 to-pink-600',
       bgColor: 'bg-pink-500/10',
@@ -63,56 +59,7 @@ const Dashboard = () => {
     }
   ];
 
-  // Recent activities
-  const recentActivities = [
-    {
-      id: 1,
-      user: 'Sarah Johnson',
-      action: 'completed task',
-      taskName: 'Design new landing page',
-      status: 'completed',
-      time: '2 hours ago',
-      avatar: 'SJ'
-    },
-    {
-      id: 2,
-      user: 'Michael Chen',
-      action: 'created project',
-      taskName: 'Mobile App Redesign',
-      status: 'in-progress',
-      time: '4 hours ago',
-      avatar: 'MC'
-    },
-    {
-      id: 3,
-      user: 'Emily Rodriguez',
-      action: 'assigned task',
-      taskName: 'Update API documentation',
-      status: 'pending',
-      time: '5 hours ago',
-      avatar: 'ER'
-    },
-    {
-      id: 4,
-      user: 'David Kim',
-      action: 'completed task',
-      taskName: 'Fix login authentication bug',
-      status: 'completed',
-      time: '1 day ago',
-      avatar: 'DK'
-    },
-    {
-      id: 5,
-      user: 'Lisa Anderson',
-      action: 'commented on',
-      taskName: 'Database optimization task',
-      status: 'in-progress',
-      time: '1 day ago',
-      avatar: 'LA'
-    }
-  ];
-
-  // Quick actions
+  // Quick actions configuration
   const quickActions = [
     {
       id: 1,
@@ -120,7 +67,9 @@ const Dashboard = () => {
       description: 'Start a new project with your team',
       icon: FolderKanban,
       color: 'from-purple-500 to-pink-500',
-      action: () => console.log('Create project')
+      action: () => {
+        // TODO: Implement create project action
+      }
     },
     {
       id: 2,
@@ -128,7 +77,9 @@ const Dashboard = () => {
       description: 'Create a new task for your project',
       icon: Plus,
       color: 'from-blue-500 to-cyan-500',
-      action: () => console.log('Add task')
+      action: () => {
+        // TODO: Implement add task action
+      }
     },
     {
       id: 3,
@@ -136,7 +87,9 @@ const Dashboard = () => {
       description: 'Add new members to your team',
       icon: UserPlus,
       color: 'from-green-500 to-emerald-500',
-      action: () => console.log('Invite member')
+      action: () => {
+        // TODO: Implement invite member action
+      }
     }
   ];
 
@@ -171,35 +124,34 @@ const Dashboard = () => {
             Dashboard
           </h1>
           <p className="text-slate-400 text-lg">
-            Welcome back, <span className="text-purple-400 font-semibold">{user.name}</span>! 
+            Welcome back{user?.name ? `, ${user.name}` : ''}! 
             Here's what's happening with your projects today.
           </p>
         </div>
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat) => {
+          {statsConfig.map((stat) => {
             const Icon = stat.icon;
+            const statData = stats.find(s => s.id === stat.id);
+            const count = statData?.count ?? 0;
+            
             return (
               <div
                 key={stat.id}
                 className={`${stat.bgColor} ${stat.borderColor} border backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-2xl ${stat.hoverShadow} cursor-pointer group`}
                 role="button"
                 tabIndex={0}
-                aria-label={`${stat.title}: ${stat.count}`}
+                aria-label={`${stat.title}: ${count}`}
               >
                 <div className="flex items-start justify-between">
                   <div className="space-y-3">
                     <p className="text-slate-400 text-sm font-medium">{stat.title}</p>
-                    <p className="text-4xl font-bold text-white">{stat.count}</p>
+                    <p className="text-4xl font-bold text-white">{count}</p>
                   </div>
                   <div className={`p-3 bg-gradient-to-br ${stat.color} rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
-                </div>
-                <div className="mt-4 flex items-center text-green-400 text-sm">
-                  <TrendingUp className="w-4 h-4 mr-1" />
-                  <span>+12% from last month</span>
                 </div>
               </div>
             );
@@ -225,33 +177,41 @@ const Dashboard = () => {
             </div>
 
             <div className="space-y-4">
-              {recentActivities.map((activity) => (
-                <div
-                  key={activity.id}
-                  className="flex items-start space-x-4 p-4 rounded-xl bg-slate-800/30 hover:bg-slate-800/50 transition-all duration-200 border border-slate-700/50 hover:border-slate-600/50"
-                >
-                  {/* Avatar */}
-                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center font-semibold text-white text-sm">
-                    {activity.avatar}
-                  </div>
+              {recentActivities.length > 0 ? (
+                recentActivities.map((activity) => (
+                  <div
+                    key={activity.id}
+                    className="flex items-start space-x-4 p-4 rounded-xl bg-slate-800/30 hover:bg-slate-800/50 transition-all duration-200 border border-slate-700/50 hover:border-slate-600/50"
+                  >
+                    {/* Avatar */}
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center font-semibold text-white text-sm">
+                      {activity.avatar || activity.user?.[0] || '?'}
+                    </div>
 
-                  {/* Activity Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-4">
-                      <p className="text-sm text-slate-300">
-                        <span className="font-semibold text-white">{activity.user}</span>
-                        {' '}<span className="text-slate-400">{activity.action}</span>
-                        {' '}<span className="text-purple-400">"{activity.taskName}"</span>
-                      </p>
-                      {getStatusBadge(activity.status)}
-                    </div>
-                    <div className="flex items-center mt-2 text-xs text-slate-500">
-                      <Clock className="w-3 h-3 mr-1" />
-                      {activity.time}
+                    {/* Activity Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-4">
+                        <p className="text-sm text-slate-300">
+                          <span className="font-semibold text-white">{activity.user}</span>
+                          {' '}<span className="text-slate-400">{activity.action}</span>
+                          {' '}<span className="text-purple-400">"{activity.taskName}"</span>
+                        </p>
+                        {activity.status && getStatusBadge(activity.status)}
+                      </div>
+                      <div className="flex items-center mt-2 text-xs text-slate-500">
+                        <Clock className="w-3 h-3 mr-1" />
+                        {activity.time}
+                      </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 text-slate-400">
+                  <Activity className="w-12 h-12 mb-3 opacity-50" />
+                  <p className="text-sm">No recent activity</p>
+                  <p className="text-xs mt-1">Your team's recent actions will appear here</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
 
@@ -322,22 +282,19 @@ const Dashboard = () => {
             <div className="text-center sm:text-left">
               <p className="text-slate-400 text-sm mb-1">Projects On Track</p>
               <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-bold text-white">10/12</span>
-                <span className="text-green-400 text-sm">(83%)</span>
+                <span className="text-3xl font-bold text-white">--</span>
               </div>
             </div>
             <div className="text-center sm:text-left">
               <p className="text-slate-400 text-sm mb-1">Tasks This Week</p>
               <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-bold text-white">32</span>
-                <span className="text-blue-400 text-sm">(+8 new)</span>
+                <span className="text-3xl font-bold text-white">--</span>
               </div>
             </div>
             <div className="text-center sm:text-left">
               <p className="text-slate-400 text-sm mb-1">Team Productivity</p>
               <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-bold text-white">94%</span>
-                <span className="text-purple-400 text-sm">(Excellent)</span>
+                <span className="text-3xl font-bold text-white">--</span>
               </div>
             </div>
           </div>

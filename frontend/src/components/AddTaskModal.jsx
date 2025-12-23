@@ -13,13 +13,12 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
 
   const [errors, setErrors] = useState({});
 
-  const teamMembers = [
-    { id: 1, name: 'Sarah Johnson', avatar: 'SJ' },
-    { id: 2, name: 'Michael Chen', avatar: 'MC' },
-    { id: 3, name: 'Emily Davis', avatar: 'ED' },
-    { id: 4, name: 'James Wilson', avatar: 'JW' },
-    { id: 5, name: 'Anna Martinez', avatar: 'AM' },
-  ];
+  // Team members - ready for API integration
+  const [teamMembers, setTeamMembers] = useState([]);
+  // TODO: Fetch from API
+  // useEffect(() => {
+  //   fetchProjectTeamMembers(projectId).then(setTeamMembers);
+  // }, [projectId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -234,7 +233,9 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer"
               >
-                <option value="" className="bg-gray-800">Select team member</option>
+                <option value="" className="bg-gray-800">
+                  {teamMembers.length > 0 ? 'Select team member' : 'No team members available'}
+                </option>
                 {teamMembers.map((member) => (
                   <option key={member.id} value={member.id} className="bg-gray-800">
                     {member.name}

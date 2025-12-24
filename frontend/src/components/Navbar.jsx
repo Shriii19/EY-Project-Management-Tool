@@ -18,7 +18,9 @@ import {
   FileText,
   Calendar,
   Target,
-  Clock
+  Clock,
+  HelpCircle,
+  Building2
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -54,6 +56,9 @@ const Navbar = () => {
     { label: 'Reports', icon: FileText, action: () => console.log('Reports clicked') },
     { label: 'Milestones', icon: Target, action: () => console.log('Milestones clicked') },
     { label: 'Calendar', icon: Calendar, action: () => console.log('Calendar clicked'), divider: true },
+    { label: 'Notifications', icon: Bell, action: () => console.log('Notifications clicked') },
+    { label: 'Workspace', icon: Building2, action: () => console.log('Workspace clicked') },
+    { label: 'Help Center', icon: HelpCircle, action: () => console.log('Help Center clicked'), divider: true },
     { label: 'Settings', icon: Settings, action: () => console.log('Settings clicked') },
     { label: 'Logout', icon: LogOut, action: () => console.log('Logout clicked'), danger: true },
   ];

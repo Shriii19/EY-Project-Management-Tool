@@ -6,6 +6,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import ProjectDetails from './pages/ProjectDetails';
@@ -18,19 +19,23 @@ import NotFound from './pages/NotFound';
 const App = () => {
   return (
     <Router>
-      <div className="min-h-screen bg-slate-950">
+      <div className="min-h-screen bg-slate-950 flex flex-col">
         <Navbar />
         
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:projectId" element={<ProjectDetails />} />
-          <Route path="/projects/:projectId/tasks" element={<KanbanBoard />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/:projectId" element={<ProjectDetails />} />
+            <Route path="/projects/:projectId/tasks" element={<KanbanBoard />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+
+        <Footer />
       </div>
     </Router>
   );

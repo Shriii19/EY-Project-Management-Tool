@@ -14,7 +14,11 @@ import {
   LogOut,
   Menu,
   X,
-  Briefcase
+  Briefcase,
+  FileText,
+  Calendar,
+  Target,
+  Clock
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -44,6 +48,12 @@ const Navbar = () => {
   // Profile dropdown items
   const profileItems = [
     { label: 'Profile', icon: User, action: () => console.log('Profile clicked') },
+    { label: 'My Projects', icon: FolderKanban, action: () => console.log('My Projects clicked'), divider: true },
+    { label: 'My Tasks', icon: ListTodo, action: () => console.log('My Tasks clicked') },
+    { label: 'Time Tracking', icon: Clock, action: () => console.log('Time Tracking clicked') },
+    { label: 'Reports', icon: FileText, action: () => console.log('Reports clicked') },
+    { label: 'Milestones', icon: Target, action: () => console.log('Milestones clicked') },
+    { label: 'Calendar', icon: Calendar, action: () => console.log('Calendar clicked'), divider: true },
     { label: 'Settings', icon: Settings, action: () => console.log('Settings clicked') },
     { label: 'Logout', icon: LogOut, action: () => console.log('Logout clicked'), danger: true },
   ];
@@ -201,33 +211,37 @@ const Navbar = () => {
               {/* Profile Dropdown Menu */}
               {isProfileOpen && (
                 <div
-                  className="absolute right-0 mt-2 w-48 bg-slate-800/95 backdrop-blur-xl rounded-xl shadow-2xl shadow-slate-900/50 border border-slate-700/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+                  className="absolute right-0 mt-2 w-56 bg-slate-800/95 backdrop-blur-xl rounded-xl shadow-2xl shadow-slate-900/50 border border-slate-700/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
                   role="menu"
                   aria-orientation="vertical"
                 >
                   {profileItems.map((item, index) => {
                     const Icon = item.icon;
                     return (
-                      <button
-                        key={index}
-                        onClick={() => {
-                          item.action();
-                          setIsProfileOpen(false);
-                        }}
-                        onKeyDown={(e) => handleKeyDown(e, () => {
-                          item.action();
-                          setIsProfileOpen(false);
-                        })}
-                        className={`w-full flex items-center space-x-3 px-4 py-3 transition-colors duration-150 ${
-                          item.danger
-                            ? 'text-red-400 hover:bg-red-500/10'
-                            : 'text-slate-300 hover:bg-slate-700/50'
-                        }`}
-                        role="menuitem"
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span className="text-sm font-medium">{item.label}</span>
-                      </button>
+                      <React.Fragment key={index}>
+                        {item.divider && index > 0 && (
+                          <div className="h-px bg-slate-700/50 my-1" />
+                        )}
+                        <button
+                          onClick={() => {
+                            item.action();
+                            setIsProfileOpen(false);
+                          }}
+                          onKeyDown={(e) => handleKeyDown(e, () => {
+                            item.action();
+                            setIsProfileOpen(false);
+                          })}
+                          className={`w-full flex items-center space-x-3 px-4 py-2.5 transition-colors duration-150 ${
+                            item.danger
+                              ? 'text-red-400 hover:bg-red-500/10'
+                              : 'text-slate-300 hover:bg-slate-700/50 hover:text-purple-400'
+                          }`}
+                          role="menuitem"
+                        >
+                          <Icon className="w-4 h-4" />
+                          <span className="text-sm font-medium">{item.label}</span>
+                        </button>
+                      </React.Fragment>
                     );
                   })}
                 </div>

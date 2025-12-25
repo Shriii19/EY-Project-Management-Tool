@@ -103,12 +103,12 @@ const TaskCard = ({ task, onClick }) => {
         )}
 
         {/* Assignee Avatar */}
-        {assignee && (
+        {assignee && assignee.name && (
           <div
             className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-semibold text-white border border-white/20"
-            title={assignee.name}
+            title={assignee.name || 'Unknown'}
           >
-            {assignee.avatar || assignee.name?.[0] || '?'}
+            {assignee.avatar || assignee.name?.charAt(0).toUpperCase() || '?'}
           </div>
         )}
       </div>

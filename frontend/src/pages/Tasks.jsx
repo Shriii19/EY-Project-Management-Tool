@@ -14,7 +14,10 @@ const Tasks = () => {
             </h1>
             <p className="text-slate-400 mt-2">Manage and track all your tasks</p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors">
+          <button 
+            className="flex items-center gap-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors"
+            aria-label="Create new task"
+          >
             <Plus className="w-5 h-5" />
             New Task
           </button>

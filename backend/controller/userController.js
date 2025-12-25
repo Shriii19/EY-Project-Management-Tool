@@ -13,8 +13,7 @@ export async function getCurrentUser(req,res){
         }
         res.json({success:true,user})
     }catch(err){
-        console.log(err);
-        res.status(500).json({success:false,message:'Server Error'})
+        res.status(500).json({success:false,message:'Server Error', error: err.message})
     }
 }
 
@@ -34,7 +33,6 @@ export async function updateProfile(req,res){
         }
         res.json({success:true,user, message: 'Profile updated successfully'})
     }catch(err){
-        console.log(err);
-        res.status(500).json({success:false,message:'Server Error'})
+        res.status(500).json({success:false,message:'Server Error', error: err.message})
     }
 }

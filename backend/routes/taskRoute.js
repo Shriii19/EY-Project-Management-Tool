@@ -3,11 +3,11 @@ import {deleteTask, getTaskById, getTasks, updateTask} from '../controller/taskC
 
 const taskRouter = express.Router();
 
-taskRouter.route('/gp')
+taskRouter.route('/')
     .get(getTasks);
     // POST route for task creation has been removed
 
-taskRouter.route('/:id/gp')
+taskRouter.route('/:id')
     .get(getTaskById)
     .put(updateTask)
     .delete(deleteTask)

@@ -185,7 +185,7 @@ const Dashboard = () => {
                   >
                     {/* Avatar */}
                     <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center font-semibold text-white text-sm">
-                      {activity.avatar || activity.user?.[0] || '?'}
+                      {activity.avatar || activity.user?.charAt(0).toUpperCase() || '?'}
                     </div>
 
                     {/* Activity Content */}

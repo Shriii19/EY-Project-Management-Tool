@@ -26,7 +26,12 @@ const taskSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    // createdAt field removed to eliminate creation tracking
+    createdAt:{
+        type:Date,
+        default:Date.now
+    }
+}, {
+    timestamps: true
 })
 
 const Task = mongoose.models.Task || mongoose.model('Task',taskSchema);

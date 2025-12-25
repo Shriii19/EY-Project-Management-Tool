@@ -101,13 +101,13 @@ export const updateTask = async (req,res) =>{
 export const deleteTask = async(req,res)=>{
     try{
         const deleted = await Task.findOneAndDelete({_id:req.params.id,owner: 'dummy_user_id'});
-        if(!deleted) return res.status(404).json({success:false,message:"tasks not found or not yours"})
-        res.json({success:true,message:"task Deleted"});
+        if(!deleted) return res.status(404).json({success:false,message:"Task not found or not yours"})
+        res.json({success:true,message:"Task deleted successfully"});
     }catch(err){
         // If database is not connected, simulate delete on dummy data
         console.log('Database not connected, simulating delete:', err.message);
         const taskIndex = dummyTasks.findIndex(t => t._id === req.params.id);
-        if(taskIndex === -1) return res.status(404).json({success:false,message:"tasks not found or not yours"})
+        if(taskIndex === -1) return res.status(404).json({success:false,message:"Task not found or not yours"})
         
         // Remove from dummy tasks
         dummyTasks.splice(taskIndex, 1);

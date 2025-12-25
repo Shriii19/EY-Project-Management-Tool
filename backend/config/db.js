@@ -8,6 +8,10 @@ import mongoose from "mongoose";
 const dbUri = process.env.MONGO_URI;
 
 export const connectDB = async () => {
+    if (!dbUri) {
+        console.warn("⚠️  MONGO_URI not found in environment variables - App will use dummy data");
+        return;
+    }
     try {
         await mongoose.connect(dbUri);
         console.log("✅ Database Connected Successfully");

@@ -209,7 +209,7 @@ const Dashboard = () => {
             return (
               <div
                 key={stat.id}
-                className={`${stat.bgColor} ${stat.borderColor} border backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-2xl ${stat.hoverShadow} cursor-pointer group`}
+                className={`${stat.bgColor} ${stat.borderColor} border backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 hover:scale-[1.08] hover:shadow-2xl ${stat.hoverShadow} hover:-translate-y-2 cursor-pointer group`}
                 role="button"
                 tabIndex={0}
                 aria-label={`${stat.title}: ${count}`}
@@ -305,7 +305,7 @@ const Dashboard = () => {
                         action.action();
                       }
                     }}
-                    className="w-full group relative overflow-hidden p-4 rounded-xl border border-slate-700 hover:border-slate-600 bg-slate-800/30 hover:bg-slate-800/50 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                    className="w-full group relative overflow-hidden p-4 rounded-xl border border-slate-700 hover:border-purple-500/50 bg-slate-800/30 hover:bg-slate-800/60 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-purple-500/20 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-950"
                     aria-label={action.title}
                   >
                     <div className="flex items-start space-x-4">

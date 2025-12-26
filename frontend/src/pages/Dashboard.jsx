@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FolderKanban,
   ListTodo,
@@ -11,13 +11,68 @@ import {
   TrendingUp,
   Activity
 } from 'lucide-react';
+import { getCurrentUser } from '../services/auth.service';
+import { getTaskStats } from '../services/task.service';
+import { getProjectStats } from '../services/project.service';
+import Loading from '../components/Loading';
 
 const Dashboard = () => {
-  // State for dashboard data - ready for API integration
+  // State for dashboard data
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState([]);
   const [recentActivities, setRecentActivities] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch dashboard data
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch user, task stats, and project stats in parallel
+        const [userResponse, taskStatsData, projectStatsData] = await Promise.all([
+          getCurrentUser(),
+          getTaskStats(),
+          getProjectStats(),
+        ]);
+
+        // Set user data
+        if (userResponse.success) {
+          setUser(userResponse.user);
+        }
+
+        // Map stats to dashboard cards
+        const dashboardStats = [
+          { id: 1, count: projectStatsData.total || 0 },
+          { id: 2, count: taskStatsData.active || 0 },
+          { id: 3, count: taskStatsData.completed || 0 },
+          { id: 4, count: 1 }, // Team members (placeholder)
+        ];
+        setStats(dashboardStats);
+
+        // Mock recent activities (can be replaced with real API)
+        setRecentActivities([
+          {
+            id: 1,
+            user: userResponse.user?.name || 'Guest User',
+            action: 'completed',
+            taskName: 'Setup API Integration',
+            status: 'completed',
+            time: '2 hours ago',
+          },
+        ]);
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+        setError('Failed to load dashboard data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
 
   // Stats configuration (structure without hardcoded counts)
   const statsConfig = [
@@ -116,6 +171,21 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 text-center">
+            <p className="text-red-400">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      ) : (
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Page Header */}
@@ -300,6 +370,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 };

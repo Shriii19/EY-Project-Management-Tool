@@ -18,6 +18,9 @@ import {
 } from '@dnd-kit/sortable';
 import TaskCard from '../components/TaskCard';
 import AddTaskModal from '../components/AddTaskModal';
+import { getTasks, updateTask } from '../services/task.service';
+import { getProjectById } from '../services/project.service';
+import Loading from '../components/Loading';
 
 // Column definitions
 const columns = [
@@ -34,18 +37,47 @@ const KanbanBoard = () => {
   const [tasks, setTasks] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Project name - ready for API integration
+  // Project name
   const [projectName, setProjectName] = useState('Project Tasks');
 
+  // Fetch tasks and project details
   useEffect(() => {
-    // TODO: Fetch tasks from API
-    // setLoading(true);
-    // fetchProjectTasks(projectId).then(data => {
-    //   setTasks(data);
-    //   setLoading(false);
-    // });
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch tasks and project details in parallel
+        const [tasksResponse, projectResponse] = await Promise.all([
+          getTasks(),
+          projectId ? getProjectById(projectId) : Promise.resolve({ success: false }),
+        ]);
+
+        if (tasksResponse.success) {
+          // Map tasks to include status field for Kanban board
+          const mappedTasks = tasksResponse.tasks.map(task => ({
+            ...task,
+            id: task._id || task.id,
+            status: task.completed ? 'done' : (task.status || 'todo'),
+          }));
+          setTasks(mappedTasks);
+        }
+
+        if (projectResponse.success && projectResponse.project) {
+          setProjectName(projectResponse.project.name);
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError('Failed to load tasks');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [projectId]);
 
   const sensors = useSensors(
@@ -104,7 +136,7 @@ const KanbanBoard = () => {
     }
   };
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = async (event) => {
     const { active, over } = event;
 
     if (!over) {
@@ -128,14 +160,36 @@ const KanbanBoard = () => {
 
     if (overColumn) {
       // Update task status when dropped on column
+      const newStatus = overColumn.id;
+      
+      // Optimistically update UI
       setTasks((tasks) => {
         return tasks.map((task) => {
           if (task.id === activeId) {
-            return { ...task, status: overColumn.id };
+            return { ...task, status: newStatus };
           }
           return task;
         });
       });
+
+      // Update task on backend
+      try {
+        await updateTask(activeTask._id || activeTask.id, {
+          status: newStatus,
+          completed: newStatus === 'done',
+        });
+      } catch (err) {
+        console.error('Error updating task:', err);
+        // Revert on error
+        setTasks((tasks) => {
+          return tasks.map((task) => {
+            if (task.id === activeId) {
+              return activeTask;
+            }
+            return task;
+          });
+        });
+      }
     } else if (overTask) {
       // Reordering within the same column or moving between columns
       if (activeTask.status === overTask.status) {
@@ -166,7 +220,22 @@ const KanbanBoard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6">
-      <div className="max-w-[1800px] mx-auto">
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 text-center">
+            <p className="text-red-400">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           {/* Breadcrumb */}
@@ -280,15 +349,16 @@ const KanbanBoard = () => {
             {activeTask ? <TaskCard task={activeTask} onClick={() => {}} /> : null}
           </DragOverlay>
         </DndContext>
+        
+        {/* Add Task Modal */}
+        <AddTaskModal
+          isOpen={showAddTaskModal}
+          onClose={() => setShowAddTaskModal(false)}
+          onAddTask={handleAddTask}
+          columns={columns}
+        />
       </div>
-
-      {/* Add Task Modal */}
-      <AddTaskModal
-        isOpen={showAddTaskModal}
-        onClose={() => setShowAddTaskModal(false)}
-        onAddTask={handleAddTask}
-        columns={columns}
-      />
+      )}
     </div>
   );
 };

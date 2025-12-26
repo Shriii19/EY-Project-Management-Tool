@@ -17,24 +17,54 @@ import {
   MoreVertical
 } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { getProjectById } from '../services/project.service';
+import { getTasksByProjectId } from '../services/task.service';
+import Loading from '../components/Loading';
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   
-  // State for project data - ready for API integration
+  // State for project data
   const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Empty state or loading can be handled here
+  // Fetch project details and tasks
   useEffect(() => {
-    // TODO: Fetch project details from API
-    // setLoading(true);
-    // fetchProjectDetails(projectId).then(data => {
-    //   setProject(data);
-    //   setLoading(false);
-    // });
+    const fetchProjectDetails = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch project and tasks in parallel
+        const [projectResponse, tasksResponse] = await Promise.all([
+          getProjectById(projectId),
+          getTasksByProjectId(projectId),
+        ]);
+
+        if (projectResponse.success) {
+          setProject(projectResponse.project);
+        } else {
+          setError(projectResponse.message || 'Project not found');
+        }
+
+        if (tasksResponse.success) {
+          setTasks(tasksResponse.tasks || []);
+        }
+      } catch (err) {
+        console.error('Error fetching project details:', err);
+        setError('Failed to load project details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (projectId) {
+      fetchProjectDetails();
+    }
   }, [projectId]);
 
   const getStatusColor = (status) => {
@@ -93,8 +123,16 @@ const ProjectDetails = () => {
         </button>
 
         {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="text-gray-400">Loading project details...</div>
+          <Loading />
+        ) : error ? (
+          <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 text-center">
+            <p className="text-red-400">{error}</p>
+            <button
+              onClick={() => navigate('/projects')}
+              className="mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+            >
+              Back to Projects
+            </button>
           </div>
         ) : !project ? (
           <div className="flex flex-col items-center justify-center py-20">

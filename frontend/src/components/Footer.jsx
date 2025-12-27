@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2025;
 
   const footerLinks = {
     product: [

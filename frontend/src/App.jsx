@@ -19,7 +19,7 @@ import NotFound from './pages/NotFound';
 const App = () => {
   return (
     <Router>
-      <div className="min-h-screen bg-slate-950 flex flex-col">
+      <div className="min-h-screen bg-slate-950 flex flex-col" role="main">
         <Navbar />
         
         <main className="flex-grow">

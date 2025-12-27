@@ -15,6 +15,7 @@ export const connectDB = async () => {
     try {
         await mongoose.connect(dbUri);
         console.log("✅ Database Connected Successfully");
+        console.log(`📊 Connected to: ${mongoose.connection.name}`);
     } catch (error) {
         console.warn("⚠️  DB Connection Failed - App will use dummy data:", error.message);
     }

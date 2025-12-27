@@ -33,6 +33,26 @@ app.get('/',(req,res)=>{
     res.send('API Working')
 })
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Error:', err.stack);
+    res.status(err.status || 500).json({
+        error: {
+            message: err.message || 'Internal Server Error',
+            status: err.status || 500
+        }
+    });
+});
+
 app.listen(port,()=>{
     console.log(`Server started on http://localhost:${port}`);
 })

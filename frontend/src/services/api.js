@@ -6,7 +6,8 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 seconds
+  timeout: 15000, // 15 seconds - increased for slower connections
+  withCredentials: true, // Enable cookies for CORS
 });
 
 // Request interceptor - attach auth token if available
@@ -47,6 +48,13 @@ api.interceptors.response.use(
       if (status >= 500) {
         console.error('Server error:', data.message);
       }
+      
+      // Return structured error
+      return Promise.reject({
+        message: data.error?.message || data.message || 'An error occurred',
+        status,
+        data
+      });
     } else if (error.request) {
       // Request made but no response received
       console.error('Network error: No response from server');

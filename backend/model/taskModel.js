@@ -14,6 +14,11 @@ const taskSchema = new mongoose.Schema({
         enum:['Low','Medium','High'],
         default:'Low'
     },
+    status:{
+        type:String,
+        enum:['To Do','In Progress','In Review','Done'],
+        default:'To Do'
+    },
     dueDate:{
         type:Date,
     },
@@ -22,9 +27,20 @@ const taskSchema = new mongoose.Schema({
         ref:'User',
         required:true
     },
+    assignedTo:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    tags:{
+        type:[String],
+        default:[]
+    },
     completed:{
         type:Boolean,
         default:false
+    },
+    completedAt:{
+        type:Date
     },
     createdAt:{
         type:Date,

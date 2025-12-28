@@ -47,20 +47,20 @@ const Navbar = () => {
     { id: 'team', label: 'Team', icon: Users, path: '/team' },
   ];
 
-  // Profile dropdown items
+  // Profile dropdown items with unique IDs
   const profileItems = [
-    { label: 'Profile', icon: User, action: () => console.log('Profile clicked') },
-    { label: 'My Projects', icon: FolderKanban, action: () => console.log('My Projects clicked'), divider: true },
-    { label: 'My Tasks', icon: ListTodo, action: () => console.log('My Tasks clicked') },
-    { label: 'Time Tracking', icon: Clock, action: () => console.log('Time Tracking clicked') },
-    { label: 'Reports', icon: FileText, action: () => console.log('Reports clicked') },
-    { label: 'Milestones', icon: Target, action: () => console.log('Milestones clicked') },
-    { label: 'Calendar', icon: Calendar, action: () => console.log('Calendar clicked'), divider: true },
-    { label: 'Notifications', icon: Bell, action: () => console.log('Notifications clicked') },
-    { label: 'Workspace', icon: Building2, action: () => console.log('Workspace clicked') },
-    { label: 'Help Center', icon: HelpCircle, action: () => console.log('Help Center clicked'), divider: true },
-    { label: 'Settings', icon: Settings, action: () => console.log('Settings clicked') },
-    { label: 'Logout', icon: LogOut, action: () => console.log('Logout clicked'), danger: true },
+    { id: 'profile', label: 'Profile', icon: User, action: () => console.log('Profile clicked') },
+    { id: 'my-projects', label: 'My Projects', icon: FolderKanban, action: () => console.log('My Projects clicked'), divider: true },
+    { id: 'my-tasks', label: 'My Tasks', icon: ListTodo, action: () => console.log('My Tasks clicked') },
+    { id: 'time-tracking', label: 'Time Tracking', icon: Clock, action: () => console.log('Time Tracking clicked') },
+    { id: 'reports', label: 'Reports', icon: FileText, action: () => console.log('Reports clicked') },
+    { id: 'milestones', label: 'Milestones', icon: Target, action: () => console.log('Milestones clicked') },
+    { id: 'calendar', label: 'Calendar', icon: Calendar, action: () => console.log('Calendar clicked'), divider: true },
+    { id: 'notifications', label: 'Notifications', icon: Bell, action: () => console.log('Notifications clicked') },
+    { id: 'workspace', label: 'Workspace', icon: Building2, action: () => console.log('Workspace clicked') },
+    { id: 'help', label: 'Help Center', icon: HelpCircle, action: () => console.log('Help Center clicked'), divider: true },
+    { id: 'settings', label: 'Settings', icon: Settings, action: () => console.log('Settings clicked') },
+    { id: 'logout', label: 'Logout', icon: LogOut, action: () => console.log('Logout clicked'), danger: true },
   ];
 
   // Handle scroll effect

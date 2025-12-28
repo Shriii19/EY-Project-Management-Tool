@@ -41,11 +41,11 @@ export const getTasks = async (req,res)=>{
     try {
         // Try to get tasks from database first
         const tasks = await Task.find({owner: 'dummy_user_id'}).sort({createdAt:-1});
-        res.json({success:true,tasks});
+        res.json({success:true, tasks, count: tasks.length});
     } catch (err) {
         // If database is not connected, return dummy tasks
         console.log('Database not connected, using dummy data:', err.message);
-        res.json({success:true, tasks: dummyTasks});
+        res.json({success:true, tasks: dummyTasks, count: dummyTasks.length, fallback: true});
     }
 }
 

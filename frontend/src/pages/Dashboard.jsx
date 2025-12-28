@@ -172,7 +172,48 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-slate-950 pt-20 pb-12 px-4 sm:px-6 lg:px-8">
       {loading ? (
-        <Loading />
+        <div className="max-w-7xl mx-auto space-y-8">
+          {/* Skeleton Header */}
+          <div className="space-y-2">
+            <div className="h-10 w-64 bg-slate-800 rounded-lg animate-pulse"></div>
+            <div className="h-6 w-96 bg-slate-800 rounded-lg animate-pulse"></div>
+          </div>
+
+          {/* Skeleton Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                <div className="flex items-start justify-between">
+                  <div className="space-y-3 flex-1">
+                    <div className="h-4 w-24 bg-slate-800 rounded animate-pulse"></div>
+                    <div className="h-10 w-16 bg-slate-800 rounded animate-pulse"></div>
+                  </div>
+                  <div className="w-12 h-12 bg-slate-800 rounded-xl animate-pulse"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Skeleton Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+              <div className="h-6 w-48 bg-slate-800 rounded animate-pulse mb-4"></div>
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-16 bg-slate-800 rounded-lg animate-pulse"></div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+              <div className="h-6 w-32 bg-slate-800 rounded animate-pulse mb-4"></div>
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-20 bg-slate-800 rounded-lg animate-pulse"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       ) : error ? (
         <div className="max-w-7xl mx-auto">
           <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 text-center">

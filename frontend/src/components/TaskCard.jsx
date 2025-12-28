@@ -55,6 +55,15 @@ const TaskCard = ({ task, onClick }) => {
     <div
       ref={setNodeRef}
       style={style}
+      role="article"
+      aria-label={`Task: ${title}`}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.(task);
+        }
+      }}
       className={`bg-white/5 backdrop-blur-xl border border-white/10 rounded-lg p-4 mb-3 cursor-pointer hover:bg-white/10 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 hover:-translate-y-1 transition-all duration-300 group ${
         isDragging ? 'shadow-2xl shadow-blue-500/20 scale-105' : ''
       }`}

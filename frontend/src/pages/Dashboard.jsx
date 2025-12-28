@@ -43,11 +43,11 @@ const Dashboard = () => {
           setUser(userResponse.user);
         }
 
-        // Map stats to dashboard cards
+        // Map stats to dashboard cards with proper null checks
         const dashboardStats = [
-          { id: 1, count: projectStatsData.total || 0 },
-          { id: 2, count: taskStatsData.active || 0 },
-          { id: 3, count: taskStatsData.completed || 0 },
+          { id: 1, count: projectStatsData?.total || 0 },
+          { id: 2, count: taskStatsData?.active || 0 },
+          { id: 3, count: taskStatsData?.completed || 0 },
           { id: 4, count: 1 }, // Team members (placeholder)
         ];
         setStats(dashboardStats);

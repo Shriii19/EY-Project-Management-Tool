@@ -45,14 +45,37 @@ app.get('/health', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Error:', err.stack);
-    res.status(err.status || 500).json({
+    const statusCode = err.status || err.statusCode || 500;
+    res.status(statusCode).json({
+        success: false,
         error: {
             message: err.message || 'Internal Server Error',
-            status: err.status || 500
+            status: statusCode,
+            ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
         }
     });
 });
 
-app.listen(port,()=>{
+// 404 handler for undefined routes
+app.use('*', (req, res) => {
+    res.status(404).json({
+        success: false,
+        error: {
+            message: 'Route not found',
+            status: 404
+        }
+    });
+});
+
+const server = app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
-})
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+        console.log('HTTP server closed');
+    });
+});

@@ -41,7 +41,7 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
-  // Filter and sort projects
+  // Filter and sort projects with improved logic
   const filteredProjects = projects
     .filter((project) => {
       const matchesSearch = project.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -51,12 +51,15 @@ const Projects = () => {
     })
     .sort((a, b) => {
       if (sortBy === 'lastUpdated') {
-        return (a.lastUpdated || '').localeCompare(b.lastUpdated || '');
+        // Sort by most recent first
+        return (b.lastUpdated || '').localeCompare(a.lastUpdated || '');
       }
       if (sortBy === 'progress') {
+        // Sort by highest progress first
         return (b.progress || 0) - (a.progress || 0);
       }
       if (sortBy === 'name') {
+        // Sort alphabetically A-Z
         return (a.name || '').localeCompare(b.name || '');
       }
       return 0;

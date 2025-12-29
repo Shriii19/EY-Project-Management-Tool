@@ -81,6 +81,18 @@ const Projects = () => {
     setShowNewProjectModal(true);
   };
 
+  const handleProjectCreated = async (newProject) => {
+    // Refresh projects list after creating a new project
+    try {
+      const response = await getProjects();
+      if (response.success && response.projects) {
+        setProjects(response.projects);
+      }
+    } catch (err) {
+      console.error('Error refreshing projects:', err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -247,6 +259,7 @@ const Projects = () => {
         <CreateProjectModal
           isOpen={showNewProjectModal}
           onClose={() => setShowNewProjectModal(false)}
+          onProjectCreated={handleProjectCreated}
         />
       </div>
     </div>

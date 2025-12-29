@@ -58,22 +58,14 @@ const mockProjects = [
 // Get all projects
 export const getProjects = async () => {
   try {
-    // TODO: Replace with actual API call when backend implements projects
-    // const response = await api.get('/api/projects');
-    // return response.data;
-    
-    // For now, return mock data
+    const response = await api.get('/api/projects');
     return {
       success: true,
-      projects: mockProjects,
+      projects: response.data.data || [],
     };
   } catch (error) {
     console.error('Error fetching projects:', error);
-    // Fallback to mock data on error
-    return {
-      success: true,
-      projects: mockProjects,
-    };
+    throw error.response?.data?.error || error;
   }
 };
 
@@ -131,18 +123,13 @@ export const getProjectById = async (projectId) => {
 // Create a new project
 export const createProject = async (projectData) => {
   try {
-    // TODO: Replace with actual API call when backend implements projects
-    // const response = await api.post('/api/projects', projectData);
-    // return response.data;
-    
-    // For now, return success with mock data
-    const newProject = {
-      id: `proj_${Date.now()}`,
-      ...projectData,
-      progress: 0,
-      teamMembers: 1,
-      totalTasks: 0,
-      completedTasks: 0,
+    const response = await api.post('/api/projects', projectData);
+    return response.data.data;
+  } catch (error) {
+    console.error('Error creating project:', error);
+    throw error.response?.data?.error || error;
+  }
+};
       lastUpdated: new Date().toISOString(),
     };
     return {

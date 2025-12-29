@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Modal from './Modal';
+import { createProject } from '../services/project.service';
 import { 
   FileText, 
   Calendar, 
@@ -9,7 +10,7 @@ import {
   Check
 } from 'lucide-react';
 
-const CreateProjectModal = ({ isOpen, onClose }) => {
+const CreateProjectModal = ({ isOpen, onClose, onProjectCreated }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -22,6 +23,7 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Available team members - ready for API integration
   const [availableTeamMembers, setAvailableTeamMembers] = useState([]);
@@ -99,7 +101,7 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Mark all fields as touched
@@ -111,19 +113,30 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
     });
 
     if (validateForm()) {
-      // Get team member details
-      const selectedTeamMembers = availableTeamMembers.filter(
-        member => formData.teamMembers.includes(member.id)
-      );
-      
-      // TODO: Send data to backend API
-      // createProject({ ...formData, teamMembers: selectedTeamMembers })
-      //   .then(() => {
-      //     handleClose();
-      //   });
-      
-      // Reset form and close modal
-      handleClose();
+      setIsSubmitting(true);
+      try {
+        // Get team member IDs
+        const teamMemberIds = formData.teamMembers;
+        
+        // Send data to backend API
+        const newProject = await createProject({
+          ...formData,
+          teamMembers: teamMemberIds
+        });
+        
+        // Notify parent component
+        if (onProjectCreated) {
+          onProjectCreated(newProject);
+        }
+        
+        // Reset form and close modal
+        handleClose();
+      } catch (error) {
+        console.error('Failed to create project:', error);
+        setErrors({ submit: error.message || 'Failed to create project' });
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -362,6 +375,16 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
           )}
         </div>
 
+        {/* Error Display */}
+        {errors.submit && (
+          <div className="mt-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg">
+            <p className="text-sm text-red-400 flex items-center gap-2">
+              <AlertCircle className="w-4 h-4" />
+              {errors.submit}
+            </p>
+          </div>
+        )}
+
         {/* Form Actions */}
         <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4 border-t border-gray-700/50">
           <button
@@ -373,14 +396,14 @@ const CreateProjectModal = ({ isOpen, onClose }) => {
           </button>
           <button
             type="submit"
-            disabled={!isFormValid}
+            disabled={!isFormValid || isSubmitting}
             className={`flex-1 sm:flex-none px-8 py-3 font-medium rounded-lg transition-all ${
-              isFormValid
+              isFormValid && !isSubmitting
                 ? 'bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-500/30 hover:scale-105'
                 : 'bg-gray-700/50 text-gray-500 cursor-not-allowed'
             }`}
           >
-            Create Project
+            {isSubmitting ? 'Creating...' : 'Create Project'}
           </button>
         </div>
       </form>

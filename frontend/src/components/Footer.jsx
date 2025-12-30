@@ -67,7 +67,7 @@ const Footer = () => {
               Collaborate, track, and deliver projects efficiently.
             </p>
             {/* Social Links */}
-            <div className="flex space-x-4">
+            <div className="flex items-center space-x-3">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon;
                 return (
@@ -77,7 +77,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="bg-slate-800 p-2 rounded-lg hover:bg-slate-700 transition-colors duration-200"
+                    className="bg-slate-800 p-2.5 rounded-lg hover:bg-slate-700 transition-colors duration-200 flex items-center justify-center"
                   >
                     <Icon className="h-5 w-5 text-slate-400 hover:text-yellow-400" />
                   </a>

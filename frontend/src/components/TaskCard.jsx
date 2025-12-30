@@ -80,11 +80,11 @@ const TaskCard = ({ task, onClick }) => {
       </div>
 
       {/* Task Title */}
-      <h4 className="text-white font-semibold mb-2 line-clamp-2">{title}</h4>
+      <h4 className="text-white font-semibold mb-2 line-clamp-2 text-base leading-snug">{title}</h4>
 
       {/* Task Description */}
       {description && (
-        <p className="text-gray-400 text-sm mb-3 line-clamp-2">{description}</p>
+        <p className="text-gray-400 text-sm mb-3 line-clamp-2 leading-relaxed">{description}</p>
       )}
 
       {/* Priority Badge */}

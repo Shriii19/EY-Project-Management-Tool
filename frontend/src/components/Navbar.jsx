@@ -257,7 +257,7 @@ const Navbar = () => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               onKeyDown={(e) => handleKeyDown(e, () => setIsMobileMenuOpen(!isMobileMenuOpen))}
-              className="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 transition-all duration-200"
+              className="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 transition-all duration-200 flex items-center justify-center"
               aria-expanded={isMobileMenuOpen}
               aria-label="Toggle mobile menu"
             >

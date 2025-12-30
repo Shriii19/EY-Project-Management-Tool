@@ -180,7 +180,7 @@ const Dashboard = () => {
           </div>
 
           {/* Skeleton Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
                 <div className="flex items-start justify-between">

@@ -36,10 +36,10 @@ const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
-          <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">
+          <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors leading-tight">
             {name}
           </h3>
-          <p className="text-gray-400 text-sm line-clamp-2">
+          <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">
             {description}
           </p>
         </div>

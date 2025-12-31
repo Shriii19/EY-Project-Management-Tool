@@ -15,6 +15,7 @@ import KanbanBoard from './pages/KanbanBoard';
 import Tasks from './pages/Tasks';
 import Analytics from './pages/Analytics';
 import Team from './pages/Team';
+import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
               <Route path="/tasks" element={<Tasks />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/team" element={<Team />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

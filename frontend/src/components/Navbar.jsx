@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   FolderKanban,
@@ -37,6 +37,7 @@ const Navbar = () => {
 
   // Get current location for active link highlighting
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Navigation items configuration
   const navItems = [
@@ -49,7 +50,7 @@ const Navbar = () => {
 
   // Profile dropdown items with unique IDs
   const profileItems = [
-    { id: 'profile', label: 'Profile', icon: User, action: () => console.log('Profile clicked') },
+    { id: 'profile', label: 'Profile', icon: User, path: '/profile' },
     { id: 'my-projects', label: 'My Projects', icon: FolderKanban, action: () => console.log('My Projects clicked'), divider: true },
     { id: 'my-tasks', label: 'My Tasks', icon: ListTodo, action: () => console.log('My Tasks clicked') },
     { id: 'time-tracking', label: 'Time Tracking', icon: Clock, action: () => console.log('Time Tracking clicked') },
@@ -229,11 +230,19 @@ const Navbar = () => {
                         )}
                         <button
                           onClick={() => {
-                            item.action();
+                            if (item.path) {
+                              navigate(item.path);
+                            } else if (item.action) {
+                              item.action();
+                            }
                             setIsProfileOpen(false);
                           }}
                           onKeyDown={(e) => handleKeyDown(e, () => {
-                            item.action();
+                            if (item.path) {
+                              navigate(item.path);
+                            } else if (item.action) {
+                              item.action();
+                            }
                             setIsProfileOpen(false);
                           })}
                           className={`w-full flex items-center space-x-3 px-4 py-2.5 transition-colors duration-150 ${

@@ -11,7 +11,7 @@ import api from './api';
  */
 export const getCurrentUser = async () => {
   try {
-    const response = await api.get('/api/users/me');
+    const response = await api.get('/api/user/me');
     return response.data;
   } catch (error) {
     console.error('Get current user error:', error);
@@ -26,7 +26,7 @@ export const getCurrentUser = async () => {
  */
 export const updateUserProfile = async (profileData) => {
   try {
-    const response = await api.put('/api/users/profile', profileData);
+    const response = await api.put('/api/user/profile', profileData);
     return response.data;
   } catch (error) {
     console.error('Update profile error:', error);
@@ -41,7 +41,7 @@ export const updateUserProfile = async (profileData) => {
  */
 export const getUserStats = async (userId = null) => {
   try {
-    const endpoint = userId ? `/api/users/${userId}/stats` : '/api/users/stats';
+    const endpoint = userId ? `/api/user/${userId}/stats` : '/api/user/stats';
     const response = await api.get(endpoint);
     return response.data;
   } catch (error) {
@@ -57,7 +57,7 @@ export const getUserStats = async (userId = null) => {
  */
 export const getUserActivity = async (limit = 10) => {
   try {
-    const response = await api.get(`/api/users/activity?limit=${limit}`);
+    const response = await api.get(`/api/user/activity?limit=${limit}`);
     return response.data;
   } catch (error) {
     console.error('Get user activity error:', error);
@@ -75,7 +75,7 @@ export const uploadAvatar = async (file) => {
     const formData = new FormData();
     formData.append('avatar', file);
     
-    const response = await api.post('/api/users/avatar', formData, {
+    const response = await api.post('/api/user/avatar', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -93,7 +93,7 @@ export const uploadAvatar = async (file) => {
  */
 export const deleteAvatar = async () => {
   try {
-    const response = await api.delete('/api/users/avatar');
+    const response = await api.delete('/api/user/avatar');
     return response.data;
   } catch (error) {
     console.error('Delete avatar error:', error);

@@ -25,7 +25,7 @@ const App = () => {
         <div className="min-h-screen bg-slate-950 flex flex-col" role="main">
           <Navbar />
           
-          <main className="flex-grow">
+          <main className="flex-grow pt-16">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/projects" element={<Projects />} />

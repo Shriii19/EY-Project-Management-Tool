@@ -16,39 +16,77 @@ import {
   Clock,
   TrendingUp,
   CheckCircle,
-  Activity
+  Activity,
+  Loader2
 } from 'lucide-react';
+import { getCurrentUser, updateUserProfile, getUserStats, getUserActivity } from '../services/user.service';
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [userStats, setUserStats] = useState({
-    totalProjects: 12,
-    completedProjects: 8,
-    activeTasks: 24,
-    completedTasks: 156,
-    hoursLogged: 320,
-    efficiency: 92
-  });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
+  const [userStats, setUserStats] = useState(null);
+  const [recentActivity, setRecentActivity] = useState([]);
 
   const [profile, setProfile] = useState({
-    name: 'Guest User',
-    email: 'guest@taskflow.app',
-    phone: '+1 (555) 123-4567',
-    role: 'Project Manager',
-    department: 'Engineering',
-    location: 'New York, USA',
-    joinDate: 'January 2024',
-    bio: 'Experienced project manager with a passion for delivering high-quality solutions.',
+    name: '',
+    email: '',
+    phone: '',
+    role: '',
+    department: '',
+    location: '',
+    joinDate: '',
+    bio: '',
     avatar: null
   });
 
   const [editedProfile, setEditedProfile] = useState({ ...profile });
 
   useEffect(() => {
-    // In a real app, fetch profile data from API
-    // For now, using mock data
+    fetchUserData();
   }, []);
+
+  const fetchUserData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [userData, statsData, activityData] = await Promise.all([
+        getCurrentUser(),
+        getUserStats(),
+        getUserActivity(4)
+      ]);
+
+      if (userData.success) {
+        const userProfile = {
+          name: userData.user.name || '',
+          email: userData.user.email || '',
+          phone: userData.user.phone || '',
+          role: userData.user.role || 'Team Member',
+          department: userData.user.department || 'Engineering',
+          location: userData.user.location || '',
+          joinDate: userData.user.joinDate || new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+          bio: userData.user.bio || '',
+          avatar: userData.user.avatar || null
+        };
+        setProfile(userProfile);
+        setEditedProfile(userProfile);
+      }
+
+      if (statsData.success) {
+        setUserStats(statsData.stats);
+      }
+
+      if (activityData.success) {
+        setRecentActivity(activityData.activities);
+      }
+    } catch (err) {
+      console.error('Failed to fetch user data:', err);
+      setError('Failed to load profile data. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -61,16 +99,28 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
-    setLoading(true);
+    setSaving(true);
+    setError(null);
     try {
-      // In a real app, make API call to save profile
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setProfile({ ...editedProfile });
-      setIsEditing(false);
+      const response = await updateUserProfile({
+        name: editedProfile.name,
+        email: editedProfile.email,
+        phone: editedProfile.phone,
+        role: editedProfile.role,
+        department: editedProfile.department,
+        location: editedProfile.location,
+        bio: editedProfile.bio
+      });
+
+      if (response.success) {
+        setProfile({ ...editedProfile });
+        setIsEditing(false);
+      }
     } catch (error) {
       console.error('Failed to save profile:', error);
+      setError('Failed to save profile. Please try again.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -118,7 +168,26 @@ const Profile = () => {
           <p className="text-slate-400">Manage your personal information and preferences</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <Loader2 className="w-12 h-12 text-yellow-500 animate-spin mx-auto mb-4" />
+              <p className="text-slate-400">Loading profile...</p>
+            </div>
+          </div>
+        ) : error ? (
+          <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-6 text-center">
+            <p className="text-red-400">{error}</p>
+            <button
+              onClick={fetchUserData}
+              className="mt-4 px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all"
+            >
+              Retry
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Profile Card */}
           <div className="lg:col-span-1">
             <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
@@ -244,15 +313,24 @@ const Profile = () => {
                     <div className="flex gap-2">
                       <button
                         onClick={handleSave}
-                        disabled={loading}
+                        disabled={saving}
                         className="flex-1 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-white font-medium rounded-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50"
                       >
-                        <Save className="w-4 h-4" />
-                        {loading ? 'Saving...' : 'Save'}
+                        {saving ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Saving...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="w-4 h-4" />
+                            Save
+                          </>
+                        )}
                       </button>
                       <button
                         onClick={handleCancel}
-                        disabled={loading}
+                        disabled={saving}
                         className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition-all duration-300 disabled:opacity-50"
                       >
                         <X className="w-4 h-4" />
@@ -267,47 +345,49 @@ const Profile = () => {
           {/* Right Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Stats Grid */}
-            <div>
-              <h3 className="text-xl font-bold text-white mb-4">Performance Overview</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <StatCard
-                  icon={Briefcase}
-                  label="Total Projects"
-                  value={userStats.totalProjects}
-                  color="bg-gradient-to-br from-blue-500 to-blue-600"
-                />
-                <StatCard
-                  icon={CheckCircle}
-                  label="Completed Projects"
-                  value={userStats.completedProjects}
-                  color="bg-gradient-to-br from-green-500 to-green-600"
-                />
-                <StatCard
-                  icon={Activity}
-                  label="Active Tasks"
-                  value={userStats.activeTasks}
-                  color="bg-gradient-to-br from-yellow-500 to-yellow-600"
-                />
-                <StatCard
-                  icon={FileText}
-                  label="Completed Tasks"
-                  value={userStats.completedTasks}
-                  color="bg-gradient-to-br from-purple-500 to-purple-600"
-                />
-                <StatCard
-                  icon={Clock}
-                  label="Hours Logged"
-                  value={userStats.hoursLogged}
-                  color="bg-gradient-to-br from-orange-500 to-orange-600"
-                />
-                <StatCard
-                  icon={TrendingUp}
-                  label="Efficiency"
-                  value={`${userStats.efficiency}%`}
-                  color="bg-gradient-to-br from-pink-500 to-pink-600"
-                />
+            {userStats && (
+              <div>
+                <h3 className="text-xl font-bold text-white mb-4">Performance Overview</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <StatCard
+                    icon={Briefcase}
+                    label="Total Projects"
+                    value={userStats.totalProjects}
+                    color="bg-gradient-to-br from-blue-500 to-blue-600"
+                  />
+                  <StatCard
+                    icon={CheckCircle}
+                    label="Completed Projects"
+                    value={userStats.completedProjects}
+                    color="bg-gradient-to-br from-green-500 to-green-600"
+                  />
+                  <StatCard
+                    icon={Activity}
+                    label="Active Tasks"
+                    value={userStats.activeTasks}
+                    color="bg-gradient-to-br from-yellow-500 to-yellow-600"
+                  />
+                  <StatCard
+                    icon={FileText}
+                    label="Completed Tasks"
+                    value={userStats.completedTasks}
+                    color="bg-gradient-to-br from-purple-500 to-purple-600"
+                  />
+                  <StatCard
+                    icon={Clock}
+                    label="Hours Logged"
+                    value={userStats.hoursLogged}
+                    color="bg-gradient-to-br from-orange-500 to-orange-600"
+                  />
+                  <StatCard
+                    icon={TrendingUp}
+                    label="Efficiency"
+                    value={`${userStats.efficiency}%`}
+                    color="bg-gradient-to-br from-pink-500 to-pink-600"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Bio Section */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
@@ -338,23 +418,39 @@ const Profile = () => {
             {/* Recent Activity */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
               <h3 className="text-xl font-bold text-white mb-4">Recent Activity</h3>
-              <div className="space-y-4">
-                {[
-                  { action: 'Completed task', detail: 'Update API documentation', time: '2 hours ago', color: 'bg-green-500' },
-                  { action: 'Created project', detail: 'Mobile App Redesign', time: '5 hours ago', color: 'bg-blue-500' },
-                  { action: 'Commented on', detail: 'Backend Integration task', time: '1 day ago', color: 'bg-purple-500' },
-                  { action: 'Updated milestone', detail: 'Q1 Release Planning', time: '2 days ago', color: 'bg-yellow-500' }
-                ].map((activity, index) => (
-                  <div key={index} className="flex items-start gap-4 pb-4 border-b border-slate-800 last:border-0 last:pb-0">
-                    <div className={`w-2 h-2 rounded-full ${activity.color} mt-2`} />
-                    <div className="flex-1">
-                      <p className="text-white font-medium">{activity.action}</p>
-                      <p className="text-slate-400 text-sm">{activity.detail}</p>
-                      <p className="text-slate-500 text-xs mt-1">{activity.time}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {recentActivity.length > 0 ? (
+                <div className="space-y-4">
+                  {recentActivity.map((activity) => {
+                    const getActivityColor = (type) => {
+                      switch (type) {
+                        case 'task_completed':
+                          return 'bg-green-500';
+                        case 'project_created':
+                          return 'bg-blue-500';
+                        case 'comment':
+                          return 'bg-purple-500';
+                        case 'milestone_updated':
+                          return 'bg-yellow-500';
+                        default:
+                          return 'bg-slate-500';
+                      }
+                    };
+
+                    return (
+                      <div key={activity.id} className="flex items-start gap-4 pb-4 border-b border-slate-800 last:border-0 last:pb-0">
+                        <div className={`w-2 h-2 rounded-full ${getActivityColor(activity.type)} mt-2`} />
+                        <div className="flex-1">
+                          <p className="text-white font-medium">{activity.action}</p>
+                          <p className="text-slate-400 text-sm">{activity.detail}</p>
+                          <p className="text-slate-500 text-xs mt-1">{activity.time}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="text-slate-400 text-center py-8">No recent activity</p>
+              )}
             </div>
 
             {/* Skills & Expertise */}
@@ -373,6 +469,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

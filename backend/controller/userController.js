@@ -1,20 +1,166 @@
 import User from "../model/userModel.js";
-import validator from 'validator'
+import validator from 'validator';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-// Authentication completely removed - this is a demo app
+// Simple in-memory user storage (for demo - replace with database in production)
+const users = [
+  {
+    _id: 'demo_user_1',
+    name: 'Demo User',
+    email: 'demo@taskflow.app',
+    password: '$2b$10$IProZbZ8LD1R9YUxRUsmYuEOlU76JTX72Ol/HoEOUlCSXZL2Jwn7W' // demo123
+  }
+];
+
+// JWT Secret (in production, use environment variable)
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+
+// REGISTER/SIGNUP
+export async function signup(req, res) {
+  const { name, email, password } = req.body;
+
+  // Validation
+  if (!name || !email || !password) {
+    return res.status(400).json({ success: false, message: 'All fields are required' });
+  }
+
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({ success: false, message: 'Invalid email address' });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' });
+  }
+
+  try {
+    // Check if user already exists
+    const existingUser = users.find(u => u.email === email);
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: 'Email already registered' });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user
+    const newUser = {
+      _id: `user_${Date.now()}`,
+      name,
+      email,
+      password: hashedPassword
+    };
+
+    users.push(newUser);
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: newUser._id, email: newUser.email },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    // Return user data (without password)
+    const userData = {
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email
+    };
+
+    res.status(201).json({
+      success: true,
+      message: 'Account created successfully',
+      token,
+      user: userData
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Server Error', error: err.message });
+  }
+}
+
+// LOGIN
+export async function login(req, res) {
+  const { email, password } = req.body;
+
+  // Validation
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: 'Email and password are required' });
+  }
+
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({ success: false, message: 'Invalid email address' });
+  }
+
+  try {
+    // Find user
+    const user = users.find(u => u.email === email);
+    if (!user) {
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
+    }
+
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    // Return user data (without password)
+    const userData = {
+      _id: user._id,
+      name: user.name,
+      email: user.email
+    };
+
+    res.json({
+      success: true,
+      message: 'Login successful',
+      token,
+      user: userData
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Server Error', error: err.message });
+  }
+}
 
 // GET CURRENT USER
-export async function getCurrentUser(req,res){
-    try{
-        const user = {
-            _id: 'guest_user',
-            name: 'Guest User',
-            email: 'guest@taskflow.app'
-        }
-        res.json({success:true,user})
-    }catch(err){
-        res.status(500).json({success:false,message:'Server Error', error: err.message})
+export async function getCurrentUser(req, res) {
+  try {
+    // Extract token from header
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Not authenticated' });
     }
+
+    // Verify token
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = users.find(u => u._id === decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Return user data (without password)
+    const userData = {
+      _id: user._id,
+      name: user.name,
+      email: user.email
+    };
+
+    res.json({ success: true, user: userData });
+  } catch (err) {
+    if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+      return res.status(401).json({ success: false, message: 'Invalid or expired token' });
+    }
+    res.status(500).json({ success: false, message: 'Server Error', error: err.message });
+  }
 }
 
 //UPDATE USER PROFILE

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { logout as logoutService } from '../services/auth.service';
 import {
   LayoutDashboard,
   FolderKanban,
@@ -24,6 +26,9 @@ import {
 } from 'lucide-react';
 
 const Navbar = () => {
+  // Auth context
+  const { user, logout } = useAuth();
+  
   // State management
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -61,8 +66,14 @@ const Navbar = () => {
     { id: 'workspace', label: 'Workspace', icon: Building2, action: () => console.log('Workspace clicked') },
     { id: 'help', label: 'Help Center', icon: HelpCircle, action: () => console.log('Help Center clicked'), divider: true },
     { id: 'settings', label: 'Settings', icon: Settings, action: () => console.log('Settings clicked') },
-    { id: 'logout', label: 'Logout', icon: LogOut, action: () => console.log('Logout clicked'), danger: true },
+    { id: 'logout', label: 'Logout', icon: LogOut, action: handleLogout, danger: true },
   ];
+
+  // Handle logout
+  const handleLogout = () => {
+    logout();
+    logoutService();
+  };
 
   // Handle scroll effect
   useEffect(() => {

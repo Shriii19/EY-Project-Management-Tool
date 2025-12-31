@@ -130,18 +130,6 @@ export const createProject = async (projectData) => {
     throw error.response?.data?.error || error;
   }
 };
-      lastUpdated: new Date().toISOString(),
-    };
-    return {
-      success: true,
-      project: newProject,
-      message: 'Project created successfully',
-    };
-  } catch (error) {
-    console.error('Error creating project:', error);
-    throw error;
-  }
-};
 
 // Update a project
 export const updateProject = async (projectId, projectData) => {

@@ -5,6 +5,42 @@ import api from './api';
  * Handles user authentication and profile management
  */
 
+// Login user
+export const login = async (email, password) => {
+  try {
+    const response = await api.post('/api/user/login', { email, password });
+    if (response.data.success && response.data.token) {
+      setAuthToken(response.data.token);
+      return response.data;
+    }
+    throw new Error('Login failed');
+  } catch (error) {
+    console.error('Error logging in:', error);
+    throw error;
+  }
+};
+
+// Signup user
+export const signup = async (name, email, password) => {
+  try {
+    const response = await api.post('/api/user/signup', { name, email, password });
+    if (response.data.success && response.data.token) {
+      setAuthToken(response.data.token);
+      return response.data;
+    }
+    throw new Error('Signup failed');
+  } catch (error) {
+    console.error('Error signing up:', error);
+    throw error;
+  }
+};
+
+// Logout user
+export const logout = () => {
+  clearAuthToken();
+  window.location.href = '/login';
+};
+
 // Get current user profile
 export const getCurrentUser = async () => {
   try {

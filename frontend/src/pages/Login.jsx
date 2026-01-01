@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, Mail, Lock, Eye, EyeOff, AlertCircle, Briefcase } from 'lucide-react';
 import { login } from '../services/auth.service';
 
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -11,7 +13,10 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  
+  // Get message and redirect path from location state
+  const message = location.state?.message;
+  const from = location.state?.from || '/';
 
   const handleChange = (e) => {
     setFormData({
@@ -41,7 +46,7 @@ const Login = () => {
 
     try {
       await login(formData.email, formData.password);
-      navigate('/');
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
     } finally {
@@ -66,6 +71,14 @@ const Login = () => {
         {/* Login Form */}
         <div className="bg-slate-900/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Info Message (from redirect) */}
+            {message && !error && (
+              <div className="flex items-center gap-2 p-4 bg-blue-500/10 border border-blue-500/50 rounded-lg text-blue-400">
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                <p className="text-sm">{message}</p>
+              </div>
+            )}
+
             {/* Error Message */}
             {error && (
               <div className="flex items-center gap-2 p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400">

@@ -21,6 +21,7 @@ import AddTaskModal from '../components/AddTaskModal';
 import { getTasks, updateTask } from '../services/task.service';
 import { getProjectById } from '../services/project.service';
 import Loading from '../components/Loading';
+import { useAuth } from '../context/AuthContext';
 
 // Column definitions
 const columns = [
@@ -34,6 +35,7 @@ const columns = [
 const KanbanBoard = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
@@ -272,7 +274,13 @@ const KanbanBoard = () => {
               </div>
             </div>
             <button
-              onClick={() => setShowAddTaskModal(true)}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  navigate('/login', { state: { from: `/projects/${projectId}/tasks`, message: 'Please login to add a task' } });
+                  return;
+                }
+                setShowAddTaskModal(true);
+              }}
               className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-all shadow-lg shadow-blue-500/30"
             >
               <Plus className="w-5 h-5" />

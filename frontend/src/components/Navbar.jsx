@@ -53,6 +53,12 @@ const Navbar = () => {
     { id: 'team', label: 'Team', icon: Users, path: '/team' },
   ];
 
+  // Handle logout
+  const handleLogout = () => {
+    logout();
+    logoutService();
+  };
+
   // Profile dropdown items with unique IDs
   const profileItems = [
     { id: 'profile', label: 'Profile', icon: User, path: '/profile' },
@@ -68,12 +74,6 @@ const Navbar = () => {
     { id: 'settings', label: 'Settings', icon: Settings, action: () => console.log('Settings clicked') },
     { id: 'logout', label: 'Logout', icon: LogOut, action: handleLogout, danger: true },
   ];
-
-  // Handle logout
-  const handleLogout = () => {
-    logout();
-    logoutService();
-  };
 
   // Handle scroll effect
   useEffect(() => {

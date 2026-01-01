@@ -5,9 +5,11 @@ import ProjectCard from '../components/ProjectCard';
 import CreateProjectModal from '../components/CreateProjectModal';
 import { getProjects } from '../services/project.service';
 import Loading from '../components/Loading';
+import { useAuth } from '../context/AuthContext';
 
 const Projects = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [sortBy, setSortBy] = useState('lastUpdated');
@@ -78,6 +80,10 @@ const Projects = () => {
   };
 
   const handleNewProject = () => {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: '/projects', message: 'Please login to create a project' } });
+      return;
+    }
     setShowNewProjectModal(true);
   };
 

@@ -182,19 +182,23 @@ const Navbar = () => {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-2">
             
-            {/* Notifications */}
-            <button
-              className="relative p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200"
-              aria-label="Notifications"
-              onClick={() => setNotificationCount(0)}
-            >
-              <Bell className="w-5 h-5" />
-              {notificationCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/50 animate-pulse">
-                  {notificationCount}
-                </span>
-              )}
-            </button>
+            {user && (
+              <>
+                {/* Notifications */}
+                <button
+                  className="relative p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200"
+                  aria-label="Notifications"
+                  onClick={() => setNotificationCount(0)}
+                >
+                  <Bell className="w-5 h-5" />
+                  {notificationCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/50 animate-pulse">
+                      {notificationCount}
+                    </span>
+                  )}
+                </button>
+              </>
+            )}
 
             {/* Theme Toggle */}
             <button
@@ -210,68 +214,86 @@ const Navbar = () => {
               )}
             </button>
 
-            {/* Profile Dropdown */}
-            <div className="relative" ref={profileRef}>
-              <button
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                onKeyDown={(e) => handleKeyDown(e, () => setIsProfileOpen(!isProfileOpen))}
-                className="flex items-center space-x-2 p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 transition-all duration-200"
-                aria-expanded={isProfileOpen}
-                aria-haspopup="true"
-                aria-label="User menu"
-              >
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-white" />
-                </div>
-              </button>
-
-              {/* Profile Dropdown Menu */}
-              {isProfileOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-56 bg-slate-800/95 backdrop-blur-xl rounded-xl shadow-2xl shadow-slate-900/50 border border-slate-700/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
-                  role="menu"
-                  aria-orientation="vertical"
+            {user ? (
+              /* Profile Dropdown for authenticated users */
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  onKeyDown={(e) => handleKeyDown(e, () => setIsProfileOpen(!isProfileOpen))}
+                  className="flex items-center space-x-2 p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 transition-all duration-200"
+                  aria-expanded={isProfileOpen}
+                  aria-haspopup="true"
+                  aria-label="User menu"
                 >
-                  {profileItems.map((item, index) => {
-                    const Icon = item.icon;
-                    return (
-                      <React.Fragment key={index}>
-                        {item.divider && index > 0 && (
-                          <div className="h-px bg-slate-700/50 my-1" />
-                        )}
-                        <button
-                          onClick={() => {
-                            if (item.path) {
-                              navigate(item.path);
-                            } else if (item.action) {
-                              item.action();
-                            }
-                            setIsProfileOpen(false);
-                          }}
-                          onKeyDown={(e) => handleKeyDown(e, () => {
-                            if (item.path) {
-                              navigate(item.path);
-                            } else if (item.action) {
-                              item.action();
-                            }
-                            setIsProfileOpen(false);
-                          })}
-                          className={`w-full flex items-center space-x-3 px-4 py-2.5 transition-colors duration-150 ${
-                            item.danger
-                              ? 'text-red-400 hover:bg-red-500/10'
-                              : 'text-slate-300 hover:bg-slate-700/50 hover:text-purple-400'
-                          }`}
-                          role="menuitem"
-                        >
-                          <Icon className="w-4 h-4" />
-                          <span className="text-sm font-medium">{item.label}</span>
-                        </button>
-                      </React.Fragment>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    <User className="w-4 h-4 text-white" />
+                  </div>
+                </button>
+
+                {/* Profile Dropdown Menu */}
+                {isProfileOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-56 bg-slate-800/95 backdrop-blur-xl rounded-xl shadow-2xl shadow-slate-900/50 border border-slate-700/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+                    role="menu"
+                    aria-orientation="vertical"
+                  >
+                    {profileItems.map((item, index) => {
+                      const Icon = item.icon;
+                      return (
+                        <React.Fragment key={index}>
+                          {item.divider && index > 0 && (
+                            <div className="h-px bg-slate-700/50 my-1" />
+                          )}
+                          <button
+                            onClick={() => {
+                              if (item.path) {
+                                navigate(item.path);
+                              } else if (item.action) {
+                                item.action();
+                              }
+                              setIsProfileOpen(false);
+                            }}
+                            onKeyDown={(e) => handleKeyDown(e, () => {
+                              if (item.path) {
+                                navigate(item.path);
+                              } else if (item.action) {
+                                item.action();
+                              }
+                              setIsProfileOpen(false);
+                            })}
+                            className={`w-full flex items-center space-x-3 px-4 py-2.5 transition-colors duration-150 ${
+                              item.danger
+                                ? 'text-red-400 hover:bg-red-500/10'
+                                : 'text-slate-300 hover:bg-slate-700/50 hover:text-purple-400'
+                            }`}
+                            role="menuitem"
+                          >
+                            <Icon className="w-4 h-4" />
+                            <span className="text-sm font-medium">{item.label}</span>
+                          </button>
+                        </React.Fragment>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Login and Signup buttons for guests */
+              <div className="hidden md:flex items-center space-x-2">
+                <Link
+                  to="/login"
+                  className="px-4 py-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200 font-medium text-sm"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 font-medium text-sm shadow-lg shadow-purple-500/25"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
 
             {/* Mobile Menu Toggle */}
             <button
@@ -319,6 +341,26 @@ const Navbar = () => {
                 </Link>
               );
             })}
+            
+            {/* Login/Signup buttons in mobile menu for guests */}
+            {!user && (
+              <div className="pt-4 mt-4 border-t border-slate-700/50 space-y-2">
+                <Link
+                  to="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 transition-all duration-200 font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-center px-4 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 font-medium shadow-lg shadow-purple-500/25"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </div>

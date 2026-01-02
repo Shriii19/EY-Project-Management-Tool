@@ -64,8 +64,8 @@ const TaskCard = ({ task, onClick }) => {
           onClick?.(task);
         }
       }}
-      className={`bg-white/5 backdrop-blur-xl border border-white/10 rounded-lg p-4 mb-3 cursor-pointer hover:bg-white/10 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 hover:-translate-y-1 transition-all duration-300 group ${
-        isDragging ? 'shadow-2xl shadow-blue-500/20 scale-105' : ''
+      className={`bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-lg p-4 mb-3 cursor-pointer hover:bg-gradient-to-br hover:from-white/10 hover:to-purple-500/5 hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/20 hover:-translate-y-2 transition-all duration-500 ease-out group relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-transparent before:via-white/5 before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-1000 ${
+        isDragging ? 'shadow-2xl shadow-blue-500/30 scale-105 rotate-2' : ''
       }`}
       onClick={() => onClick && onClick(task)}
     >

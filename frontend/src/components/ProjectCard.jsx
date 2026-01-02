@@ -32,7 +32,7 @@ const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
   const lastUpdated = project.lastUpdated ?? 'Unknown';
 
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-[1.03] hover:border-purple-500/50 hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
+    <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-purple-500/30 hover:scale-[1.05] hover:border-purple-500/60 hover:-translate-y-2 hover:from-gray-800/70 hover:to-purple-900/20 transition-all duration-500 group cursor-pointer relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-purple-500/10 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">

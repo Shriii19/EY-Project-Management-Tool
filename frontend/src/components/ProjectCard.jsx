@@ -54,7 +54,7 @@ const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
           </button>
           
           {showMenu && (
-            <div className="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-10">
+            <div className="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
               <button
                 onClick={() => {
                   handleViewClick();

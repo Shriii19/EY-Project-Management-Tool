@@ -231,10 +231,10 @@ const Dashboard = () => {
         
         {/* Page Header */}
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Dashboard
           </h1>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-400">
             Welcome back{user?.name ? `, ${user.name}` : ''}! 
             Here's what's happening with your projects today.
           </p>

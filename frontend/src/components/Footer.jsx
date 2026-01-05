@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 const Footer = () => {
-  const currentYear = 2025;
+  const currentYear = new Date().getFullYear();
 
   const footerLinks = {
     product: [
@@ -55,8 +55,8 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 p-2 rounded-lg">
-                <Briefcase className="h-6 w-6 text-slate-900" />
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-2 rounded-lg">
+                <Briefcase className="h-6 w-6 text-white" />
               </div>
               <span className="text-xl font-bold text-white">
                 EY Project Manager
@@ -77,9 +77,9 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="bg-slate-800 p-2.5 rounded-lg hover:bg-slate-700 transition-colors duration-200 flex items-center justify-center"
+                    className="bg-slate-800 p-2.5 rounded-lg hover:bg-slate-700 transition-colors duration-200 flex items-center justify-center group"
                   >
-                    <Icon className="h-5 w-5 text-slate-400 hover:text-yellow-400" />
+                    <Icon className="h-5 w-5 text-slate-400 group-hover:text-purple-400 transition-colors duration-200" />
                   </a>
                 );
               })}
@@ -96,7 +96,7 @@ const Footer = () => {
                 <li key={index}>
                   <Link
                     to={link.path}
-                    className="text-slate-400 hover:text-yellow-400 text-sm transition-colors duration-200"
+                    className="text-slate-400 hover:text-purple-400 text-sm transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
@@ -115,7 +115,7 @@ const Footer = () => {
                 <li key={index}>
                   <a
                     href={link.path}
-                    className="text-slate-400 hover:text-yellow-400 text-sm transition-colors duration-200"
+                    className="text-slate-400 hover:text-purple-400 text-sm transition-colors duration-200"
                   >
                     {link.name}
                   </a>
@@ -134,7 +134,7 @@ const Footer = () => {
                 <li key={index}>
                   <a
                     href={link.path}
-                    className="text-slate-400 hover:text-yellow-400 text-sm transition-colors duration-200"
+                    className="text-slate-400 hover:text-purple-400 text-sm transition-colors duration-200"
                   >
                     {link.name}
                   </a>
@@ -153,7 +153,7 @@ const Footer = () => {
                 <li key={index}>
                   <a
                     href={link.path}
-                    className="text-slate-400 hover:text-yellow-400 text-sm transition-colors duration-200"
+                    className="text-slate-400 hover:text-purple-400 text-sm transition-colors duration-200"
                   >
                     {link.name}
                   </a>

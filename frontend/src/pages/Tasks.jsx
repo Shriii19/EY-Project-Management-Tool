@@ -21,11 +21,11 @@ const Tasks = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+            <h1 className="text-3xl font-bold text-white flex items-center gap-3 mb-2">
               <ListTodo className="w-8 h-8 text-purple-400" />
               All Tasks
             </h1>
-            <p className="text-slate-400 mt-2">Manage and track all your tasks</p>
+            <p className="text-slate-400">Manage and track all your tasks</p>
           </div>
           <button 
             onClick={handleNewTask}

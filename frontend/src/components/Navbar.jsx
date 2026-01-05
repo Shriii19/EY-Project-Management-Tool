@@ -192,7 +192,7 @@ const Navbar = () => {
                 >
                   <Bell className="w-5 h-5" />
                   {notificationCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/50 animate-pulse">
+                    <span className="absolute top-0 right-0 w-5 h-5 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/50 animate-pulse">
                       {notificationCount}
                     </span>
                   )}

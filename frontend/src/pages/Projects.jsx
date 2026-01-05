@@ -106,7 +106,7 @@ const Projects = () => {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-4xl font-bold text-white mb-2">Projects</h1>
+              <h1 className="text-3xl font-bold text-white mb-2">Projects</h1>
               <p className="text-gray-400">Manage and track all your projects</p>
             </div>
             <button

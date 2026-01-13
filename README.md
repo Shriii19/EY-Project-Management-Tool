@@ -1,78 +1,114 @@
-# EY Project Management Tool
+EY Project Management Tool
 
-A modern project management application built with React and Node.js.
+A modern, full-stack Project Management Application built with React and Node.js, designed to help teams plan, track, and collaborate efficiently in real time.
 
-## Features
 
-- Project management and tracking
-- Task management with Kanban board
-- Team collaboration
-- Analytics and reporting
-- Real-time updates
+----------------------
 
-## Tech Stack
 
-### Frontend
-- React 19
-- Vite
-- TailwindCSS
-- React Router
-- Lucide Icons
-- DND Kit for drag & drop
 
-### Backend
-- Node.js
-- Express
-- MongoDB
-- Mongoose
+🚀 Features
 
-## Getting Started
+Project Management & Tracking – Create, update, and monitor projects easily
 
-### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB
+Task Management (Kanban Board) – Drag & drop tasks between stages
 
-### Installation
+Team Collaboration – Work together with role-based access
 
-1. Clone the repository
-```bash
+Analytics & Reporting – Visual insights into project progress
+
+Real-Time Updates – Stay in sync with your team instantly
+
+----------------------
+
+
+🛠️ Tech Stack
+Frontend
+
+React 19
+
+Vite
+
+Tailwind CSS
+
+React Router
+
+Lucide Icons
+
+DND Kit (Drag & Drop)
+
+Backend
+
+Node.js
+
+Express.js
+
+MongoDB
+
+Mongoose
+
+----------------------
+
+
+📁 Project Structure
+EY-Project-Management-Tool/
+
+
+│
+
+
+├── backend/        # Node.js + Express API
+
+
+└── frontend/       # React + Vite client
+
+----------------------
+
+
+⚙️ Getting Started
+Prerequisites
+
+Make sure you have installed:
+
+Node.js (v16 or higher)
+
+MongoDB (local or cloud e.g. MongoDB Atlas)
+
+📦 Installation
+1️⃣ Clone the Repository
 git clone <repository-url>
 cd EY-Project-Management-Tool
-```
 
-2. Install backend dependencies
-```bash
+2️⃣ Install Backend Dependencies
 cd backend
 npm install
-```
 
-3. Install frontend dependencies
-```bash
+3️⃣ Install Frontend Dependencies
 cd frontend
 npm install
-```
 
-4. Set up environment variables
-Create a `.env` file in the backend directory with:
-```
+4️⃣ Environment Variables Setup
+
+Create a .env file inside the backend folder:
+
 PORT=4000
 MONGODB_URI=your_mongodb_connection_string
-```
 
-5. Start the development servers
-
-Backend:
-```bash
+5️⃣ Run the Application
+Start Backend Server
 cd backend
 npm start
-```
 
-Frontend:
-```bash
+Start Frontend Server
 cd frontend
 npm run dev
-```
 
-## License
+🌐 Access the App
 
-ISC
+Frontend: http://localhost:5173
+
+Backend API: http://localhost:4000
+
+📄 License
+
+This project is licensed under the ISC License.

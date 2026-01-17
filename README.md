@@ -91,19 +91,20 @@ A comprehensive, modern project management application built with React and Node
 ```bash
 git clone <repository-url>
 cd EY-Project-Management-Tool
-```
 
 2. **Install backend dependencies**
 ```bash
 cd backend
 npm install
-```
 
 3. **Install frontend dependencies**
 ```bash
 cd frontend
 npm install
-```
+
+4️⃣ Environment Variables Setup
+
+Create a .env file inside the backend folder:
 
 4. **Set up environment variables**
 
@@ -135,7 +136,6 @@ Backend (runs on http://localhost:4000):
 ```bash
 cd backend
 npm start
-```
 
 Frontend (runs on http://localhost:5173):
 ```bash

@@ -142,8 +142,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* Logo and Brand */}
-          <div className="flex items-center space-x-3 flex-shrink-0">
+          <Link
+            to="/"
+            className="flex items-center space-x-3 flex-shrink-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+            aria-label="Go to dashboard"
+          >
             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/50">
               <Briefcase className="w-6 h-6 text-white" />
             </div>
@@ -153,7 +156,7 @@ const Navbar = () => {
             <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent sm:hidden">
               PMT
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-1">

@@ -1,7 +1,7 @@
 {
   "name": "ey-project-management-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "author": "Shrinivas Mudabe",
   "scripts": {

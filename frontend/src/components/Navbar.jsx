@@ -62,16 +62,16 @@ const Navbar = () => {
   // Profile dropdown items with unique IDs
   const profileItems = [
     { id: 'profile', label: 'Profile', icon: User, path: '/profile' },
-    { id: 'my-projects', label: 'My Projects', icon: FolderKanban, action: () => console.log('My Projects clicked'), divider: true },
-    { id: 'my-tasks', label: 'My Tasks', icon: ListTodo, action: () => console.log('My Tasks clicked') },
-    { id: 'time-tracking', label: 'Time Tracking', icon: Clock, action: () => console.log('Time Tracking clicked') },
-    { id: 'reports', label: 'Reports', icon: FileText, action: () => console.log('Reports clicked') },
-    { id: 'milestones', label: 'Milestones', icon: Target, action: () => console.log('Milestones clicked') },
-    { id: 'calendar', label: 'Calendar', icon: Calendar, action: () => console.log('Calendar clicked'), divider: true },
-    { id: 'notifications', label: 'Notifications', icon: Bell, action: () => console.log('Notifications clicked') },
-    { id: 'workspace', label: 'Workspace', icon: Building2, action: () => console.log('Workspace clicked') },
-    { id: 'help', label: 'Help Center', icon: HelpCircle, action: () => console.log('Help Center clicked'), divider: true },
-    { id: 'settings', label: 'Settings', icon: Settings, action: () => console.log('Settings clicked') },
+    { id: 'my-projects', label: 'My Projects', icon: FolderKanban, path: '/projects', divider: true },
+    { id: 'my-tasks', label: 'My Tasks', icon: ListTodo, path: '/tasks' },
+    { id: 'time-tracking', label: 'Time Tracking', icon: Clock, action: () => {} },
+    { id: 'reports', label: 'Reports', icon: FileText, action: () => {} },
+    { id: 'milestones', label: 'Milestones', icon: Target, action: () => {} },
+    { id: 'calendar', label: 'Calendar', icon: Calendar, action: () => {}, divider: true },
+    { id: 'notifications', label: 'Notifications', icon: Bell, action: () => {} },
+    { id: 'workspace', label: 'Workspace', icon: Building2, action: () => {} },
+    { id: 'help', label: 'Help Center', icon: HelpCircle, action: () => {}, divider: true },
+    { id: 'settings', label: 'Settings', icon: Settings, action: () => {} },
     { id: 'logout', label: 'Logout', icon: LogOut, action: handleLogout, danger: true },
   ];
 

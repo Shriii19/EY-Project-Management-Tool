@@ -5,8 +5,7 @@ import {
   Linkedin, 
   Twitter, 
   Mail, 
-  Briefcase,
-  Heart
+  Briefcase
 } from 'lucide-react';
 
 const Footer = () => {
@@ -41,10 +40,10 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub', color: 'hover:text-purple-400' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn', color: 'hover:text-blue-400' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter', color: 'hover:text-sky-400' },
-    { icon: Mail, href: 'mailto:contact@example.com', label: 'Email', color: 'hover:text-pink-400' }
+    { icon: Github, href: '#', label: 'GitHub', color: 'hover:text-purple-400' },
+    { icon: Linkedin, href: '#', label: 'LinkedIn', color: 'hover:text-blue-400' },
+    { icon: Twitter, href: '#', label: 'Twitter', color: 'hover:text-sky-400' },
+    { icon: Mail, href: '#', label: 'Email', color: 'hover:text-pink-400' }
   ];
 
   return (
@@ -167,10 +166,10 @@ const Footer = () => {
         <div className="pt-8 border-t border-slate-800">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-slate-400 text-sm">
-              © {currentYear} EY Project Management Tool. All rights reserved.
+              © {currentYear} Shrinivas Mudabe. All rights reserved.
             </p>
             <p className="text-slate-400 text-sm flex items-center">
-              Made with <Heart className="h-4 w-4 mx-1 text-red-500 fill-current" /> by the EY Team
+              Developed by Shrinivas Mudabe
             </p>
           </div>
         </div>

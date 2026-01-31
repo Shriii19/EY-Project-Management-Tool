@@ -112,3 +112,11 @@ Backend API: http://localhost:4000
 📄 License
 
 This project is licensed under the ISC License.
+
+---
+
+👤 Author
+
+**Shrinivas Mudabe** - Developer / Project Owner
+
+© 2026 Shrinivas Mudabe. All rights reserved.

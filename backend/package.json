@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon server.js"
   },
-  "author": "",
+  "author": "Shrinivas Mudabe",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",

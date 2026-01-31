@@ -147,4 +147,8 @@ This project is part of the EY Project Management Tool suite.
 
 ---
 
-Built with ❤️ using React + Vite + Tailwind CSS
+## 👤 Author
+
+**Shrinivas Mudabe** - Developer / Project Owner
+
+© 2026 Shrinivas Mudabe. All rights reserved.

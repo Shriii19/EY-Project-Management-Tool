@@ -158,4 +158,4 @@ To connect with your backend APIs:
 
 ---
 
-**Built with ❤️ for EY Project Management Tool**
+**© 2026 Shrinivas Mudabe** - Developer / Project Owner

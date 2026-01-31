@@ -276,5 +276,5 @@ For testing purposes:
 
 ---
 
-**Last Updated:** December 31, 2025
-**Version:** 1.0.0
+**Author**: Shrinivas Mudabe - Developer / Project Owner
+**© 2026 Shrinivas Mudabe**

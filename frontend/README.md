@@ -136,19 +136,56 @@ The optimized files will be in the `dist/` directory, ready for deployment to an
 
 ## 🤝 Contributing
 
-1. Create a feature branch
-2. Make your changes
-3. Test thoroughly
-4. Submit a pull request
+We welcome contributions! Please follow these steps:
+
+### Development Setup
+1. Fork the repository
+2. Clone your fork: `git clone https://github.com/your-username/ey-project-management-tool.git`
+3. Navigate to frontend: `cd ey-project-management-tool/frontend`
+4. Install dependencies: `npm install`
+5. Start development server: `npm run dev`
+6. Create a feature branch: `git checkout -b feature/your-feature-name`
+
+### Code Guidelines
+- Follow ESLint configuration (`npm run lint`)
+- Use meaningful commit messages
+- Write clear, concise React components
+- Use functional components with hooks
+- Follow Tailwind CSS best practices
+- Ensure responsive design
+- Test your changes thoroughly
+
+### Component Development
+- Place reusable components in `src/components/`
+- Use proper prop types and default props
+- Follow consistent naming conventions
+- Add JSDoc comments for complex components
+- Ensure accessibility (ARIA labels, keyboard navigation)
+
+### Pull Request Process
+1. Update the README.md with details of changes if needed
+2. Ensure your code follows the project's style guidelines
+3. Test across different browsers and devices
+4. Submit a pull request with a clear description of your changes
+5. Wait for review and address any feedback
+
+### Reporting Issues
+- Use the GitHub Issues tab to report bugs
+- Provide detailed steps to reproduce the issue
+- Include browser console errors
+- Specify your environment (OS, browser, Node.js version)
+- Add screenshots for UI-related issues
 
 ## 📄 License
 
-This project is part of the EY Project Management Tool suite.
-
----
+This project is licensed under the ISC License - see the LICENSE file for details.
 
 ## 👤 Author
 
 **Shrinivas Mudabe** - Developer / Project Owner
 
 © 2026 Shrinivas Mudabe. All rights reserved.
+
+## 📞 Support
+
+If you have any questions or need help, please open an issue on GitHub or contact the maintainers.

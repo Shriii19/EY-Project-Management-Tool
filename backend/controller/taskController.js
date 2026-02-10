@@ -111,6 +111,6 @@ export const deleteTask = async(req,res)=>{
         
         // Remove from dummy tasks
         dummyTasks.splice(taskIndex, 1);
-        res.json({success:true,message:"task Deleted"});
+        res.json({success:true,message:"Task deleted successfully"});
     }
 }

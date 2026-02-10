@@ -27,7 +27,7 @@ app.use(express.urlencoded({extended:true}));
 connectDB();
 
 //Routes
-app.use("/api/user",userRouter);;
+app.use("/api/user",userRouter);
 app.use("/api/projects",projectRouter)
 app.use("/api/tasks",taskRouter)
 

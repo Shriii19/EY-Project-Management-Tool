@@ -144,6 +144,8 @@ export const validateObjectId = (paramName = 'id') => {
 
 // Rate limiting helper (basic implementation)
 const requestCounts = new Map();
+let lastCleanup = Date.now();
+const CLEANUP_INTERVAL = 60000; // Clean up every 60 seconds
 
 export const basicRateLimit = (maxRequests = 100, windowMs = 60000) => {
     return (req, res, next) => {
@@ -151,9 +153,17 @@ export const basicRateLimit = (maxRequests = 100, windowMs = 60000) => {
         const now = Date.now();
         const windowStart = now - windowMs;
 
-        // Clean up old entries
-        if (requestCounts.size > 10000) {
-            requestCounts.clear();
+        // Periodic cleanup of old entries
+        if (now - lastCleanup > CLEANUP_INTERVAL) {
+            for (const [key, timestamps] of requestCounts.entries()) {
+                const recentTimestamps = timestamps.filter(ts => ts > windowStart);
+                if (recentTimestamps.length === 0) {
+                    requestCounts.delete(key);
+                } else {
+                    requestCounts.set(key, recentTimestamps);
+                }
+            }
+            lastCleanup = now;
         }
 
         // Get or create request log for this IP

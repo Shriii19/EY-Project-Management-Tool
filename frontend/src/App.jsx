@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -53,8 +53,8 @@ const PublicRoute = ({ children }) => {
 };
 
 const AppContent = () => {
-  const location = window.location.pathname;
-  const isAuthPage = location === '/login' || location === '/signup';
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col" role="main">

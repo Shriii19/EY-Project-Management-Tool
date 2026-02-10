@@ -95,7 +95,7 @@ api.interceptors.response.use(
         message: data.error?.message || data.message || 'An error occurred',
         status,
         data,
-        retried: config.retryCount > 0
+        retried: config ? config.retryCount > 0 : false
       });
     } else if (error.request) {
       // Request made but no response received
@@ -103,7 +103,7 @@ api.interceptors.response.use(
       return Promise.reject({
         message: 'Network error: Unable to connect to server',
         status: 0,
-        retried: config?.retryCount > 0
+        retried: config ? config.retryCount > 0 : false
       });
     } else {
       // Error in request setup

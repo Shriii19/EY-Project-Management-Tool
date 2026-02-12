@@ -4,7 +4,6 @@ import { Search, Plus, Filter, ChevronDown } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
 import CreateProjectModal from '../components/CreateProjectModal';
 import { getProjects } from '../services/project.service';
-import Loading from '../components/Loading';
 import { useAuth } from '../context/AuthContext';
 
 const Projects = () => {
@@ -242,7 +241,32 @@ const Projects = () => {
 
         {/* Projects Grid */}
         {loading ? (
-          <Loading />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 animate-pulse">
+                <div className="flex justify-between mb-4">
+                  <div className="space-y-3 flex-1">
+                    <div className="h-6 bg-gray-700 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-700 rounded w-full"></div>
+                  </div>
+                  <div className="w-8 h-8 bg-gray-700 rounded"></div>
+                </div>
+                <div className="h-4 bg-gray-700 rounded w-20 mb-4"></div>
+                <div className="space-y-2 mb-4">
+                  <div className="h-2 bg-gray-700 rounded w-full"></div>
+                  <div className="h-4 bg-gray-700 rounded w-1/3"></div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map((j) => (
+                      <div key={j} className="w-8 h-8 bg-gray-700 rounded-full"></div>
+                    ))}
+                  </div>
+                  <div className="h-3 bg-gray-700 rounded w-20"></div>
+                </div>
+              </div>
+            ))}
+          </div>
         ) : error ? (
           <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 text-center">
             <p className="text-red-400">{error}</p>

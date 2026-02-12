@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BarChart3, TrendingUp, Activity, PieChart } from 'lucide-react';
 
 const Analytics = () => {

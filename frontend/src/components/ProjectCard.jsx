@@ -1,7 +1,7 @@
 import { Clock, Users, CheckCircle2, MoreVertical } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo, useCallback } from 'react';
 
-const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
+const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
 
@@ -22,7 +22,7 @@ const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
     };
   }, [showMenu]);
 
-  const getStatusColor = (status) => {
+  const getStatusColor = useCallback((status) => {
     switch (status?.toLowerCase()) {
       case 'active':
         return 'bg-green-500/20 text-green-400 border-green-500/30';
@@ -33,11 +33,11 @@ const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
       default:
         return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
     }
-  };
+  }, []);
 
-  const handleViewClick = () => {
+  const handleViewClick = useCallback(() => {
     onView(project.id);
-  };
+  }, [onView, project.id]);
 
   // Safely handle missing data
   const progress = project.progress ?? 0;
@@ -188,6 +188,8 @@ const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
       </button>
     </div>
   );
-};
+});
+
+ProjectCard.displayName = 'ProjectCard';
 
 export default ProjectCard;

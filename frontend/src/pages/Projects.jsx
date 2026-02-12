@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Plus, Filter, ChevronDown } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
@@ -67,7 +67,7 @@ const Projects = () => {
   }, [showStatusDropdown, showSortDropdown]);
 
   // Filter and sort projects with improved logic
-  const filteredProjects = projects
+  const filteredProjects = useMemo(() => projects
     .filter((project) => {
       const matchesSearch = project.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           project.description?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -88,29 +88,29 @@ const Projects = () => {
         return (a.name || '').localeCompare(b.name || '');
       }
       return 0;
-    });
+    }), [projects, searchQuery, statusFilter, sortBy]);
 
-  const handleViewProject = (projectId) => {
+  const handleViewProject = useCallback((projectId) => {
     navigate(`/projects/${projectId}`);
-  };
+  }, [navigate]);
 
-  const handleEditProject = (projectId) => {
+  const handleEditProject = useCallback((projectId) => {
     // TODO: Implement edit functionality
-  };
+  }, []);
 
-  const handleArchiveProject = (projectId) => {
+  const handleArchiveProject = useCallback((projectId) => {
     // TODO: Implement archive functionality
-  };
+  }, []);
 
-  const handleNewProject = () => {
+  const handleNewProject = useCallback(() => {
     if (!isAuthenticated) {
       navigate('/login', { state: { from: '/projects', message: 'Please login to create a project' } });
       return;
     }
     setShowNewProjectModal(true);
-  };
+  }, [isAuthenticated, navigate]);
 
-  const handleProjectCreated = async (newProject) => {
+  const handleProjectCreated = useCallback(async (newProject) => {
     // Refresh projects list after creating a new project
     try {
       const response = await getProjects();
@@ -120,7 +120,7 @@ const Projects = () => {
     } catch (err) {
       console.error('Error refreshing projects:', err);
     }
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 sm:p-6 md:p-8">

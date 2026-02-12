@@ -1,8 +1,9 @@
 import { Calendar, AlertCircle, GripVertical } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { memo, useMemo } from 'react';
 
-const TaskCard = ({ task, onClick }) => {
+const TaskCard = memo(({ task, onClick }) => {
   const {
     attributes,
     listeners,
@@ -12,11 +13,11 @@ const TaskCard = ({ task, onClick }) => {
     isDragging,
   } = useSortable({ id: task.id });
 
-  const style = {
+  const style = useMemo(() => ({
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-  };
+  }), [transform, transition, isDragging]);
 
   // Safely handle optional data
   const title = task.title ?? 'Untitled Task';
@@ -123,6 +124,8 @@ const TaskCard = ({ task, onClick }) => {
       </div>
     </div>
   );
-};
+});
+
+TaskCard.displayName = 'TaskCard';
 
 export default TaskCard;

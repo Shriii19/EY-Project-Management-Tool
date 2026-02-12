@@ -18,7 +18,7 @@ const Team = () => {
             </h1>
             <p className="text-slate-400 mt-2">Manage your team and collaborate effectively</p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors">
+          <button className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors shadow-lg shadow-purple-500/20">
             <UserPlus className="w-5 h-5" />
             Invite Member
           </button>

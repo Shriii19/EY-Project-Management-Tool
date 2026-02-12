@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 
 const Modal = ({ 
@@ -9,6 +9,9 @@ const Modal = ({
   children, 
   maxWidth = 'max-w-2xl' 
 }) => {
+  const modalRef = useRef(null);
+  const previousFocusRef = useRef(null);
+
   // Handle ESC key press
   useEffect(() => {
     const handleEscape = (e) => {
@@ -17,25 +20,49 @@ const Modal = ({
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  // Prevent background scroll when modal is open
+  // Prevent background scroll when modal is open and manage focus
   useEffect(() => {
     if (isOpen) {
+      // Save current focused element
+      previousFocusRef.current = document.activeElement;
+      
+      // Prevent body scroll
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+      
+      // Focus the modal
+      if (modalRef.current) {
+        modalRef.current.focus();
+      }
     } else {
-      document.body.style.overflow = 'unset';
+      // Restore body scroll
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      
+      // Restore focus to previous element
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus();
+      }
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     };
   }, [isOpen]);
 
-  // Handle click outside to close
-  const handleBackdropClick = (e) => {
+  // Hanref={modalRef}
+        className={`${maxWidth} w-full bg-gray-800/95 backdrop-blur-md border border-gray-700/50 rounded-2xl shadow-2xl shadow-purple-500/20 animate-slideUp`}
+        onClick={(e) => e.stopPropagation()}
+        tabIndex={-1
     if (e.target === e.currentTarget) {
       onClose();
     }

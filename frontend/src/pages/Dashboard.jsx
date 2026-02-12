@@ -170,9 +170,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-950 pt-20 pb-12 px-3 sm:px-4 md:px-6 lg:px-8">
       {loading ? (
-        <div className="max-w-7xl mx-auto space-y-8">
+        <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
           {/* Skeleton Header */}
           <div className="space-y-2">
             <div className="h-10 w-64 bg-slate-800 rounded-lg animate-pulse"></div>
@@ -230,18 +230,18 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Page Header */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+        <div className="space-y-2 px-1">
+          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Dashboard
           </h1>
-          <p className="text-slate-400">
+          <p className="text-slate-400 text-sm sm:text-base break-words">
             Welcome back{user?.name ? `, ${user.name}` : ''}! 
             Here's what's happening with your projects today.
           </p>
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {statsConfig.map((stat) => {
             const Icon = stat.icon;
             const statData = stats.find(s => s.id === stat.id);

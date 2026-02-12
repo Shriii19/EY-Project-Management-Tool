@@ -100,14 +100,14 @@ const Projects = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 sm:mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Projects</h1>
-              <p className="text-gray-400">Manage and track all your projects</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Projects</h1>
+              <p className="text-gray-400 text-sm sm:text-base">Manage and track all your projects</p>
             </div>
             <button
               onClick={handleNewProject}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Plus, Filter, ChevronDown } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
@@ -16,6 +16,10 @@ const Projects = () => {
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
+  
+  // Refs for click-outside detection
+  const statusDropdownRef = useRef(null);
+  const sortDropdownRef = useRef(null);
   
   // Projects state
   const [projects, setProjects] = useState([]);
@@ -42,6 +46,26 @@ const Projects = () => {
 
     fetchProjects();
   }, []);
+
+  // Handle click outside dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (statusDropdownRef.current && !statusDropdownRef.current.contains(event.target)) {
+        setShowStatusDropdown(false);
+      }
+      if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target)) {
+        setShowSortDropdown(false);
+      }
+    };
+
+    if (showStatusDropdown || showSortDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showStatusDropdown, showSortDropdown]);
 
   // Filter and sort projects with improved logic
   const filteredProjects = projects
@@ -134,10 +158,12 @@ const Projects = () => {
             </div>
 
             {/* Status Filter */}
-            <div className="relative">
+            <div className="relative" ref={statusDropdownRef}>
               <button
                 onClick={() => setShowStatusDropdown(!showStatusDropdown)}
                 className="flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700/50 rounded-lg text-white hover:bg-gray-700/50 transition-all min-w-[160px] justify-between"
+                aria-expanded={showStatusDropdown}
+                aria-haspopup="true"
               >
                 <div className="flex items-center gap-2">
                   <Filter className="w-5 h-5 text-gray-400" />
@@ -171,10 +197,12 @@ const Projects = () => {
             </div>
 
             {/* Sort Dropdown */}
-            <div className="relative">
+            <div className="relative" ref={sortDropdownRef}>
               <button
                 onClick={() => setShowSortDropdown(!showSortDropdown)}
                 className="flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700/50 rounded-lg text-white hover:bg-gray-700/50 transition-all min-w-[180px] justify-between"
+                aria-expanded={showSortDropdown}
+                aria-haspopup="true"
               >
                 <span className="text-sm">
                   Sort: {sortBy === 'lastUpdated' ? 'Last Updated' : sortBy === 'progress' ? 'Progress' : 'Name'}

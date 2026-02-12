@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Github, 
@@ -47,7 +46,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-slate-900 border-t border-slate-800">
+    <footer className="bg-slate-900 border-t border-slate-800" role="contentinfo" aria-label="Site footer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-8">
@@ -66,7 +65,7 @@ const Footer = () => {
               Collaborate, track, and deliver projects efficiently.
             </p>
             {/* Social Links */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3" role="list" aria-label="Social media links">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon;
                 return (

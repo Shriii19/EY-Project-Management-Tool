@@ -1,8 +1,26 @@
 import { Clock, Users, CheckCircle2, MoreVertical } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
@@ -45,16 +63,21 @@ const ProjectCard = ({ project, onView, onEdit, onArchive }) => {
         </div>
         
         {/* Actions Menu */}
-        <div className="relative">
+        <div className="relative z-10" ref={menuRef}>
           <button
-            onClick={() => setShowMenu(!showMenu)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu(!showMenu);
+            }}
             className="p-2 hover:bg-gray-700/50 rounded-lg transition-colors"
+            aria-label="Project actions menu"
+            aria-expanded={showMenu}
           >
             <MoreVertical className="w-5 h-5 text-gray-400" />
           </button>
           
           {showMenu && (
-            <div className="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
+            <div className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-lg border border-gray-700 rounded-lg shadow-2xl z-[100]">
               <button
                 onClick={() => {
                   handleViewClick();

@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, Mail, Lock, Eye, EyeOff, AlertCircle, Briefcase } from 'lucide-react';
 import { login } from '../services/auth.service';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -66,7 +68,8 @@ const Login = () => {
     }
 
     try {
-      await login(formData.email, formData.password);
+      const data = await login(formData.email, formData.password);
+      authLogin(data.user, data.token);
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || 'Login failed. Please check your credentials.');

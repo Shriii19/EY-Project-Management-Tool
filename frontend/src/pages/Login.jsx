@@ -29,11 +29,19 @@ const Login = () => {
       [name]: value
     });
     setError('');
-    
+
     // Clear field error when user starts typing
-    setFieldErrors({
-      ...fieldErrors,
-      [FieldErrors({ email: '', password: '' });
+    if (fieldErrors[name]) {
+      setFieldErrors({
+        ...fieldErrors,
+        [name]: ''
+      });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFieldErrors({ email: '', password: '' });
     setLoading(true);
 
     // Field-level validation
@@ -43,7 +51,7 @@ const Login = () => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = 'Please enter a valid email address';
     }
-    
+
     if (!formData.password) {
       errors.password = 'Password is required';
     } else if (formData.password.length < 6) {
@@ -51,14 +59,8 @@ const Login = () => {
     }
 
     if (Object.keys(errors).length > 0) {
-      setFieldErrors(errors
-      setError('Please fill in all fields');
-      setLoading(false);
-      return;
-    }
-
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      setError('Please enter a valid email address');
+      setFieldErrors(errors);
+      setError('Please fill in all fields correctly');
       setLoading(false);
       return;
     }
@@ -67,7 +69,7 @@ const Login = () => {
       await login(formData.email, formData.password);
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      setError(err.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -111,9 +113,17 @@ const Login = () => {
               <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
                 Email Address
               </label>
-              <div className{`w-full pl-10 pr-4 py-3 bg-slate-800/50 border rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none transition-all ${
-                    fieldErrors.email 
-                      ? 'border-red-500/50 focus:ring-2 focus:ring-red-500' 
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-4 py-3 bg-slate-800/50 border rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none transition-all ${
+                    fieldErrors.email
+                      ? 'border-red-500/50 focus:ring-2 focus:ring-red-500'
                       : 'border-slate-700/50 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
                   }`}
                   placeholder="you@example.com"
@@ -167,15 +177,7 @@ const Login = () => {
                   <AlertCircle className="w-3 h-3" />
                   {fieldErrors.password}
                 </p>
-              )}ton
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
+              )}
             </div>
 
             {/* Forgot Password Link */}

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getCurrentUser, getAuthToken, clearAuthToken, isAuthenticated } from '../services/auth.service';
+import { getCurrentUser, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated } from '../services/auth.service';
 
 const AuthContext = createContext(null);
 
@@ -39,6 +39,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData, token) => {
+    if (token) {
+      setAuthToken(token);
+    }
     setUser(userData);
     setIsAuth(true);
   };

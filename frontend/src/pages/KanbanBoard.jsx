@@ -18,7 +18,7 @@ import {
 } from '@dnd-kit/sortable';
 import TaskCard from '../components/TaskCard';
 import AddTaskModal from '../components/AddTaskModal';
-import { getTasks, updateTask } from '../services/task.service';
+import { getTasks, updateTask, normalizeStatus, columnToBackendStatus } from '../services/task.service';
 import { getProjectById } from '../services/project.service';
 import Loading from '../components/Loading';
 import { useAuth } from '../context/AuthContext';
@@ -59,11 +59,11 @@ const KanbanBoard = () => {
         ]);
 
         if (tasksResponse.success) {
-          // Map tasks to include status field for Kanban board
+          // Map tasks to frontend column IDs, normalizing backend status enum values
           const mappedTasks = tasksResponse.tasks.map(task => ({
             ...task,
             id: task._id || task.id,
-            status: task.completed ? 'done' : (task.status || 'todo'),
+            status: normalizeStatus(task),
           }));
           setTasks(mappedTasks);
         }
@@ -177,7 +177,7 @@ const KanbanBoard = () => {
       // Update task on backend
       try {
         await updateTask(activeTask._id || activeTask.id, {
-          status: newStatus,
+          status: columnToBackendStatus(newStatus),
           completed: newStatus === 'done',
         });
       } catch (err) {

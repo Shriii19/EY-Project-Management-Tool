@@ -7,8 +7,9 @@ const dummyTasks = [
         title: "Complete project documentation",
         description: "Write comprehensive documentation for the EY project management tool",
         priority: "High",
+        status: "To Do",
         completed: false,
-        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
         createdAt: new Date(),
         owner: "dummy_user_id"
     },
@@ -17,8 +18,9 @@ const dummyTasks = [
         title: "Review code quality",
         description: "Perform code review and ensure best practices are followed",
         priority: "Medium",
+        status: "Done",
         completed: true,
-        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
+        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
         createdAt: new Date(),
         owner: "dummy_user_id"
     },
@@ -27,14 +29,63 @@ const dummyTasks = [
         title: "Setup deployment pipeline",
         description: "Configure CI/CD pipeline for automated deployment",
         priority: "Low",
+        status: "In Progress",
         completed: false,
-        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days from now
+        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
         createdAt: new Date(),
         owner: "dummy_user_id"
     }
 ];
 
-// Task creation functionality has been removed
+// Create a new task
+export const createTask = async (req, res) => {
+    try {
+        const { title, description, priority, dueDate, status, tags } = req.body;
+
+        if (!title || title.trim().length === 0) {
+            return res.status(400).json({ success: false, message: 'Title is required' });
+        }
+
+        const task = new Task({
+            title: title.trim(),
+            description: description || '',
+            priority: priority || 'Low',
+            status: status || 'To Do',
+            dueDate: dueDate || undefined,
+            tags: tags || [],
+            // Use a placeholder ObjectId so the demo works without real user auth
+            owner: '000000000000000000000000',
+            completed: false,
+        });
+
+        await task.save();
+        res.status(201).json({ success: true, message: 'Task created successfully', task });
+    } catch (err) {
+        // Fall back to in-memory dummy storage when DB is unavailable
+        console.log('Database not connected, creating task in dummy data:', err.message);
+        const { title, description, priority, dueDate, status, tags } = req.body;
+
+        if (!title || title.trim().length === 0) {
+            return res.status(400).json({ success: false, message: 'Title is required' });
+        }
+
+        const newTask = {
+            _id: `dummy_task_${Date.now()}`,
+            title: title.trim(),
+            description: description || '',
+            priority: priority || 'Low',
+            status: status || 'To Do',
+            dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+            tags: tags || [],
+            completed: false,
+            createdAt: new Date(),
+            owner: 'dummy_user_id',
+        };
+
+        dummyTasks.push(newTask);
+        res.status(201).json({ success: true, message: 'Task created successfully', task: newTask });
+    }
+};
 
 //Get All Tasks For Logged In User - authentication removed
 export const getTasks = async (req,res)=>{

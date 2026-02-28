@@ -18,7 +18,7 @@ import {
 } from '@dnd-kit/sortable';
 import TaskCard from '../components/TaskCard';
 import AddTaskModal from '../components/AddTaskModal';
-import { getTasks, updateTask, normalizeStatus, columnToBackendStatus } from '../services/task.service';
+import { getTasks, updateTask, createTask, normalizeStatus, columnToBackendStatus } from '../services/task.service';
 import { getProjectById } from '../services/project.service';
 import Loading from '../components/Loading';
 import { useAuth } from '../context/AuthContext';
@@ -210,8 +210,28 @@ const KanbanBoard = () => {
     return tasks.filter((task) => task.status === status);
   };
 
-  const handleAddTask = (newTask) => {
-    setTasks((prev) => [...prev, newTask]);
+  const handleAddTask = async (newTask) => {
+    try {
+      // Convert frontend column status to backend enum before saving
+      const taskData = {
+        ...newTask,
+        status: columnToBackendStatus(newTask.status || 'todo'),
+      };
+      const response = await createTask(taskData);
+      if (response.success && response.task) {
+        const saved = response.task;
+        const mapped = {
+          ...saved,
+          id: saved._id || saved.id,
+          status: normalizeStatus(saved),
+        };
+        setTasks(prev => [...prev, mapped]);
+      }
+    } catch (err) {
+      console.error('Failed to create task:', err);
+      // Optimistic fallback so the UI still reflects the new card
+      setTasks(prev => [...prev, { ...newTask, id: newTask.id || Date.now().toString() }]);
+    }
   };
 
   const handleTaskClick = (task) => {

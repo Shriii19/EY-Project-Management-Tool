@@ -1,12 +1,12 @@
 import express from 'express'
-import {deleteTask, getTaskById, getTasks, updateTask} from '../controller/taskController.js'
+import {createTask, deleteTask, getTaskById, getTasks, updateTask} from '../controller/taskController.js'
 import { validateTask, validateObjectId } from '../middleware/validation.js'
 
 const taskRouter = express.Router();
 
 taskRouter.route('/')
-    .get(getTasks);
-    // POST route for task creation has been removed
+    .get(getTasks)
+    .post(validateTask, createTask);
 
 taskRouter.route('/:id')
     .get(validateObjectId('id'), getTaskById)

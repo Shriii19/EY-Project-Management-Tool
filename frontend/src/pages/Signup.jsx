@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle, Briefcase } from 'lucide-react';
 import { signup } from '../services/auth.service';
+import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const Signup = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
 
   const handleChange = (e) => {
     setFormData({
@@ -74,10 +76,11 @@ const Signup = () => {
     }
 
     try {
-      await signup(formData.name, formData.email, formData.password);
+      const data = await signup(formData.name, formData.email, formData.password);
+      authLogin(data.user, data.token);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Signup failed. Please try again.');
+      setError(err.message || 'Signup failed. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -70,11 +70,9 @@ const CreateProjectModal = ({ isOpen, onClose, onProjectCreated }) => {
       error = 'Project name is required';
     }
     
-    if (field === 'startDate' && field === 'endDate') {
-      if (formData.startDate && formData.endDate) {
-        if (new Date(formData.endDate) < new Date(formData.startDate)) {
-          error = 'End date must be after start date';
-        }
+    if ((field === 'startDate' || field === 'endDate') && formData.startDate && formData.endDate) {
+      if (new Date(formData.endDate) < new Date(formData.startDate)) {
+        error = 'End date must be after start date';
       }
     }
 

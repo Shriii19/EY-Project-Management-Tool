@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   FolderKanban,
   ListTodo,
@@ -17,6 +18,8 @@ import { getProjectStats } from '../services/project.service';
 import Loading from '../components/Loading';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   // State for dashboard data
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState([]);
@@ -53,10 +56,11 @@ const Dashboard = () => {
         setStats(dashboardStats);
 
         // Mock recent activities (can be replaced with real API)
+        const userName = userResponse?.user?.name || 'Guest User';
         setRecentActivities([
           {
             id: 1,
-            user: userResponse.user?.name || 'Guest User',
+            user: userName,
             action: 'completed',
             taskName: 'Setup API Integration',
             status: 'completed',
@@ -122,9 +126,7 @@ const Dashboard = () => {
       description: 'Start a new project with your team',
       icon: FolderKanban,
       color: 'from-purple-500 to-pink-500',
-      action: () => {
-        // TODO: Implement create project action
-      }
+      action: () => navigate('/projects')
     },
     {
       id: 2,
@@ -132,9 +134,7 @@ const Dashboard = () => {
       description: 'Create a new task for your project',
       icon: Plus,
       color: 'from-blue-500 to-cyan-500',
-      action: () => {
-        // TODO: Implement add task action
-      }
+      action: () => navigate('/tasks')
     },
     {
       id: 3,
@@ -142,9 +142,7 @@ const Dashboard = () => {
       description: 'Add new members to your team',
       icon: UserPlus,
       color: 'from-green-500 to-emerald-500',
-      action: () => {
-        // TODO: Implement invite member action
-      }
+      action: () => navigate('/team')
     }
   ];
 

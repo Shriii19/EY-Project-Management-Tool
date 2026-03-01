@@ -41,13 +41,18 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
 
   // Safely handle missing data
   const progress = project.progress ?? 0;
-  const tasksCompleted = project.tasksCompleted ?? 0;
+  const tasksCompleted = project.tasksCompleted ?? project.completedTasks ?? 0;
   const totalTasks = project.totalTasks ?? 0;
-  const teamMembers = project.teamMembers ?? [];
   const status = project.status ?? 'Unknown';
   const name = project.name ?? 'Untitled Project';
   const description = project.description ?? 'No description available';
-  const lastUpdated = project.lastUpdated ?? 'Unknown';
+  const lastUpdated = project.lastUpdated ?? project.updatedAt ?? 'Unknown';
+  // teamMembers can be a number (count) or an array depending on the API response
+  const teamMembers = Array.isArray(project.teamMembers)
+    ? project.teamMembers
+    : typeof project.teamMembers === 'number'
+      ? Array.from({ length: project.teamMembers }, (_, i) => ({ name: `Member ${i + 1}` }))
+      : [];
 
   return (
     <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-purple-500/30 hover:scale-[1.05] hover:border-purple-500/60 hover:-translate-y-2 hover:from-gray-800/70 hover:to-purple-900/20 transition-all duration-500 group cursor-pointer relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-purple-500/10 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700">

@@ -18,7 +18,7 @@ import {
 } from '@dnd-kit/sortable';
 import TaskCard from '../components/TaskCard';
 import AddTaskModal from '../components/AddTaskModal';
-import { getTasks, updateTask, createTask, normalizeStatus, columnToBackendStatus } from '../services/task.service';
+import { getTasks, getTasksByProjectId, updateTask, createTask, normalizeStatus, columnToBackendStatus } from '../services/task.service';
 import { getProjectById } from '../services/project.service';
 import Loading from '../components/Loading';
 import { useAuth } from '../context/AuthContext';
@@ -54,7 +54,7 @@ const KanbanBoard = () => {
 
         // Fetch tasks and project details in parallel
         const [tasksResponse, projectResponse] = await Promise.all([
-          getTasks(),
+          projectId ? getTasksByProjectId(projectId) : getTasks(),
           projectId ? getProjectById(projectId) : Promise.resolve({ success: false }),
         ]);
 

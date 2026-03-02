@@ -274,7 +274,7 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 - 📧 **Email**: [your-email@example.com](mailto:your-email@example.com)
 - 🐛 **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/your-repo/discussions)
-- 📖 **Documentation**: [Project Wiki](https://github.com/your-repo/wiki)
+<!-- - 📖 **Documentation**: [Project Wiki](https://github.com/your-repo/wiki) -->
 
 ## 👥 Contributors
 

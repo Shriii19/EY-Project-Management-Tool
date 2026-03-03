@@ -3,7 +3,17 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "A modern, feature-rich project management application built with React, Vite, and Tailwind CSS",
   "author": "Shrinivas Mudabe",
+  "keywords": [
+    "project-management",
+    "react",
+    "vite",
+    "tailwind-css",
+    "kanban",
+    "task-management",
+    "dashboard"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",

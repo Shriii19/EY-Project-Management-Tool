@@ -1,8 +1,19 @@
+/**
+ * Authentication Context
+ * Manages user authentication state and provides authentication methods
+ * throughout the application
+ */
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getCurrentUser, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated } from '../services/auth.service';
 
 const AuthContext = createContext(null);
 
+/**
+ * Custom hook to access authentication context
+ * @returns {Object} Authentication context containing user data and auth methods
+ * @throws {Error} If used outside of AuthProvider
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -11,6 +22,14 @@ export const useAuth = () => {
   return context;
 };
 
+/**
+ * Authentication Provider Component
+ * Wraps the application and provides authentication state and methods
+ * 
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components to wrap
+ * @returns {JSX.Element} Provider component with authentication context
+ */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -38,6 +57,11 @@ export const AuthProvider = ({ children }) => {
     loadUser();
   }, []);
 
+  /**
+   * Login user and set authentication token
+   * @param {Object} userData - User data object
+   * @param {string} [token] - Optional authentication token
+   */
   const login = (userData, token) => {
     if (token) {
       setAuthToken(token);
@@ -46,12 +70,19 @@ export const AuthProvider = ({ children }) => {
     setIsAuth(true);
   };
 
+  /**
+   * Logout user and clear authentication state
+   */
   const logout = () => {
     clearAuthToken();
     setUser(null);
     setIsAuth(false);
   };
 
+  /**
+   * Update current user data
+   * @param {Object} userData - Updated user data object
+   */
   const updateUser = (userData) => {
     setUser(userData);
   };

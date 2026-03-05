@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_CONFIG } from '../utils/constants';
 
 // Create Axios instance with base configuration
 const api = axios.create({
@@ -6,13 +7,13 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 15000, // 15 seconds - increased for slower connections
+  timeout: API_CONFIG.TIMEOUT,
   withCredentials: true, // Enable cookies for CORS
 });
 
-// Retry configuration
-const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 second
+// Retry configuration (values sourced from utils/constants)
+const MAX_RETRIES = API_CONFIG.MAX_RETRIES;
+const RETRY_DELAY = API_CONFIG.RETRY_DELAY;
 
 // Helper function to delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));

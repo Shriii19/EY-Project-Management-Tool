@@ -6,6 +6,7 @@ import {
   Mail, 
   Briefcase
 } from 'lucide-react';
+import { APP_NAME } from '../utils/constants';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -57,7 +58,7 @@ const Footer = () => {
                 <Briefcase className="h-6 w-6 text-white" />
               </div>
               <span className="text-xl font-bold text-white">
-                EY Project Manager
+                {APP_NAME}
               </span>
             </div>
             <p className="text-slate-400 text-sm mb-6 max-w-sm">

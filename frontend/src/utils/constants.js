@@ -3,6 +3,10 @@
  * Centralized configuration for the EY Project Management Tool
  */
 
+// App Metadata
+export const APP_NAME = 'EY Project Manager';
+export const APP_VERSION = '1.0.0';
+
 // API Configuration
 export const API_CONFIG = {
   TIMEOUT: 15000, // 15 seconds
@@ -67,4 +71,13 @@ export const USER_ROLES = {
   MANAGER: 'manager',
   MEMBER: 'member',
   VIEWER: 'viewer',
+};
+
+// Notification Types
+export const NOTIFICATION_TYPES = {
+  TASK_ASSIGNED: 'task_assigned',
+  TASK_COMPLETED: 'task_completed',
+  PROJECT_UPDATED: 'project_updated',
+  MENTION: 'mention',
+  DEADLINE_REMINDER: 'deadline_reminder',
 };

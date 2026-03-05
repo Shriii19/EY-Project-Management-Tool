@@ -103,6 +103,8 @@ const Tasks = () => {
               <button
                 key={opt}
                 onClick={() => setPriorityFilter(opt)}
+                aria-label={`Filter by ${opt} priority`}
+                aria-pressed={priorityFilter === opt}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors border ${
                   priorityFilter === opt
                     ? 'bg-purple-600 border-purple-500 text-white'

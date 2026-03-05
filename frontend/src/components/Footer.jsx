@@ -66,11 +66,11 @@ const Footer = () => {
             </p>
             {/* Social Links */}
             <div className="flex items-center space-x-3" role="list" aria-label="Social media links">
-              {socialLinks.map((social, index) => {
+              {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
                   <a
-                    key={index}
+                    key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -90,8 +90,8 @@ const Footer = () => {
               Product
             </h3>
             <ul className="space-y-3">
-              {footerLinks.product.map((link, index) => (
-                <li key={index}>
+              {footerLinks.product.map((link) => (
+                <li key={link.name}>
                   <Link
                     to={link.path}
                     className="text-slate-400 hover:text-purple-400 text-sm transition-colors duration-200"
@@ -109,8 +109,8 @@ const Footer = () => {
               Company
             </h3>
             <ul className="space-y-3">
-              {footerLinks.company.map((link, index) => (
-                <li key={index}>
+              {footerLinks.company.map((link) => (
+                <li key={link.name}>
                   <a
                     href={link.path}
                     className="text-slate-400 hover:text-purple-400 text-sm transition-colors duration-200"
@@ -128,8 +128,8 @@ const Footer = () => {
               Support
             </h3>
             <ul className="space-y-3">
-              {footerLinks.support.map((link, index) => (
-                <li key={index}>
+              {footerLinks.support.map((link) => (
+                <li key={link.name}>
                   <a
                     href={link.path}
                     className="text-slate-400 hover:text-purple-400 text-sm transition-colors duration-200"
@@ -147,8 +147,8 @@ const Footer = () => {
               Legal
             </h3>
             <ul className="space-y-3">
-              {footerLinks.legal.map((link, index) => (
-                <li key={index}>
+              {footerLinks.legal.map((link) => (
+                <li key={link.name}>
                   <a
                     href={link.path}
                     className="text-slate-400 hover:text-purple-400 text-sm transition-colors duration-200"

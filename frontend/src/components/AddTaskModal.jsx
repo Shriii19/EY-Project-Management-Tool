@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Calendar, AlertCircle, User } from 'lucide-react';
 
 const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
@@ -93,6 +93,16 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
     setErrors({});
     onClose();
   };
+
+  // Close modal on Escape key press
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') handleCancel();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!isOpen) return null;
 

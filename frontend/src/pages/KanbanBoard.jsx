@@ -61,7 +61,7 @@ const KanbanBoard = () => {
 
         if (tasksResponse.success) {
           // Map tasks to frontend column IDs, normalizing backend status enum values
-          const mappedTasks = tasksResponse.tasks.map(task => ({
+          const mappedTasks = (tasksResponse.tasks || []).map(task => ({
             ...task,
             id: task._id || task.id,
             status: normalizeStatus(task),
@@ -242,6 +242,7 @@ const KanbanBoard = () => {
       const taskData = {
         ...newTask,
         status: columnToBackendStatus(newTask.status || 'todo'),
+        ...(projectId ? { projectId } : {}),
       };
       const response = await createTask(taskData);
       if (response.success && response.task) {

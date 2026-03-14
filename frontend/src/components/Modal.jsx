@@ -59,10 +59,7 @@ const Modal = ({
     };
   }, [isOpen]);
 
-  // Hanref={modalRef}
-        className={`${maxWidth} w-full bg-gray-800/95 backdrop-blur-md border border-gray-700/50 rounded-2xl shadow-2xl shadow-purple-500/20 animate-slideUp`}
-        onClick={(e) => e.stopPropagation()}
-        tabIndex={-1
+  const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -80,8 +77,10 @@ const Modal = ({
       aria-describedby="modal-description"
     >
       <div
+        ref={modalRef}
         className={`${maxWidth} w-full bg-gray-800/95 backdrop-blur-md border border-gray-700/50 rounded-2xl shadow-2xl shadow-purple-500/20 animate-slideUp`}
         onClick={(e) => e.stopPropagation()}
+        tabIndex={-1}
       >
         {/* Modal Header */}
         <div className="flex items-start justify-between p-6 border-b border-gray-700/50">

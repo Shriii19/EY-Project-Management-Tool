@@ -14,7 +14,7 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
   const [errors, setErrors] = useState({});
 
   // Team members - ready for API integration
-  const [teamMembers, setTeamMembers] = useState([]);
+  const [teamMembers] = useState([]);
   // TODO: Fetch from API
   // useEffect(() => {
   //   fetchProjectTeamMembers(projectId).then(setTeamMembers);

@@ -26,7 +26,7 @@ const CreateProjectModal = ({ isOpen, onClose, onProjectCreated }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Available team members - ready for API integration
-  const [availableTeamMembers, setAvailableTeamMembers] = useState([]);
+  const [availableTeamMembers] = useState([]);
   // TODO: Fetch from API
   // useEffect(() => {
   //   fetchTeamMembers().then(setAvailableTeamMembers);

@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion';
-
 const TabNavigation = ({ tabs, activeTab, onTabChange, className = '' }) => {
   return (
     <div className={`bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden ${className}`}>

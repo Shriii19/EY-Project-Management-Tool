@@ -145,19 +145,23 @@ const Profile = () => {
     }
   };
 
-  const StatCard = ({ icon: Icon, label, value, color }) => (
-    <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6 hover:bg-slate-800/70 transition-all duration-300 hover:scale-105">
-      <div className="flex items-center gap-4">
-        <div className={`p-3 rounded-lg ${color}`}>
-          <Icon className="w-6 h-6 text-white" />
-        </div>
-        <div className="flex-1">
-          <p className="text-slate-400 text-sm">{label}</p>
-          <p className="text-white text-2xl font-bold mt-1">{value}</p>
+  const StatCard = ({ icon, label, value, color }) => {
+    const IconComponent = icon;
+
+    return (
+      <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6 hover:bg-slate-800/70 transition-all duration-300 hover:scale-105">
+        <div className="flex items-center gap-4">
+          <div className={`p-3 rounded-lg ${color}`}>
+            <IconComponent className="w-6 h-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <p className="text-slate-400 text-sm">{label}</p>
+            <p className="text-white text-2xl font-bold mt-1">{value}</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 py-8 px-4 sm:px-6 lg:px-8">

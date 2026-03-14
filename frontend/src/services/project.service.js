@@ -152,20 +152,15 @@ export const updateProject = async (projectId, projectData) => {
 
 // Delete/Archive a project
 export const deleteProject = async (projectId) => {
-  try {
-    // TODO: Replace with actual API call when backend implements projects
-    // const response = await api.delete(`/api/projects/${projectId}`);
-    // return response.data;
-    
-    // For now, return success
-    return {
-      success: true,
-      message: 'Project archived successfully',
-    };
-  } catch (error) {
-    console.error(`Error deleting project ${projectId}:`, error);
-    throw error;
-  }
+  // TODO: Replace with actual API call when backend implements projects
+  // const response = await api.delete(`/api/projects/${projectId}`);
+  // return response.data;
+
+  return {
+    success: true,
+    archivedProjectId: projectId,
+    message: 'Project archived successfully',
+  };
 };
 
 // Get project statistics

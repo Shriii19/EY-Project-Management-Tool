@@ -234,7 +234,7 @@ const KanbanBoard = () => {
     }
   };
 
-  const handleTaskClick = (task) => {
+  const handleTaskClick = () => {
     // TODO: Open task details modal
   };
 

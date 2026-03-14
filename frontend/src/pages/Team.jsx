@@ -3,8 +3,7 @@ import { Users, UserPlus, Mail, MoreVertical } from 'lucide-react';
 
 const Team = () => {
   // State for team members - ready for API integration
-  const [teamMembers, setTeamMembers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [teamMembers] = useState([]);
 
   return (
     <div className="min-h-screen bg-slate-950 pt-20 px-4 sm:px-6 lg:px-8">

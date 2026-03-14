@@ -364,9 +364,9 @@ const ProjectDetails = () => {
                 </div>
               </div>
 
-              {project.tasks && project.tasks.length > 0 ? (
+              {tasks.length > 0 ? (
                 <div className="space-y-3">
-                  {project.tasks.map((task) => (
+                  {tasks.map((task) => (
                     <div 
                       key={task.id}
                       className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-all cursor-pointer"

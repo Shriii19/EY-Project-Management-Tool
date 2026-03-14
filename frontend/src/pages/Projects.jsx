@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, Plus, Filter, ChevronDown } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
 import CreateProjectModal from '../components/CreateProjectModal';
-import { getProjects } from '../services/project.service';
+import { deleteProject, getProjects } from '../services/project.service';
 import { useAuth } from '../context/useAuth';
 
 const Projects = () => {
@@ -95,11 +95,18 @@ const Projects = () => {
   }, [navigate]);
 
   const handleEditProject = useCallback((projectId) => {
-    // TODO: Implement edit functionality
-  }, []);
+    navigate(`/projects/${projectId}`);
+  }, [navigate]);
 
-  const handleArchiveProject = useCallback((projectId) => {
-    // TODO: Implement archive functionality
+  const handleArchiveProject = useCallback(async (projectId) => {
+    try {
+      setError(null);
+      await deleteProject(projectId);
+      setProjects((prev) => prev.filter((project) => project.id !== projectId));
+    } catch (err) {
+      console.error('Error archiving project:', err);
+      setError('Failed to archive project');
+    }
   }, []);
 
   const handleNewProject = useCallback(() => {
@@ -110,7 +117,7 @@ const Projects = () => {
     setShowNewProjectModal(true);
   }, [isAuthenticated, navigate]);
 
-  const handleProjectCreated = useCallback(async (newProject) => {
+  const handleProjectCreated = useCallback(async () => {
     // Refresh projects list after creating a new project
     try {
       const response = await getProjects();

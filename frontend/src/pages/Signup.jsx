@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle, Briefcase } from 'lucide-react';
 import { signup } from '../services/auth.service';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
 const Signup = () => {
   const [formData, setFormData] = useState({

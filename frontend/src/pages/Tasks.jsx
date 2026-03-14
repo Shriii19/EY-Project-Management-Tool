@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListTodo, Filter, Plus, Search, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { getTasks, normalizeStatus } from '../services/task.service';
 import Loading from '../components/Loading';
 

@@ -21,7 +21,7 @@ import AddTaskModal from '../components/AddTaskModal';
 import { getTasks, getTasksByProjectId, updateTask, createTask, normalizeStatus, columnToBackendStatus } from '../services/task.service';
 import { getProjectById } from '../services/project.service';
 import Loading from '../components/Loading';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
 // Column definitions
 const columns = [

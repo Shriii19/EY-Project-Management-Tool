@@ -38,6 +38,7 @@ const KanbanBoard = () => {
   const { isAuthenticated } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [activeId, setActiveId] = useState(null);
+  const [dragStartStatus, setDragStartStatus] = useState(null);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -94,7 +95,9 @@ const KanbanBoard = () => {
   );
 
   const handleDragStart = (event) => {
+    const currentTask = tasks.find((task) => task.id === event.active.id);
     setActiveId(event.active.id);
+    setDragStartStatus(currentTask?.status || null);
   };
 
   const handleDragOver = (event) => {
@@ -143,6 +146,7 @@ const KanbanBoard = () => {
 
     if (!over) {
       setActiveId(null);
+      setDragStartStatus(null);
       return;
     }
 
@@ -154,6 +158,7 @@ const KanbanBoard = () => {
 
     if (!activeTask) {
       setActiveId(null);
+      setDragStartStatus(null);
       return;
     }
 
@@ -174,36 +179,57 @@ const KanbanBoard = () => {
         });
       });
 
-      // Update task on backend
-      try {
-        await updateTask(activeTask._id || activeTask.id, {
-          status: columnToBackendStatus(newStatus),
-          completed: newStatus === 'done',
-        });
-      } catch (err) {
-        console.error('Error updating task:', err);
-        // Revert on error
-        setTasks((tasks) => {
-          return tasks.map((task) => {
-            if (task.id === activeId) {
-              return activeTask;
-            }
-            return task;
+      // Persist only when the task actually moved columns.
+      if (dragStartStatus !== newStatus) {
+        try {
+          await updateTask(activeTask._id || activeTask.id, {
+            status: columnToBackendStatus(newStatus),
+            completed: newStatus === 'done',
           });
-        });
+        } catch (err) {
+          console.error('Error updating task:', err);
+          // Revert on error
+          setTasks((tasks) => {
+            return tasks.map((task) => {
+              if (task.id === activeId) {
+                return activeTask;
+              }
+              return task;
+            });
+          });
+        }
       }
     } else if (overTask) {
       // Reordering within the same column or moving between columns
-      if (activeTask.status === overTask.status) {
+      if (dragStartStatus === overTask.status) {
         setTasks((tasks) => {
           const oldIndex = tasks.findIndex((t) => t.id === activeId);
           const newIndex = tasks.findIndex((t) => t.id === overId);
           return arrayMove(tasks, oldIndex, newIndex);
         });
+      } else {
+        try {
+          await updateTask(activeTask._id || activeTask.id, {
+            status: columnToBackendStatus(overTask.status),
+            completed: overTask.status === 'done',
+          });
+        } catch (err) {
+          console.error('Error updating task:', err);
+          // Revert on error
+          setTasks((tasks) => {
+            return tasks.map((task) => {
+              if (task.id === activeId) {
+                return activeTask;
+              }
+              return task;
+            });
+          });
+        }
       }
     }
 
     setActiveId(null);
+    setDragStartStatus(null);
   };
 
   const getTasksByStatus = (status) => {

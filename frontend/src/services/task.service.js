@@ -65,13 +65,25 @@ export const getTasksByProjectId = async (projectId) => {
   try {
     const response = await getTasks();
     if (response.success && response.tasks) {
+      const matchesProject = (task) => {
+        if (!projectId) return true;
+
+        const directProjectId = task.projectId || task.project;
+        const nestedProjectId =
+          typeof task.project === 'object' && task.project !== null
+            ? task.project._id || task.project.id
+            : undefined;
+
+        return [directProjectId, nestedProjectId, task.project_id]
+          .filter(Boolean)
+          .some((id) => String(id) === String(projectId));
+      };
+
       // Filter tasks by projectId if your backend supports it
       // Otherwise, return all tasks
       return {
         ...response,
-        tasks: projectId 
-          ? response.tasks.filter(task => task.projectId === projectId)
-          : response.tasks
+        tasks: response.tasks.filter(matchesProject),
       };
     }
     return response;

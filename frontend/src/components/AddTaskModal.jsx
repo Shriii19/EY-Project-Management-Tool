@@ -53,7 +53,7 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
     }
 
     // Find assignee details
-    const assigneeDetails = teamMembers.find((m) => m.id === parseInt(formData.assignee));
+    const assigneeDetails = teamMembers.find((m) => String(m.id) === String(formData.assignee));
 
     // Create new task
     const newTask = {

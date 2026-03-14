@@ -101,7 +101,12 @@ const Projects = () => {
   const handleArchiveProject = useCallback(async (projectId) => {
     try {
       setError(null);
-      await deleteProject(projectId);
+      const response = await deleteProject(projectId);
+
+      if (!response?.success) {
+        throw new Error(response?.message || 'Archive request failed');
+      }
+
       setProjects((prev) => prev.filter((project) => project.id !== projectId));
     } catch (err) {
       console.error('Error archiving project:', err);

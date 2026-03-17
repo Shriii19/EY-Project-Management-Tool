@@ -110,6 +110,15 @@ const ProjectDetails = () => {
     }
   };
 
+  const projectTeam = project?.team || project?.teamMembers || [];
+  const projectActivities = project?.activities || project?.recentActivity || [];
+  const projectStats = project?.stats || {
+    totalTasks: project?.totalTasks || tasks.length,
+    completedTasks: project?.completedTasks || 0,
+    pendingTasks: Math.max((project?.totalTasks || tasks.length) - (project?.completedTasks || 0), 0),
+    overdueTasks: project?.overdueTasks || 0,
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
@@ -217,22 +226,22 @@ const ProjectDetails = () => {
               )}
 
               {/* Team Avatars */}
-              {project.team && project.team.length > 0 && (
+              {projectTeam.length > 0 && (
                 <div className="mt-6 flex items-center gap-3">
                   <span className="text-sm text-gray-400">Team:</span>
                   <div className="flex -space-x-2">
-                    {project.team.slice(0, 5).map((member) => (
+                    {projectTeam.slice(0, 5).map((member) => (
                       <div 
                         key={member.id}
                         className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-semibold border-2 border-gray-800 hover:scale-110 transition-transform cursor-pointer"
                         title={member.name}
                       >
-                        {member.avatar}
+                        {member.avatar || member.initials || member.name?.[0] || '?'}
                       </div>
                     ))}
-                    {project.team.length > 5 && (
+                    {projectTeam.length > 5 && (
                       <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-xs font-semibold border-2 border-gray-800">
-                        +{project.team.length - 5}
+                        +{projectTeam.length - 5}
                       </div>
                     )}
                   </div>
@@ -271,7 +280,7 @@ const ProjectDetails = () => {
                     <FileText className="w-8 h-8 text-blue-400" />
                     <TrendingUp className="w-5 h-5 text-green-400" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-1">{project.stats?.totalTasks || 0}</h3>
+                  <h3 className="text-2xl font-bold mb-1">{projectStats.totalTasks}</h3>
                   <p className="text-gray-400 text-sm">Total Tasks</p>
                 </div>
 
@@ -279,7 +288,7 @@ const ProjectDetails = () => {
                   <div className="flex items-center justify-between mb-2">
                     <CheckCircle className="w-8 h-8 text-green-400" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-1">{project.stats?.completedTasks || 0}</h3>
+                  <h3 className="text-2xl font-bold mb-1">{projectStats.completedTasks}</h3>
                   <p className="text-gray-400 text-sm">Completed</p>
                 </div>
 
@@ -287,7 +296,7 @@ const ProjectDetails = () => {
                   <div className="flex items-center justify-between mb-2">
                     <Clock className="w-8 h-8 text-yellow-400" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-1">{project.stats?.pendingTasks || 0}</h3>
+                  <h3 className="text-2xl font-bold mb-1">{projectStats.pendingTasks}</h3>
                   <p className="text-gray-400 text-sm">Pending</p>
                 </div>
 
@@ -295,7 +304,7 @@ const ProjectDetails = () => {
                   <div className="flex items-center justify-between mb-2">
                     <AlertCircle className="w-8 h-8 text-red-400" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-1">{project.stats?.overdueTasks || 0}</h3>
+                  <h3 className="text-2xl font-bold mb-1">{projectStats.overdueTasks}</h3>
                   <p className="text-gray-400 text-sm">Overdue</p>
                 </div>
               </div>
@@ -319,8 +328,8 @@ const ProjectDetails = () => {
                   Recent Activity
                 </h3>
                 <div className="space-y-3">
-                  {project.activities && project.activities.length > 0 ? (
-                    project.activities.slice(0, 5).map((activity) => (
+                  {projectActivities.length > 0 ? (
+                    projectActivities.slice(0, 5).map((activity) => (
                       <div key={activity.id} className="flex items-start gap-3 text-sm">
                         <div className="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 flex-shrink-0">
                           {getActivityIcon(activity.type)}
@@ -328,9 +337,9 @@ const ProjectDetails = () => {
                         <div className="flex-1">
                           <p className="text-gray-300">
                             <span className="font-semibold">{activity.user}</span> {activity.action}{' '}
-                            <span className="text-blue-400">{activity.target}</span>
+                            <span className="text-blue-400">{activity.target || activity.task}</span>
                           </p>
-                          <p className="text-gray-500 text-xs mt-1">{activity.time}</p>
+                          <p className="text-gray-500 text-xs mt-1">{activity.time || activity.timestamp}</p>
                         </div>
                       </div>
                     ))
@@ -441,9 +450,9 @@ const ProjectDetails = () => {
                 </button>
               </div>
 
-              {project.team && project.team.length > 0 ? (
+              {projectTeam.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {project.team.map((member) => (
+                  {projectTeam.map((member) => (
                     <div 
                       key={member.id}
                       className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-all"
@@ -451,11 +460,11 @@ const ProjectDetails = () => {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-lg font-semibold">
-                            {member.avatar}
+                            {member.avatar || member.initials || member.name?.[0] || '?'}
                           </div>
                           <div>
                             <h4 className="font-semibold text-white">{member.name}</h4>
-                            <p className="text-sm text-gray-400">{member.email}</p>
+                            <p className="text-sm text-gray-400">{member.email || 'No email available'}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -492,15 +501,15 @@ const ProjectDetails = () => {
           {activeTab === 'activity' && (
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6">
               <h3 className="text-xl font-bold mb-6">Activity Feed</h3>
-              {project.activities && project.activities.length > 0 ? (
+              {projectActivities.length > 0 ? (
                 <div className="space-y-4">
-                  {project.activities.map((activity, index) => (
+                  {projectActivities.map((activity, index) => (
                     <div key={activity.id} className="flex gap-4">
                       <div className="flex flex-col items-center">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white flex-shrink-0">
                           {getActivityIcon(activity.type)}
                         </div>
-                        {index < project.activities.length - 1 && (
+                        {index < projectActivities.length - 1 && (
                           <div className="w-0.5 h-full bg-gradient-to-b from-blue-500/50 to-transparent mt-2"></div>
                         )}
                       </div>
@@ -508,9 +517,9 @@ const ProjectDetails = () => {
                         <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-all">
                           <p className="text-white mb-1">
                             <span className="font-semibold">{activity.user}</span> {activity.action}{' '}
-                            <span className="text-blue-400">{activity.target}</span>
+                            <span className="text-blue-400">{activity.target || activity.task}</span>
                           </p>
-                          <p className="text-sm text-gray-400">{activity.time}</p>
+                          <p className="text-sm text-gray-400">{activity.time || activity.timestamp}</p>
                         </div>
                       </div>
                     </div>

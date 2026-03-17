@@ -32,6 +32,14 @@ const columns = [
   { id: 'done', title: 'Done', color: 'from-green-500 to-green-600' },
 ];
 
+const createFallbackTaskId = () => {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  return `task-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+};
+
 const KanbanBoard = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
@@ -257,7 +265,7 @@ const KanbanBoard = () => {
     } catch (err) {
       console.error('Failed to create task:', err);
       // Optimistic fallback so the UI still reflects the new card
-      setTasks(prev => [...prev, { ...newTask, id: newTask.id || Date.now().toString() }]);
+      setTasks(prev => [...prev, { ...newTask, id: newTask.id || createFallbackTaskId() }]);
     }
   };
 

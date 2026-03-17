@@ -1,7 +1,18 @@
 import { useState, useEffect } from 'react';
 import { X, Calendar, AlertCircle, User } from 'lucide-react';
 
+const getTaskDraftId = () => {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  return `task-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+};
+
 const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
+  const availableColumns = Array.isArray(columns) && columns.length > 0
+    ? columns
+    : [{ id: 'backlog', title: 'Backlog' }];
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -57,7 +68,7 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
 
     // Create new task
     const newTask = {
-      id: Date.now().toString(),
+      id: getTaskDraftId(),
       title: formData.title,
       description: formData.description,
       priority: formData.priority,
@@ -197,7 +208,7 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer"
               >
-                {columns.map((col) => (
+                {availableColumns.map((col) => (
                   <option key={col.id} value={col.id} className="bg-gray-800">
                     {col.title}
                   </option>

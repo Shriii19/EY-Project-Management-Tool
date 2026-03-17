@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 import { logout as logoutService } from '../services/auth.service';
@@ -57,6 +57,7 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     logoutService();
+    navigate('/login', { replace: true });
   };
 
   // Profile dropdown items with unique IDs
@@ -243,7 +244,7 @@ const Navbar = () => {
                     {profileItems.map((item, index) => {
                       const Icon = item.icon;
                       return (
-                        <React.Fragment key={index}>
+                        <Fragment key={item.id}>
                           {item.divider && index > 0 && (
                             <div className="h-px bg-slate-700/50 my-1" />
                           )}
@@ -274,7 +275,7 @@ const Navbar = () => {
                             <Icon className="w-4 h-4" />
                             <span className="text-sm font-medium">{item.label}</span>
                           </button>
-                        </React.Fragment>
+                        </Fragment>
                       );
                     })}
                   </div>

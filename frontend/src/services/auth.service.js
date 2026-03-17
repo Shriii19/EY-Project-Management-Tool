@@ -38,7 +38,6 @@ export const signup = async (name, email, password) => {
 // Logout user
 export const logout = () => {
   clearAuthToken();
-  window.location.href = '/login';
 };
 
 // Get current user profile

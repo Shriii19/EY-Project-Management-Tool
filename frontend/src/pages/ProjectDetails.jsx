@@ -110,6 +110,10 @@ const ProjectDetails = () => {
     }
   };
 
+  const openProjectTasks = () => {
+    navigate(`/projects/${projectId}/tasks`);
+  };
+
   const projectTeam = project?.team || project?.teamMembers || [];
   const projectActivities = project?.activities || project?.recentActivity || [];
   const projectStats = project?.stats || {
@@ -194,7 +198,10 @@ const ProjectDetails = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3">
-                  <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-all flex items-center gap-2">
+                  <button
+                    onClick={openProjectTasks}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-all flex items-center gap-2"
+                  >
                     <Plus className="w-4 h-4" />
                     Add Task
                   </button>
@@ -360,7 +367,10 @@ const ProjectDetails = () => {
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold">Tasks Overview</h3>
                 <div className="flex gap-3">
-                  <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-all flex items-center gap-2">
+                  <button
+                    onClick={openProjectTasks}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-all flex items-center gap-2"
+                  >
                     <Plus className="w-4 h-4" />
                     Add Task
                   </button>
@@ -430,7 +440,10 @@ const ProjectDetails = () => {
                   <FileText className="w-16 h-16 mb-4 opacity-50" />
                   <h4 className="text-lg font-semibold mb-2">No tasks yet</h4>
                   <p className="text-sm mb-4">Create your first task to get started</p>
-                  <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-all flex items-center gap-2">
+                  <button
+                    onClick={openProjectTasks}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-all flex items-center gap-2"
+                  >
                     <Plus className="w-4 h-4" />
                     Create Task
                   </button>

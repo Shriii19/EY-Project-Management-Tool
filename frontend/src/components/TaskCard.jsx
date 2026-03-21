@@ -1,4 +1,4 @@
-import { Calendar, AlertCircle, GripVertical } from 'lucide-react';
+import { Calendar, GripVertical } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { memo, useMemo } from 'react';
@@ -39,18 +39,24 @@ const TaskCard = memo(({ task, onClick }) => {
     }
   };
 
-  const getPriorityDotColor = (priority) => {
+  const getPriorityStripe = (priority) => {
     switch (priority) {
-      case 'High':
-        return 'bg-red-500';
-      case 'Medium':
-        return 'bg-yellow-500';
-      case 'Low':
-        return 'bg-green-500';
-      default:
-        return 'bg-gray-500';
+      case 'High':   return 'priority-stripe-high';
+      case 'Medium': return 'priority-stripe-medium';
+      case 'Low':    return 'priority-stripe-low';
+      default:       return 'border-l-gray-600';
     }
   };
+
+  const getPriorityBg = (priority) => {
+    switch (priority) {
+      case 'High':   return 'hover:shadow-red-500/10';
+      case 'Medium': return 'hover:shadow-yellow-500/10';
+      case 'Low':    return 'hover:shadow-green-500/10';
+      default:       return '';
+    }
+  };
+
 
   return (
     <div
@@ -65,8 +71,8 @@ const TaskCard = memo(({ task, onClick }) => {
           onClick?.(task);
         }
       }}
-      className={`bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-lg p-4 mb-3 cursor-pointer hover:bg-gradient-to-br hover:from-white/10 hover:to-purple-500/5 hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/20 hover:-translate-y-2 transition-all duration-500 ease-out group relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-transparent before:via-white/5 before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-1000 ${
-        isDragging ? 'shadow-2xl shadow-blue-500/30 scale-105 rotate-2' : ''
+      className={`bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 border-l-4 ${getPriorityStripe(priority)} rounded-lg p-4 mb-3 cursor-pointer hover:bg-gradient-to-br hover:from-white/10 hover:to-purple-500/5 hover:border-t-purple-500/40 hover:border-r-purple-500/40 hover:border-b-purple-500/40 hover:shadow-2xl ${getPriorityBg(priority)} hover:-translate-y-1.5 transition-all duration-500 ease-out group relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-transparent before:via-white/5 before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-1000 ${
+        isDragging ? 'shadow-2xl shadow-purple-500/40 scale-105 rotate-1 opacity-90 ring-2 ring-purple-500/60' : ''
       }`}
       onClick={() => onClick && onClick(task)}
     >
@@ -76,8 +82,7 @@ const TaskCard = memo(({ task, onClick }) => {
         {...listeners}
         className="flex items-center gap-2 mb-3 cursor-grab active:cursor-grabbing"
       >
-        <GripVertical className="w-4 h-4 text-gray-500 group-hover:text-gray-400" />
-        <div className={`w-1 h-1 rounded-full ${getPriorityDotColor(priority)}`}></div>
+        <GripVertical className="w-4 h-4 text-gray-600 group-hover:text-purple-400 transition-colors duration-200" />
       </div>
 
       {/* Task Title */}
@@ -91,22 +96,23 @@ const TaskCard = memo(({ task, onClick }) => {
       {/* Priority Badge */}
       <div className="flex items-center gap-2 mb-3">
         <span
-          className={`px-2 py-1 rounded text-xs font-medium border ${getPriorityColor(priority)}`}
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold border tracking-wide ${getPriorityColor(priority)}`}
         >
+          <span className="w-1.5 h-1.5 rounded-full bg-current opacity-80" />
           {priority}
         </span>
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-3 border-t border-white/10">
+      <div className="flex items-center justify-between pt-3 border-t border-white/5">
         {/* Due Date */}
         {dueDate ? (
-          <div className="flex items-center gap-1.5 text-gray-400 text-xs">
-            <Calendar className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-white/5 px-2 py-1 rounded-md">
+            <Calendar className="w-3.5 h-3.5 text-purple-400" />
             <span>{dueDate}</span>
           </div>
         ) : (
-          <div className="flex items-center gap-1.5 text-gray-500 text-xs">
+          <div className="flex items-center gap-1.5 text-xs text-gray-600">
             <Calendar className="w-3.5 h-3.5" />
             <span>No due date</span>
           </div>

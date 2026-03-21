@@ -126,15 +126,18 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
       ></div>
 
       {/* Modal */}
-      <div className="relative bg-gray-900 border border-white/10 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-gray-900 border border-white/10 rounded-2xl shadow-2xl shadow-purple-900/30 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <h2 className="text-2xl font-bold text-white">Add New Task</h2>
+        <div className="flex items-center justify-between p-6 border-b border-white/10 bg-gradient-to-r from-purple-900/40 to-slate-900/40 rounded-t-2xl">
+          <div>
+            <h2 className="text-2xl font-bold text-white">Add New Task</h2>
+            <p className="text-slate-400 text-sm mt-0.5">Fill in the details below to create a task.</p>
+          </div>
           <button
             onClick={handleCancel}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors text-gray-400 hover:text-white"
           >
-            <X className="w-5 h-5 text-gray-400" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -150,10 +153,10 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              placeholder="Enter task title"
+              placeholder="e.g. Design the landing page"
               className={`w-full px-4 py-3 bg-white/5 border ${
-                errors.title ? 'border-red-500' : 'border-white/10'
-              } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all`}
+                errors.title ? 'border-red-500 ring-1 ring-red-500/50' : 'border-white/10 focus:border-purple-500'
+              } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/60 transition-all`}
             />
             {errors.title && (
               <p className="mt-1 text-sm text-red-400 flex items-center gap-1">
@@ -174,7 +177,7 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
               onChange={handleChange}
               placeholder="Enter task description"
               rows="3"
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/60 focus:border-purple-500 transition-all resize-none"
             />
           </div>
 
@@ -189,11 +192,11 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
                 name="priority"
                 value={formData.priority}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500/60 focus:border-purple-500 transition-all cursor-pointer"
               >
-                <option value="Low" className="bg-gray-800">Low</option>
-                <option value="Medium" className="bg-gray-800">Medium</option>
-                <option value="High" className="bg-gray-800">High</option>
+                <option value="Low" className="bg-gray-800">🟢 Low</option>
+                <option value="Medium" className="bg-gray-800">🟡 Medium</option>
+                <option value="High" className="bg-gray-800">🔴 High</option>
               </select>
             </div>
 
@@ -206,7 +209,7 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500/60 focus:border-purple-500 transition-all cursor-pointer"
               >
                 {availableColumns.map((col) => (
                   <option key={col.id} value={col.id} className="bg-gray-800">
@@ -231,8 +234,8 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
                   value={formData.dueDate}
                   onChange={handleChange}
                   className={`w-full px-4 py-3 bg-white/5 border ${
-                    errors.dueDate ? 'border-red-500' : 'border-white/10'
-                  } rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all`}
+                  errors.dueDate ? 'border-red-500 ring-1 ring-red-500/50' : 'border-white/10 focus:border-purple-500'
+                } rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500/60 transition-all`}
                 />
               </div>
               {errors.dueDate && (
@@ -252,7 +255,7 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
                 name="assignee"
                 value={formData.assignee}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500/60 focus:border-purple-500 transition-all cursor-pointer"
               >
                 <option value="" className="bg-gray-800">
                   {teamMembers.length > 0 ? 'Select team member' : 'No team members available'}
@@ -267,17 +270,17 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask, columns }) => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-4">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-all border border-white/10"
+              className="px-6 py-2.5 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium rounded-lg transition-all border border-white/10 hover:border-white/20"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all shadow-lg shadow-blue-500/30"
+              className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-lg transition-all shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] active:scale-95"
             >
               Add Task
             </button>

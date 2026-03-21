@@ -1,4 +1,4 @@
-import { Clock, Users, CheckCircle2, MoreVertical } from 'lucide-react';
+import { Clock, Users, MoreVertical } from 'lucide-react';
 import { useState, useEffect, useRef, memo, useCallback } from 'react';
 
 const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
@@ -39,6 +39,21 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
     onView(project.id);
   }, [onView, project.id]);
 
+  const getStatusAccent = useCallback((status) => {
+    switch (status?.toLowerCase()) {
+      case 'active':    return 'border-l-green-500';
+      case 'completed': return 'border-l-blue-500';
+      case 'on hold':   return 'border-l-yellow-500';
+      default:          return 'border-l-gray-600';
+    }
+  }, []);
+
+  const getProgressColor = useCallback((pct) => {
+    if (pct >= 75) return 'from-green-500 to-emerald-400';
+    if (pct >= 40) return 'from-purple-500 to-pink-500';
+    return 'from-blue-500 to-cyan-400';
+  }, []);
+
   // Safely handle missing data
   const progress = project.progress ?? 0;
   const tasksCompleted = project.tasksCompleted ?? project.completedTasks ?? 0;
@@ -55,7 +70,7 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
       : [];
 
   return (
-    <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-purple-500/30 hover:scale-[1.05] hover:border-purple-500/60 hover:-translate-y-2 hover:from-gray-800/70 hover:to-purple-900/20 transition-all duration-500 group cursor-pointer relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-purple-500/10 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700">
+    <div className={`bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 border-l-4 ${getStatusAccent(status)} rounded-xl p-6 hover:shadow-2xl hover:shadow-purple-500/30 hover:scale-[1.04] hover:border-r-purple-500/60 hover:border-t-purple-500/60 hover:border-b-purple-500/60 hover:-translate-y-2 hover:from-gray-800/70 hover:to-purple-900/20 transition-all duration-500 group cursor-pointer relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-purple-500/10 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700`}>
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
@@ -117,8 +132,8 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
 
       {/* Status Badge */}
       <div className="mb-4">
-        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(status)}`}>
-          <CheckCircle2 className="w-3.5 h-3.5" />
+        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border tracking-wide ${getStatusColor(status)}`}>
+          <span className="w-1.5 h-1.5 rounded-full bg-current opacity-80" />
           {status}
         </span>
       </div>
@@ -127,13 +142,15 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
       <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-gray-400">Progress</span>
-          <span className="text-xs font-semibold text-purple-400">{progress}%</span>
+          <span className="text-xs font-bold text-purple-400">{progress}%</span>
         </div>
-        <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div className="w-full h-2.5 bg-gray-700/60 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500"
+            className={`h-full bg-gradient-to-r ${getProgressColor(progress)} rounded-full transition-all duration-700 ease-out relative overflow-hidden`}
             style={{ width: `${progress}%` }}
-          />
+          >
+            <span className="absolute inset-0 bg-white/20 animate-pulse rounded-full" />
+          </div>
         </div>
       </div>
 
@@ -187,7 +204,7 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
       {/* View Button (Mobile Friendly) */}
       <button
         onClick={handleViewClick}
-        className="mt-4 w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-200"
+        className="mt-4 w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] active:scale-95"
       >
         View Project
       </button>

@@ -228,13 +228,13 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Page Header */}
-        <div className="space-y-2 px-1">
-          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+        <div className="space-y-2 px-1 animate-fade-in-down">
+          <h1 className="text-2xl sm:text-3xl font-bold gradient-text-animated">
             Dashboard
           </h1>
           <p className="text-slate-400 text-sm sm:text-base break-words">
-            Welcome back{user?.name ? `, ${user.name}` : ''}! 
-            Here's what's happening with your projects today.
+            Welcome back{user?.name ? `, ${user.name}` : ''}! ✨&nbsp;
+            Here&apos;s what&apos;s happening with your projects today.
           </p>
         </div>
 
@@ -248,19 +248,22 @@ const Dashboard = () => {
             return (
               <div
                 key={stat.id}
-                className={`${stat.bgColor} ${stat.borderColor} border backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 hover:scale-[1.08] hover:shadow-2xl ${stat.hoverShadow} hover:-translate-y-2 cursor-pointer group`}
+                className={`${stat.bgColor} ${stat.borderColor} border backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 hover:scale-[1.08] hover:shadow-2xl ${stat.hoverShadow} hover:-translate-y-2 cursor-pointer group animate-fade-in-up stagger-${stat.id}`}
                 role="button"
                 tabIndex={0}
                 aria-label={`${stat.title}: ${count}`}
               >
                 <div className="flex items-start justify-between">
                   <div className="space-y-3">
-                    <p className="text-slate-400 text-sm font-medium">{stat.title}</p>
-                    <p className="text-4xl font-bold text-white">{count}</p>
+                    <p className="text-slate-400 text-sm font-medium uppercase tracking-wide">{stat.title}</p>
+                    <p className="text-4xl font-extrabold text-white animate-count-up">{count}</p>
                   </div>
-                  <div className={`p-3 bg-gradient-to-br ${stat.color} rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`p-3 bg-gradient-to-br ${stat.color} rounded-xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
+                </div>
+                <div className="mt-4 h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                  <div className={`h-full bg-gradient-to-r ${stat.color} rounded-full`} style={{ width: `${Math.min(count * 10, 100)}%`, transition: 'width 1s ease' }} />
                 </div>
               </div>
             );
@@ -271,17 +274,19 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           {/* Recent Activity Section */}
-          <div className="lg:col-span-2 bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-xl">
+          <div className="lg:col-span-2 bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-xl gradient-border-top">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-3">
-                <Activity className="w-6 h-6 text-purple-400" />
-                <h2 className="text-2xl font-bold text-white">Recent Activity</h2>
+                <div className="p-2 bg-purple-500/20 rounded-lg">
+                  <Activity className="w-5 h-5 text-purple-400" />
+                </div>
+                <h2 className="text-xl font-bold text-white">Recent Activity</h2>
               </div>
               <button 
-                className="text-sm text-purple-400 hover:text-purple-300 transition-colors duration-200"
+                className="text-sm text-purple-400 hover:text-purple-300 transition-colors duration-200 px-3 py-1 rounded-lg hover:bg-purple-500/10"
                 aria-label="View all activities"
               >
-                View All
+                View All →
               </button>
             </div>
 
@@ -290,7 +295,7 @@ const Dashboard = () => {
                 recentActivities.map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex items-start space-x-4 p-4 rounded-xl bg-slate-800/30 hover:bg-slate-800/50 transition-all duration-200 border border-slate-700/50 hover:border-slate-600/50"
+                    className="flex items-start space-x-4 p-4 rounded-xl bg-slate-800/30 hover:bg-slate-800/60 transition-all duration-200 border border-slate-700/30 hover:border-purple-500/30 group/activity"
                   >
                     {/* Avatar */}
                     <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center font-semibold text-white text-sm">
@@ -325,10 +330,12 @@ const Dashboard = () => {
           </div>
 
           {/* Quick Actions Section */}
-          <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-xl h-fit">
+          <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-xl h-fit gradient-border-top">
             <div className="flex items-center space-x-3 mb-6">
-              <FileText className="w-6 h-6 text-purple-400" />
-              <h2 className="text-2xl font-bold text-white">Quick Actions</h2>
+              <div className="p-2 bg-purple-500/20 rounded-lg">
+                <FileText className="w-5 h-5 text-purple-400" />
+              </div>
+              <h2 className="text-xl font-bold text-white">Quick Actions</h2>
             </div>
 
             <div className="space-y-4">
@@ -386,24 +393,24 @@ const Dashboard = () => {
         </div>
 
         {/* Bottom Stats Bar */}
-        <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 shadow-xl">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="text-center sm:text-left">
-              <p className="text-slate-400 text-sm mb-1">Projects On Track</p>
+        <div className="bg-gradient-to-r from-purple-900/30 via-slate-900/60 to-pink-900/30 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 shadow-xl gradient-border-top">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-white/5">
+            <div className="text-center sm:text-left pb-4 sm:pb-0 sm:pr-6">
+              <p className="text-slate-400 text-xs uppercase tracking-widest mb-1">Projects On Track</p>
               <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-bold text-white">--</span>
+                <span className="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">--</span>
               </div>
             </div>
-            <div className="text-center sm:text-left">
-              <p className="text-slate-400 text-sm mb-1">Tasks This Week</p>
+            <div className="text-center sm:text-left py-4 sm:py-0 sm:px-6">
+              <p className="text-slate-400 text-xs uppercase tracking-widest mb-1">Tasks This Week</p>
               <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-bold text-white">--</span>
+                <span className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">--</span>
               </div>
             </div>
-            <div className="text-center sm:text-left">
-              <p className="text-slate-400 text-sm mb-1">Team Productivity</p>
+            <div className="text-center sm:text-left pt-4 sm:pt-0 sm:pl-6">
+              <p className="text-slate-400 text-xs uppercase tracking-widest mb-1">Team Productivity</p>
               <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-bold text-white">--</span>
+                <span className="text-3xl font-extrabold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">--</span>
               </div>
             </div>
           </div>

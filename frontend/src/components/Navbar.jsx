@@ -132,10 +132,10 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${
         isScrolled
-          ? 'bg-slate-900/80 backdrop-blur-xl shadow-lg shadow-slate-900/50'
-          : 'bg-slate-900/60 backdrop-blur-lg'
+          ? 'bg-slate-950/90 backdrop-blur-2xl shadow-xl shadow-purple-900/20 border-white/10'
+          : 'bg-slate-950/60 backdrop-blur-xl border-transparent'
       }`}
       role="navigation"
       aria-label="Main navigation"
@@ -145,16 +145,19 @@ const Navbar = () => {
           
           <Link
             to="/"
-            className="flex items-center space-x-3 flex-shrink-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+            className="group flex items-center space-x-3 flex-shrink-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             aria-label="Go to dashboard"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/50">
-              <Briefcase className="w-6 h-6 text-white" />
+            <div className="relative w-10 h-10 flex-shrink-0">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg blur-sm opacity-70 group-hover:opacity-100 transition-opacity" />
+              <div className="relative w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/50">
+                <Briefcase className="w-6 h-6 text-white" />
+              </div>
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent hidden sm:block">
+            <span className="text-xl font-bold gradient-text-animated hidden sm:block">
               Project Management Tool
             </span>
-            <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent sm:hidden">
+            <span className="text-lg font-bold gradient-text-animated sm:hidden">
               PMT
             </span>
           </Link>
@@ -169,15 +172,18 @@ const Navbar = () => {
                 <Link
                   key={item.id}
                   to={item.path}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                  className={`relative flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 group/nav ${
                     active
                       ? 'bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/20'
-                      : 'text-slate-300 hover:bg-slate-800/50 hover:text-purple-300'
+                      : 'text-slate-400 hover:bg-slate-800/60 hover:text-purple-300'
                   }`}
                   aria-current={active ? 'page' : undefined}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className={`w-4 h-4 transition-transform duration-200 ${active ? 'scale-110' : 'group-hover/nav:scale-110'}`} />
                   <span className="font-medium text-sm">{item.label}</span>
+                  {active && (
+                    <span className="absolute -bottom-[1px] left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-purple-400 to-pink-400" />
+                  )}
                 </Link>
               );
             })}
@@ -196,7 +202,7 @@ const Navbar = () => {
                 >
                   <Bell className="w-5 h-5" />
                   {notificationCount > 0 && (
-                    <span className="absolute top-0 right-0 w-5 h-5 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/50 animate-pulse">
+                    <span className="absolute top-0 right-0 w-5 h-5 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/60 pulse-glow-purple">
                       {notificationCount}
                     </span>
                   )}
@@ -229,15 +235,23 @@ const Navbar = () => {
                   aria-haspopup="true"
                   aria-label="User menu"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                    <User className="w-4 h-4 text-white" />
+                  <div className="relative w-8 h-8">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 blur-[3px] opacity-60" />
+                    <div className="relative w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center ring-2 ring-purple-500/50">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
                   </div>
+                  {user?.name && (
+                    <span className="hidden lg:block text-sm font-medium text-slate-300 max-w-[120px] truncate">
+                      {user.name}
+                    </span>
+                  )}
                 </button>
 
                 {/* Profile Dropdown Menu */}
                 {isProfileOpen && (
                   <div
-                    className="absolute right-0 mt-2 w-56 bg-slate-800/95 backdrop-blur-xl rounded-xl shadow-2xl shadow-slate-900/50 border border-slate-700/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+                    className="absolute right-0 mt-2 w-56 bg-slate-900/95 backdrop-blur-2xl rounded-xl shadow-2xl shadow-purple-900/30 border border-white/10 overflow-hidden animate-fade-in-down"
                     role="menu"
                     aria-orientation="vertical"
                   >
@@ -320,7 +334,7 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="md:hidden py-4 space-y-1 animate-in slide-in-from-top duration-300"
+            className="md:hidden py-4 space-y-1 animate-fade-in-down border-t border-white/5 mt-1"
             role="menu"
           >
             {navItems.map((item) => {
@@ -334,8 +348,8 @@ const Navbar = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                     active
-                      ? 'bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/20'
-                      : 'text-slate-300 hover:bg-slate-800/50'
+                      ? 'bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/20 border-l-2 border-purple-400'
+                      : 'text-slate-300 hover:bg-slate-800/60 hover:text-purple-300'
                   }`}
                   role="menuitem"
                   aria-current={active ? 'page' : undefined}

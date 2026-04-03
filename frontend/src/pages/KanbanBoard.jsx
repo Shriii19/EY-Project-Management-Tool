@@ -21,7 +21,7 @@ import AddTaskModal from '../components/AddTaskModal';
 import { getTasks, getTasksByProjectId, updateTask, createTask, normalizeStatus, columnToBackendStatus } from '../services/task.service';
 import { getProjectById } from '../services/project.service';
 import Loading from '../components/Loading';
-import { useAuth } from '../context/useAuth';
+import { useAuth } from '../context/AuthContext';
 
 // Column definitions
 const columns = [
@@ -32,21 +32,12 @@ const columns = [
   { id: 'done', title: 'Done', color: 'from-green-500 to-green-600' },
 ];
 
-const createFallbackTaskId = () => {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return crypto.randomUUID();
-  }
-
-  return `task-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-};
-
 const KanbanBoard = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [activeId, setActiveId] = useState(null);
-  const [dragStartStatus, setDragStartStatus] = useState(null);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -69,7 +60,7 @@ const KanbanBoard = () => {
 
         if (tasksResponse.success) {
           // Map tasks to frontend column IDs, normalizing backend status enum values
-          const mappedTasks = (tasksResponse.tasks || []).map(task => ({
+          const mappedTasks = tasksResponse.tasks.map(task => ({
             ...task,
             id: task._id || task.id,
             status: normalizeStatus(task),
@@ -103,9 +94,7 @@ const KanbanBoard = () => {
   );
 
   const handleDragStart = (event) => {
-    const currentTask = tasks.find((task) => task.id === event.active.id);
     setActiveId(event.active.id);
-    setDragStartStatus(currentTask?.status || null);
   };
 
   const handleDragOver = (event) => {
@@ -154,7 +143,6 @@ const KanbanBoard = () => {
 
     if (!over) {
       setActiveId(null);
-      setDragStartStatus(null);
       return;
     }
 
@@ -166,7 +154,6 @@ const KanbanBoard = () => {
 
     if (!activeTask) {
       setActiveId(null);
-      setDragStartStatus(null);
       return;
     }
 
@@ -187,57 +174,36 @@ const KanbanBoard = () => {
         });
       });
 
-      // Persist only when the task actually moved columns.
-      if (dragStartStatus !== newStatus) {
-        try {
-          await updateTask(activeTask._id || activeTask.id, {
-            status: columnToBackendStatus(newStatus),
-            completed: newStatus === 'done',
+      // Update task on backend
+      try {
+        await updateTask(activeTask._id || activeTask.id, {
+          status: columnToBackendStatus(newStatus),
+          completed: newStatus === 'done',
+        });
+      } catch (err) {
+        console.error('Error updating task:', err);
+        // Revert on error
+        setTasks((tasks) => {
+          return tasks.map((task) => {
+            if (task.id === activeId) {
+              return activeTask;
+            }
+            return task;
           });
-        } catch (err) {
-          console.error('Error updating task:', err);
-          // Revert on error
-          setTasks((tasks) => {
-            return tasks.map((task) => {
-              if (task.id === activeId) {
-                return activeTask;
-              }
-              return task;
-            });
-          });
-        }
+        });
       }
     } else if (overTask) {
       // Reordering within the same column or moving between columns
-      if (dragStartStatus === overTask.status) {
+      if (activeTask.status === overTask.status) {
         setTasks((tasks) => {
           const oldIndex = tasks.findIndex((t) => t.id === activeId);
           const newIndex = tasks.findIndex((t) => t.id === overId);
           return arrayMove(tasks, oldIndex, newIndex);
         });
-      } else {
-        try {
-          await updateTask(activeTask._id || activeTask.id, {
-            status: columnToBackendStatus(overTask.status),
-            completed: overTask.status === 'done',
-          });
-        } catch (err) {
-          console.error('Error updating task:', err);
-          // Revert on error
-          setTasks((tasks) => {
-            return tasks.map((task) => {
-              if (task.id === activeId) {
-                return activeTask;
-              }
-              return task;
-            });
-          });
-        }
       }
     }
 
     setActiveId(null);
-    setDragStartStatus(null);
   };
 
   const getTasksByStatus = (status) => {
@@ -250,7 +216,6 @@ const KanbanBoard = () => {
       const taskData = {
         ...newTask,
         status: columnToBackendStatus(newTask.status || 'todo'),
-        ...(projectId ? { projectId } : {}),
       };
       const response = await createTask(taskData);
       if (response.success && response.task) {
@@ -265,11 +230,11 @@ const KanbanBoard = () => {
     } catch (err) {
       console.error('Failed to create task:', err);
       // Optimistic fallback so the UI still reflects the new card
-      setTasks(prev => [...prev, { ...newTask, id: newTask.id || createFallbackTaskId() }]);
+      setTasks(prev => [...prev, { ...newTask, id: newTask.id || Date.now().toString() }]);
     }
   };
 
-  const handleTaskClick = () => {
+  const handleTaskClick = (task) => {
     // TODO: Open task details modal
   };
 

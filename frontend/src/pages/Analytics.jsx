@@ -88,18 +88,22 @@ const Analytics = () => {
       <div className="max-w-7xl mx-auto">
 
         {/* ── Page Header ─────────────────────────────────────── */}
-        <div className="mb-10 animate-fade-in-down">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2.5 bg-purple-500/20 rounded-xl">
-              <BarChart3 className="w-7 h-7 text-purple-400" />
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-900/40 via-slate-900/60 to-blue-900/30 border border-purple-500/20 p-6 sm:p-8 mb-10 animate-fade-in-down">
+          <div className="absolute -top-8 -right-8 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl animate-float pointer-events-none" />
+          <div className="absolute -bottom-6 left-1/4 w-32 h-32 bg-blue-500/15 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '1.5s' }} />
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2.5 bg-purple-500/30 rounded-xl border border-purple-500/20">
+                <BarChart3 className="w-7 h-7 text-purple-400" />
+              </div>
+              <h1 className="text-3xl font-extrabold text-shimmer">
+                Analytics &amp; Insights
+              </h1>
             </div>
-            <h1 className="text-3xl font-bold gradient-text-animated">
-              Analytics &amp; Insights
-            </h1>
+            <p className="text-slate-300 ml-[3.25rem] text-sm sm:text-base">
+              Track your project metrics and team performance in real time
+            </p>
           </div>
-          <p className="text-slate-400 ml-[3.25rem]">
-            Track your project metrics and team performance in real time
-          </p>
         </div>
 
         {loading ? (
@@ -132,17 +136,17 @@ const Analytics = () => {
                       <div className={`p-3 bg-gradient-to-br ${card.gradient} rounded-xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
                         <Icon className="w-5 h-5 text-white" />
                       </div>
-                      <span className="text-4xl font-extrabold text-white animate-count-up">
+                      <span className="text-4xl font-extrabold text-white animate-count-up tabular-nums">
                         {card.value}
                       </span>
                     </div>
-                    <p className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-3">
+                    <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-3">
                       {card.label}
                     </p>
-                    {/* mini progress bar */}
+                    {/* mini progress bar with shimmer */}
                     <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                       <div
-                        className={`h-full bg-gradient-to-r ${card.gradient} rounded-full transition-all duration-700`}
+                        className={`h-full bg-gradient-to-r ${card.gradient} rounded-full skeleton-shimmer transition-all duration-700`}
                         style={{ width: `${card.bar}%` }}
                       />
                     </div>
@@ -171,9 +175,9 @@ const Analytics = () => {
                   return (
                     <div
                       key={feat.title}
-                      className="flex flex-col gap-3 p-4 rounded-xl bg-slate-800/40 border border-slate-700/40 hover:border-purple-500/30 hover:bg-slate-800/70 transition-all duration-200 group/feat"
+                      className="flex flex-col gap-3 p-4 rounded-xl bg-slate-800/40 border border-slate-700/40 hover:border-purple-500/40 hover:bg-slate-800/70 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 group/feat hover-inset-glow"
                     >
-                      <div className={`w-10 h-10 ${feat.bg} rounded-lg flex items-center justify-center group-hover/feat:scale-110 transition-transform duration-200`}>
+                      <div className={`w-10 h-10 ${feat.bg} rounded-lg flex items-center justify-center group-hover/feat:scale-110 group-hover/feat:rotate-3 transition-transform duration-300`}>
                         <FIcon className={`w-5 h-5 ${feat.color}`} />
                       </div>
                       <div>

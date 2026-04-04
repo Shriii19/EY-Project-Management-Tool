@@ -140,6 +140,8 @@ const Navbar = () => {
       role="navigation"
       aria-label="Main navigation"
     >
+      {/* Gradient top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
@@ -196,15 +198,18 @@ const Navbar = () => {
               <>
                 {/* Notifications */}
                 <button
-                  className="relative p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200"
+                  className="relative p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200 group"
                   aria-label="Notifications"
                   onClick={() => setNotificationCount(0)}
                 >
-                  <Bell className="w-5 h-5" />
+                  <Bell className="w-5 h-5 group-hover:animate-float" />
                   {notificationCount > 0 && (
-                    <span className="absolute top-0 right-0 w-5 h-5 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/60 pulse-glow-purple">
-                      {notificationCount}
-                    </span>
+                    <>
+                      <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/60 z-10">
+                        {notificationCount}
+                      </span>
+                      <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-pink-500 rounded-full animate-ping opacity-60" />
+                    </>
                   )}
                 </button>
               </>
@@ -300,13 +305,13 @@ const Navbar = () => {
               <div className="hidden md:flex items-center space-x-2">
                 <Link
                   to="/login"
-                  className="px-4 py-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200 font-medium text-sm"
+                  className="px-4 py-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200 font-medium text-sm neon-underline"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 font-medium text-sm shadow-lg shadow-purple-500/25"
+                  className="relative px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 font-medium text-sm shadow-lg shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-105 animate-border-glow"
                 >
                   Sign Up
                 </Link>
@@ -334,7 +339,7 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="md:hidden py-4 space-y-1 animate-fade-in-down border-t border-white/5 mt-1"
+            className="md:hidden py-4 space-y-1 animate-fade-in-down border-t border-white/5 mt-1 bg-slate-950/80 backdrop-blur-2xl"
             role="menu"
           >
             {navItems.map((item) => {

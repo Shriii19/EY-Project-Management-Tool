@@ -50,6 +50,31 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+  50%       { box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.4), 0 0 24px 6px rgba(168, 85, 247, 0.15); }
+}
+
+@keyframes rippleExpand {
+  0%   { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes textShimmer {
+  0%   { background-position: -300% center; }
+  100% { background-position: 300% center; }
+}
+
+@keyframes orbitSpin {
+  from { transform: rotate(0deg) translateX(28px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(28px) rotate(-360deg); }
+}
+
 /* ─── Utility classes ─────────────────────────────────────────── */
 @layer utilities {
   /* Scrollbar */
@@ -142,4 +167,52 @@
   .priority-stripe-high  { border-left: 3px solid rgb(239 68 68); }
   .priority-stripe-medium{ border-left: 3px solid rgb(234 179 8); }
   .priority-stripe-low   { border-left: 3px solid rgb(34 197 94); }
+
+  /* Float animation */
+  .animate-float {
+    animation: floatY 3s ease-in-out infinite;
+  }
+
+  /* Border glow ring */
+  .animate-border-glow {
+    animation: borderGlow 2.5s ease-in-out infinite;
+  }
+
+  /* Ripple ring */
+  .animate-ripple {
+    animation: rippleExpand 1.2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+
+  /* Shimmer text */
+  .text-shimmer {
+    background: linear-gradient(90deg, #a855f7 0%, #ec4899 25%, #ffffff 50%, #ec4899 75%, #a855f7 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textShimmer 4s linear infinite;
+  }
+
+  /* Subtle inset glow on hover */
+  .hover-inset-glow:hover {
+    box-shadow: inset 0 0 40px rgba(168, 85, 247, 0.08), 0 0 20px rgba(168, 85, 247, 0.12);
+  }
+
+  /* Neon underline on hover */
+  .neon-underline {
+    position: relative;
+  }
+  .neon-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #a855f7, #ec4899);
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+  }
+  .neon-underline:hover::after { width: 100%; }
 }

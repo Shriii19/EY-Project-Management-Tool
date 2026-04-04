@@ -1,4 +1,4 @@
-import { Clock, Users, MoreVertical } from 'lucide-react';
+import { Clock, Users, MoreVertical, CheckCircle2 } from 'lucide-react';
 import { useState, useEffect, useRef, memo, useCallback } from 'react';
 
 const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
@@ -156,13 +156,21 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
 
       {/* Stats */}
       <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-700/50">
-        <div className="flex items-center gap-2 text-gray-400">
-          <CheckCircle2 className="w-4 h-4" />
-          <span className="text-sm">
-            <span className="text-white font-semibold">{tasksCompleted}</span>
-            <span className="text-gray-500">/{totalTasks}</span> tasks
-          </span>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white/5 rounded-lg border border-white/10">
+            <CheckCircle2 className="w-3.5 h-3.5 text-purple-400" />
+            <span className="text-sm">
+              <span className="text-white font-bold">{tasksCompleted}</span>
+              <span className="text-gray-500">/{totalTasks}</span>
+              <span className="text-gray-400 ml-1">tasks</span>
+            </span>
+          </div>
         </div>
+        {progress === 100 && (
+          <span className="text-xs font-semibold px-2 py-1 bg-green-500/15 text-green-400 border border-green-500/25 rounded-full">
+            Complete
+          </span>
+        )}
       </div>
 
       {/* Team Members */}
@@ -171,7 +179,7 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
           {teamMembers.slice(0, 4).map((member, index) => (
             <div
               key={index}
-              className="w-8 h-8 rounded-full border-2 border-gray-800 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xs font-semibold text-white"
+              className="w-8 h-8 rounded-full border-2 border-gray-800 hover:border-purple-500/60 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xs font-semibold text-white transition-all duration-200 hover:scale-110 hover:z-10 cursor-default"
               title={member.name}
             >
               {member.avatar ? (
@@ -186,12 +194,15 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
             </div>
           ))}
           {teamMembers.length > 4 && (
-            <div className="w-8 h-8 rounded-full border-2 border-gray-800 bg-gray-700 flex items-center justify-center text-xs font-semibold text-gray-300">
+            <div className="w-8 h-8 rounded-full border-2 border-gray-800 bg-gray-700/80 flex items-center justify-center text-xs font-semibold text-gray-300">
               +{teamMembers.length - 4}
             </div>
           )}
           {teamMembers.length === 0 && (
-            <div className="text-xs text-gray-500">No team members</div>
+            <div className="flex items-center gap-1.5 text-xs text-gray-500">
+              <Users className="w-3.5 h-3.5" />
+              <span>No members</span>
+            </div>
           )}
         </div>
 
@@ -204,9 +215,10 @@ const ProjectCard = memo(({ project, onView, onEdit, onArchive }) => {
       {/* View Button (Mobile Friendly) */}
       <button
         onClick={handleViewClick}
-        className="mt-4 w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] active:scale-95"
+        className="mt-4 w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn"
       >
-        View Project
+        <span className="relative z-10">View Project</span>
+        <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500" />
       </button>
     </div>
   );

@@ -241,7 +241,7 @@ const KanbanBoard = () => {
   const activeTask = tasks.find((t) => t.id === activeId);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white pt-20 pb-8 px-4 sm:px-6">{
+    <div className="min-h-screen bg-slate-950 text-white pt-20 pb-8 px-4 sm:px-6">
       {loading ? (
         <Loading />
       ) : error ? (
@@ -335,15 +335,15 @@ const KanbanBoard = () => {
                   id={column.id}
                 >
                   {/* ── Column Header ───────────────────────────── */}
-                  <div className="relative bg-slate-900/70 backdrop-blur-xl border border-white/10 rounded-2xl p-4 mb-3 sticky top-0 z-10 overflow-hidden">
+                  <div className="relative bg-slate-900/70 backdrop-blur-xl border border-white/10 rounded-2xl p-4 mb-3 sticky top-0 z-10 overflow-hidden hover-inset-glow transition-all duration-300">
                     <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${column.color} rounded-t-2xl`} />
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
-                        <div className={`w-2.5 h-2.5 rounded-full bg-gradient-to-br ${column.color} shadow-sm`} />
-                        <h3 className="font-bold text-white tracking-wide">{column.title}</h3>
+                        <div className={`w-2.5 h-2.5 rounded-full bg-gradient-to-br ${column.color} shadow-sm animate-pulse`} />
+                        <h3 className="font-bold text-white tracking-wide text-sm uppercase">{column.title}</h3>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full bg-gradient-to-r ${column.color} text-white shadow-sm`}>
+                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full bg-gradient-to-r ${column.color} text-white shadow-sm shadow-purple-500/20`}>
                           {columnTasks.length}
                         </span>
                         <button className="p-1.5 hover:bg-white/10 rounded-lg transition-colors" aria-label="Column options">

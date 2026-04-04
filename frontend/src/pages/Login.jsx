@@ -79,21 +79,28 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4 py-8">
-      <div className="max-w-md w-full">
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4 py-8 overflow-hidden">
+      {/* Background floating orbs */}
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '0s' }} />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-pink-600/10 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '2s' }} />
+      <div className="absolute top-1/2 left-1/2 w-40 h-40 bg-blue-600/8 rounded-full blur-2xl animate-float pointer-events-none" style={{ animationDelay: '1s' }} />
+      <div className="relative max-w-md w-full">
         {/* Logo and Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-lg shadow-purple-500/50 mb-4">
-            <Briefcase className="w-8 h-8 text-white" />
+          <div className="relative inline-flex items-center justify-center w-16 h-16 mb-4">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl blur-md opacity-60 animate-float" />
+            <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-lg shadow-purple-500/50 flex items-center justify-center">
+              <Briefcase className="w-8 h-8 text-white" />
+            </div>
           </div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+          <h1 className="text-3xl font-bold text-shimmer mb-2">
             Welcome Back
           </h1>
           <p className="text-slate-400">Sign in to your account to continue</p>
         </div>
 
         {/* Login Form */}
-        <div className="bg-slate-900/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8">
+        <div className="glass-card shadow-2xl shadow-purple-900/20 p-8 gradient-border-top">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Info Message (from redirect) */}
             {message && !error && (
@@ -204,7 +211,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {loading ? (
                 <>
@@ -234,10 +241,10 @@ const Login = () => {
           </div>
 
           {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-slate-800/30 border border-slate-700/30 rounded-lg">
-            <p className="text-xs text-slate-500 text-center mb-2">Demo Credentials</p>
+          <div className="mt-6 p-4 bg-purple-500/5 border border-purple-500/20 rounded-xl">
+            <p className="text-xs text-purple-400/70 text-center mb-1 font-semibold uppercase tracking-widest">Demo Credentials</p>
             <p className="text-xs text-slate-400 text-center">
-              Email: demo@taskflow.app | Password: demo123
+              Email: demo@taskflow.app &nbsp;|&nbsp; Password: demo123
             </p>
           </div>
         </div>

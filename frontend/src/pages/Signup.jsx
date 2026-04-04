@@ -103,21 +103,27 @@ const Signup = () => {
   const strength = passwordStrength(formData.password);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4 py-8">
-      <div className="max-w-md w-full">
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4 py-8 overflow-hidden">
+      {/* Background floating orbs */}
+      <div className="absolute top-1/3 left-1/5 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '0s' }} />
+      <div className="absolute bottom-1/3 right-1/5 w-80 h-80 bg-pink-600/10 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '1.5s' }} />
+      <div className="relative max-w-md w-full">
         {/* Logo and Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-lg shadow-purple-500/50 mb-4">
-            <Briefcase className="w-8 h-8 text-white" />
+          <div className="relative inline-flex items-center justify-center w-16 h-16 mb-4">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl blur-md opacity-60 animate-float" />
+            <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-lg shadow-purple-500/50 flex items-center justify-center">
+              <Briefcase className="w-8 h-8 text-white" />
+            </div>
           </div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+          <h1 className="text-3xl font-bold text-shimmer mb-2">
             Create Account
           </h1>
           <p className="text-slate-400">Sign up to get started with Project Management</p>
         </div>
 
         {/* Signup Form */}
-        <div className="bg-slate-900/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8">
+        <div className="glass-card shadow-2xl shadow-purple-900/20 p-8 gradient-border-top">
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Error Message */}
             {error && (
@@ -196,14 +202,22 @@ const Signup = () => {
               {/* Password Strength */}
               {formData.password && strength && (
                 <div className="mt-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className={`text-xs ${strength.text}`}>Password Strength: {strength.label}</span>
-                  </div>
-                  <div className="h-1 bg-slate-700 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full ${strength.color} transition-all duration-300`}
-                      style={{ width: strength.label === 'Weak' ? '33%' : strength.label === 'Medium' ? '66%' : '100%' }}
-                    />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className={`text-xs font-semibold ${strength.text}`}>Strength: {strength.label}</span>
+                    <div className="flex gap-1">
+                      {['Weak', 'Medium', 'Strong'].map((level) => (
+                        <span
+                          key={level}
+                          className={`h-1.5 w-8 rounded-full transition-all duration-300 ${
+                            (level === 'Weak') ||
+                            (level === 'Medium' && (strength.label === 'Medium' || strength.label === 'Strong')) ||
+                            (level === 'Strong' && strength.label === 'Strong')
+                              ? strength.color
+                              : 'bg-slate-700'
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
@@ -267,7 +281,7 @@ const Signup = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {loading ? (
                 <>

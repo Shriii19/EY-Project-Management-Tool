@@ -140,6 +140,8 @@ const Navbar = () => {
       role="navigation"
       aria-label="Main navigation"
     >
+      {/* Gradient top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
@@ -182,7 +184,7 @@ const Navbar = () => {
                   <Icon className={`w-4 h-4 transition-transform duration-200 ${active ? 'scale-110' : 'group-hover/nav:scale-110'}`} />
                   <span className="font-medium text-sm">{item.label}</span>
                   {active && (
-                    <span className="absolute -bottom-[1px] left-2 right-2 h-0.5 rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 shadow-[0_0_6px_2px_rgba(168,85,247,0.5)]" />
+                    <span className="absolute -bottom-[1px] left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-purple-400 to-pink-400" />
                   )}
                 </Link>
               );
@@ -196,18 +198,18 @@ const Navbar = () => {
               <>
                 {/* Notifications */}
                 <button
-                  className="relative p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200"
+                  className="relative p-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200 group"
                   aria-label="Notifications"
                   onClick={() => setNotificationCount(0)}
                 >
-                  <Bell className="w-5 h-5" />
+                  <Bell className="w-5 h-5 group-hover:animate-float" />
                   {notificationCount > 0 && (
-                    <span className="absolute top-0 right-0 flex h-5 w-5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-500 opacity-60" />
-                      <span className="relative inline-flex items-center justify-center w-5 h-5 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-xs font-bold rounded-full shadow-lg shadow-pink-500/60">
+                    <>
+                      <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg shadow-pink-500/60 z-10">
                         {notificationCount}
                       </span>
-                    </span>
+                      <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-pink-500 rounded-full animate-ping opacity-60" />
+                    </>
                   )}
                 </button>
               </>
@@ -240,8 +242,8 @@ const Navbar = () => {
                 >
                   <div className="relative w-8 h-8">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 blur-[3px] opacity-60" />
-                    <div className="relative w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center ring-2 ring-purple-500/50 font-bold text-white text-sm">
-                      {user?.name ? user.name.charAt(0).toUpperCase() : <User className="w-4 h-4 text-white" />}
+                    <div className="relative w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center ring-2 ring-purple-500/50">
+                      <User className="w-4 h-4 text-white" />
                     </div>
                   </div>
                   {user?.name && (
@@ -254,22 +256,10 @@ const Navbar = () => {
                 {/* Profile Dropdown Menu */}
                 {isProfileOpen && (
                   <div
-                    className="absolute right-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-2xl rounded-xl shadow-2xl shadow-purple-900/30 border border-white/10 overflow-hidden animate-fade-in-down"
+                    className="absolute right-0 mt-2 w-56 bg-slate-900/95 backdrop-blur-2xl rounded-xl shadow-2xl shadow-purple-900/30 border border-white/10 overflow-hidden animate-fade-in-down"
                     role="menu"
                     aria-orientation="vertical"
                   >
-                    {/* User info header */}
-                    <div className="px-4 py-3 bg-gradient-to-r from-purple-900/40 to-pink-900/20 border-b border-white/10">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0 ring-2 ring-purple-500/40">
-                          {user?.name ? user.name.charAt(0).toUpperCase() : '?'}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-sm font-semibold text-white truncate">{user?.name || 'User'}</p>
-                          <p className="text-xs text-slate-400 truncate">{user?.email || ''}</p>
-                        </div>
-                      </div>
-                    </div>
                     {profileItems.map((item, index) => {
                       const Icon = item.icon;
                       return (
@@ -315,13 +305,13 @@ const Navbar = () => {
               <div className="hidden md:flex items-center space-x-2">
                 <Link
                   to="/login"
-                  className="px-4 py-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200 font-medium text-sm"
+                  className="px-4 py-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-purple-400 transition-all duration-200 font-medium text-sm neon-underline"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 font-medium text-sm shadow-lg shadow-purple-500/25"
+                  className="relative px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 font-medium text-sm shadow-lg shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-105 animate-border-glow"
                 >
                   Sign Up
                 </Link>
@@ -349,7 +339,7 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="md:hidden py-4 space-y-1 animate-fade-in-down border-t border-white/5 mt-1"
+            className="md:hidden py-4 space-y-1 animate-fade-in-down border-t border-white/5 mt-1 bg-slate-950/80 backdrop-blur-2xl"
             role="menu"
           >
             {navItems.map((item) => {

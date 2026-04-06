@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogIn, Mail, Lock, Eye, EyeOff, AlertCircle, Briefcase, FolderKanban, ListTodo, Users, BarChart3 } from 'lucide-react';
+import { LogIn, Mail, Lock, Eye, EyeOff, AlertCircle, Briefcase } from 'lucide-react';
 import { login } from '../services/auth.service';
 import { useAuth } from '../context/useAuth';
 
@@ -211,10 +211,8 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="relative w-full flex items-center justify-center gap-2 overflow-hidden bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 group"
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              {/* shimmer sweep */}
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none" />
               {loading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -249,21 +247,6 @@ const Login = () => {
               Email: demo@taskflow.app &nbsp;|&nbsp; Password: demo123
             </p>
           </div>
-        </div>
-
-        {/* Feature highlights */}
-        <div className="mt-8 grid grid-cols-2 gap-3">
-          {[
-            { icon: FolderKanban, label: 'Manage Projects', color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' },
-            { icon: ListTodo,     label: 'Track Tasks',     color: 'text-blue-400',   bg: 'bg-blue-500/10 border-blue-500/20' },
-            { icon: Users,        label: 'Collaborate',     color: 'text-pink-400',   bg: 'bg-pink-500/10 border-pink-500/20' },
-            { icon: BarChart3,    label: 'View Analytics',  color: 'text-green-400',  bg: 'bg-green-500/10 border-green-500/20' },
-          ].map(({ icon: Icon, label, color, bg }) => (
-            <div key={label} className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl border ${bg} backdrop-blur-sm`}>
-              <Icon className={`w-4 h-4 flex-shrink-0 ${color}`} />
-              <span className="text-xs font-medium text-slate-300">{label}</span>
-            </div>
-          ))}
         </div>
       </div>
     </div>

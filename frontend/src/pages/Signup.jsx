@@ -201,26 +201,23 @@ const Signup = () => {
               </div>
               {/* Password Strength */}
               {formData.password && strength && (
-                <div className="mt-3">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="mt-2">
+                  <div className="flex items-center justify-between mb-1.5">
                     <span className={`text-xs font-semibold ${strength.text}`}>Strength: {strength.label}</span>
-                    <span className="text-xs text-slate-500">{formData.password.length} chars</span>
-                  </div>
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map((seg) => {
-                      const filled =
-                        (strength.label === 'Weak' && seg <= 2) ||
-                        (strength.label === 'Medium' && seg <= 3) ||
-                        (strength.label === 'Strong' && seg <= 5);
-                      return (
-                        <div
-                          key={seg}
-                          className={`flex-1 h-1.5 rounded-full transition-all duration-500 ${
-                            filled ? strength.color : 'bg-slate-700'
+                    <div className="flex gap-1">
+                      {['Weak', 'Medium', 'Strong'].map((level) => (
+                        <span
+                          key={level}
+                          className={`h-1.5 w-8 rounded-full transition-all duration-300 ${
+                            (level === 'Weak') ||
+                            (level === 'Medium' && (strength.label === 'Medium' || strength.label === 'Strong')) ||
+                            (level === 'Strong' && strength.label === 'Strong')
+                              ? strength.color
+                              : 'bg-slate-700'
                           }`}
                         />
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
@@ -284,10 +281,8 @@ const Signup = () => {
             <button
               type="submit"
               disabled={loading}
-              className="relative w-full flex items-center justify-center gap-2 overflow-hidden bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 group"
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              {/* shimmer sweep */}
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none" />
               {loading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

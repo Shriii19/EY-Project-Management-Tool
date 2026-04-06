@@ -10,10 +10,7 @@ import {
   FileText,
   Clock,
   TrendingUp,
-  TrendingDown,
-  Activity,
-  Sparkles,
-  Zap
+  Activity
 } from 'lucide-react';
 import { getCurrentUser } from '../services/auth.service';
 import { getTaskStats } from '../services/task.service';
@@ -90,9 +87,7 @@ const Dashboard = () => {
       color: 'from-purple-500 to-purple-600',
       bgColor: 'bg-purple-500/10',
       borderColor: 'border-purple-500/20',
-      hoverShadow: 'hover:shadow-purple-500/20',
-      trend: '+2 this month',
-      trendUp: true
+      hoverShadow: 'hover:shadow-purple-500/20'
     },
     {
       id: 2,
@@ -101,9 +96,7 @@ const Dashboard = () => {
       color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-500/10',
       borderColor: 'border-blue-500/20',
-      hoverShadow: 'hover:shadow-blue-500/20',
-      trend: '+5 this week',
-      trendUp: true
+      hoverShadow: 'hover:shadow-blue-500/20'
     },
     {
       id: 3,
@@ -112,9 +105,7 @@ const Dashboard = () => {
       color: 'from-green-500 to-green-600',
       bgColor: 'bg-green-500/10',
       borderColor: 'border-green-500/20',
-      hoverShadow: 'hover:shadow-green-500/20',
-      trend: '89% success rate',
-      trendUp: true
+      hoverShadow: 'hover:shadow-green-500/20'
     },
     {
       id: 4,
@@ -123,9 +114,7 @@ const Dashboard = () => {
       color: 'from-pink-500 to-pink-600',
       bgColor: 'bg-pink-500/10',
       borderColor: 'border-pink-500/20',
-      hoverShadow: 'hover:shadow-pink-500/20',
-      trend: 'Active now',
-      trendUp: true
+      hoverShadow: 'hover:shadow-pink-500/20'
     }
   ];
 
@@ -237,32 +226,21 @@ const Dashboard = () => {
         </div>
       ) : (
       <div className="max-w-7xl mx-auto space-y-8">
-
-        {/* Hero Welcome Banner */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-900/60 via-slate-900/80 to-pink-900/40 border border-purple-500/20 p-6 sm:p-8 animate-fade-in-down shadow-xl">
-          {/* Background decoration */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-1/3 w-48 h-48 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="w-5 h-5 text-yellow-400" />
-                <span className="text-xs font-semibold text-yellow-400 uppercase tracking-widest">Welcome back</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold gradient-text-animated mb-2">
-                {user?.name ? `Hello, ${user.name.split(' ')[0]}!` : 'Dashboard'}
-              </h1>
-              <p className="text-slate-400 text-sm sm:text-base">
-                Here&apos;s what&apos;s happening with your projects today.
-              </p>
-            </div>
-            <div className="flex items-center gap-3 flex-shrink-0">
-              <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm">
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-xs font-medium text-slate-300">All systems operational</span>
-              </div>
-            </div>
+        
+        {/* Page Header */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-900/40 via-slate-900/60 to-pink-900/30 border border-purple-500/20 p-6 sm:p-8 animate-fade-in-down">
+          {/* Floating background orbs */}
+          <div className="absolute -top-8 -right-8 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '0s' }} />
+          <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-pink-500/15 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '1.5s' }} />
+          <div className="relative z-10">
+            <p className="text-xs font-semibold uppercase tracking-widest text-purple-400 mb-2">Overview</p>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-shimmer mb-3">
+              Dashboard
+            </h1>
+            <p className="text-slate-300 text-sm sm:text-base max-w-xl">
+              Welcome back{user?.name ? <><span className="font-semibold text-white">, {user.name}</span></> : ''}! ✨&nbsp;
+              Here&apos;s what&apos;s happening with your projects today.
+            </p>
           </div>
         </div>
 
@@ -276,30 +254,24 @@ const Dashboard = () => {
             return (
               <div
                 key={stat.id}
-                className={`${stat.bgColor} ${stat.borderColor} border backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 hover:scale-[1.08] hover:shadow-2xl ${stat.hoverShadow} hover:-translate-y-2 cursor-pointer group animate-fade-in-up stagger-${stat.id} relative overflow-hidden`}
+                className={`relative overflow-hidden ${stat.bgColor} ${stat.borderColor} border backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 hover:scale-[1.05] hover:shadow-2xl ${stat.hoverShadow} hover:-translate-y-1 cursor-pointer group animate-fade-in-up stagger-${stat.id} hover-inset-glow`}
                 role="button"
                 tabIndex={0}
                 aria-label={`${stat.title}: ${count}`}
               >
-                {/* Shimmer overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none" />
-                <div className="flex items-start justify-between">
-                  <div className="space-y-3">
-                    <p className="text-slate-400 text-sm font-medium uppercase tracking-wide">{stat.title}</p>
-                    <p className="text-4xl font-extrabold text-white animate-count-up">{count}</p>
-                    <div className="flex items-center gap-1.5">
-                      {stat.trendUp
-                        ? <TrendingUp className="w-3.5 h-3.5 text-green-400" />
-                        : <TrendingDown className="w-3.5 h-3.5 text-red-400" />}
-                      <span className="text-xs text-slate-400">{stat.trend}</span>
-                    </div>
+                {/* Background shimmer on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="relative flex items-start justify-between">
+                  <div className="space-y-2">
+                    <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest">{stat.title}</p>
+                    <p className="text-4xl font-extrabold text-white animate-count-up tabular-nums">{count}</p>
                   </div>
-                  <div className={`p-3 bg-gradient-to-br ${stat.color} rounded-xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
+                  <div className={`p-3 bg-gradient-to-br ${stat.color} rounded-xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                 </div>
                 <div className="mt-4 h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                  <div className={`h-full bg-gradient-to-r ${stat.color} rounded-full shadow-sm`} style={{ width: `${Math.min(count * 10, 100)}%`, transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)' }} />
+                  <div className={`h-full bg-gradient-to-r ${stat.color} rounded-full skeleton-shimmer`} style={{ width: `${Math.min(count * 10, 100)}%`, transition: 'width 1.2s ease' }} />
                 </div>
               </div>
             );
@@ -429,32 +401,28 @@ const Dashboard = () => {
         </div>
 
         {/* Bottom Stats Bar */}
-        <div className="bg-gradient-to-r from-purple-900/30 via-slate-900/60 to-pink-900/30 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 shadow-xl gradient-border-top">
-          <div className="flex items-center gap-2 mb-4">
-            <Zap className="w-4 h-4 text-yellow-400" />
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Live Overview</span>
-            <span className="ml-auto flex items-center gap-1.5 text-xs text-green-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              Live
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-white/5">
-            <div className="text-center sm:text-left pb-4 sm:pb-0 sm:pr-6">
+        <div className="relative overflow-hidden bg-gradient-to-r from-purple-900/30 via-slate-900/60 to-pink-900/30 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 shadow-xl gradient-border-top">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/5 via-transparent to-pink-600/5 pointer-events-none" />
+          <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-white/5">
+            <div className="text-center sm:text-left pb-4 sm:pb-0 sm:pr-6 group">
               <p className="text-slate-400 text-xs uppercase tracking-widest mb-1">Projects On Track</p>
-              <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">--</span>
+              <div className="flex items-center justify-center sm:justify-start gap-2">
+                <span className="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300 inline-block">--</span>
+                <TrendingUp className="w-5 h-5 text-purple-400 opacity-60" />
               </div>
             </div>
-            <div className="text-center sm:text-left py-4 sm:py-0 sm:px-6">
+            <div className="text-center sm:text-left py-4 sm:py-0 sm:px-6 group">
               <p className="text-slate-400 text-xs uppercase tracking-widest mb-1">Tasks This Week</p>
-              <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">--</span>
+              <div className="flex items-center justify-center sm:justify-start gap-2">
+                <span className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300 inline-block">--</span>
+                <Activity className="w-5 h-5 text-blue-400 opacity-60" />
               </div>
             </div>
-            <div className="text-center sm:text-left pt-4 sm:pt-0 sm:pl-6">
+            <div className="text-center sm:text-left pt-4 sm:pt-0 sm:pl-6 group">
               <p className="text-slate-400 text-xs uppercase tracking-widest mb-1">Team Productivity</p>
-              <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <span className="text-3xl font-extrabold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">--</span>
+              <div className="flex items-center justify-center sm:justify-start gap-2">
+                <span className="text-3xl font-extrabold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300 inline-block">--</span>
+                <CheckCircle2 className="w-5 h-5 text-green-400 opacity-60" />
               </div>
             </div>
           </div>

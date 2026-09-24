@@ -269,14 +269,6 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 - **Drag & Drop**: [DND Kit](https://dndkit.com/) for smooth interactions
 - **Community**: Thanks to all contributors and users!
 
-## 📞 Support & Contact
-
-- 📧 **Email**: [your-email@example.com](mailto:your-email@example.com)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/your-repo/discussions)
-<!-- - 📖 **Documentation**: [Project Wiki](https://github.com/your-repo/wiki) -->
-
-## 👥 Contributors
 
 <a href="https://github.com/your-repo/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=your-repo/ey-project-management-tool" />

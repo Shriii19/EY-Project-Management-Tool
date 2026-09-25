@@ -240,9 +240,7 @@ For detailed contribution guidelines, see:
 
 This project follows a code of conduct to ensure a welcoming environment for all contributors. Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before participating.
 
-## 📄 License
 
-This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
 
 ## 🗺️ Roadmap
 

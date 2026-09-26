@@ -260,12 +260,7 @@ This project follows a code of conduct to ensure a welcoming environment for all
 - [ ] Resource management
 - [ ] Custom workflow automation
 
-## 🙏 Acknowledgments
 
-- **Icons**: [Lucide Icons](https://lucide.dev/) for beautiful iconography
-- **UI Framework**: [Tailwind CSS](https://tailwindcss.com/) for rapid styling
-- **Drag & Drop**: [DND Kit](https://dndkit.com/) for smooth interactions
-- **Community**: Thanks to all contributors and users!
 
 
 <a href="https://github.com/your-repo/graphs/contributors">
